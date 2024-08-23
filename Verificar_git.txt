@@ -1,8 +1,5 @@
 Miguel Angel Fernandez
-Hector Orlando Lepio 
-HEAD
-Benjamin Rojas 
+Hector Orlando Lepio  
 Maria Isabel Soto
 Benjamin Rojas Vidal
 Agustín Orlando Vega
-0fdb41816d02f2dccaa7721b95f60cb2ae9aa72d
