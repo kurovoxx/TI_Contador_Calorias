@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from datetime import datetime
 from abc import ABC
+from PIL import Image, ImageTk
 
 
 class New_ventana(ABC):
@@ -60,11 +61,20 @@ class Main(ctk.CTk):
 
     def add_widget_panel_superior(self):
         self.titulo = ctk.CTkLabel(self.panel_superior, text='Contador de Calorías', font=('Arial', 20), pady=30)
-        self.titulo.pack(side=ctk.LEFT, padx=40)
+        self.titulo.place(x=140, y=5)
 
         self.fecha = ctk.CTkLabel(self.panel_superior, text='Hoy es: ' + datetime.now().strftime('%d-%m-%Y'),
                                   font=('Arial', 20), pady=30)
         self.fecha.pack(side=ctk.RIGHT, padx=40)
+
+        image = Image.open('uct-logo.28ec7a5d.png')
+        ctk_image = ctk.CTkImage(image, size=(120, 60))  # Ajusta el tamaño según sea necesario
+
+        # Aplicar la imagen a un CTkLabel
+        self.logo = ctk.CTkLabel(self.panel_superior, image=ctk_image, text='')
+        self.logo.place(x=10, y=5)
+        # Guardar una referencia de la imagen para evitar que se recolecte
+        self.logo.image = ctk_image
 
     def add_widget_panel_lateral(self):
         self.boton_1 = ctk.CTkButton(self.panel_lateral, text='Registra Alimento', font=('Arial', 16), fg_color='red',
