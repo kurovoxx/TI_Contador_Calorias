@@ -37,7 +37,7 @@ class Grafico(New_ventana):
     def add_widget_grafico(self):
         pass
 
-
+ 
 class Main(ctk.CTk):
     def __init__(self, size, title):
         super().__init__()
