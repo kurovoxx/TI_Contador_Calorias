@@ -32,7 +32,7 @@ class Registro_Alimento(New_ventana):
         self.label_buscar.place(relx=0.1, rely=0.45, relwidth=0.3, relheight=0.05)
         
         # Se crea el Entry "Buscar alimento"
-        self.entry_buscar = ctk.CTkEntry(self.sub, placeholder_text="Buscar alimento")
+        self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius= 0, placeholder_text="Buscar alimento")
         self.entry_buscar.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.1) 
 
         # Se crea el botón "Registrar"
