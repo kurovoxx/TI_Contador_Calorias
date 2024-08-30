@@ -40,5 +40,6 @@ class Registro_Alimento(New_ventana):
                                            command=self.boton_agregar_click)
         self.boton_agregar.place(relx=0.1, rely=0.7, relwidth=0.3, relheight=0.05)
 
-    def boton_agregar_click(self):
-        print("Botón 'Registrar' clickeado")
+    def boton_agregar_click(self):  # Prueba de que funciona el botón "Registrar"
+        CTkMessagebox(title="Alimento registrado", message="Se registraron x calorias creo", icon="info") #Mensaje pro, funcionalidad basica
+        print("Botón 'Registrar' clickeado") 
