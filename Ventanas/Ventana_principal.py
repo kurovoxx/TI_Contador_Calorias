@@ -14,7 +14,7 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
-        self.perfil = util_img.leer_imagen("./img/logo2.png", (100, 100))
+        self.perfil = util_img.leer_imagen("./sin_imagen.png", (100, 100))
         self.config_window()
         self.paneles()
         self.controles_barra_superior()
@@ -24,6 +24,7 @@ class Main(tk.Tk):
     def config_window(self):
         # configuracion inicial de la ventana
         self.title('Contador de Calorias Pro 60Hz')
+        self.iconbitmap("./img/logo2.ico")
         w, h = 1024, 600
         util_ventana.centrar_ventana(self, w, h)
 
