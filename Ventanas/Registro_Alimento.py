@@ -28,7 +28,7 @@ class Registro_Alimento(New_ventana):
         self.canvas_buscar.create_rectangle(2, 2, 298, 98, outline="", fill="gray")  
 
         # Label "Buscador de alimentos"
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="black", bg_color="gray", corner_radius = 0)
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="black", bg_color="gray")
         self.label_buscar.place(relx=0.1, rely=0.45, relwidth=0.3, relheight=0.05)
         
         # Se crea el Entry "Buscar alimento"
