@@ -22,7 +22,6 @@ class Main(tk.Tk):
         self.controles_cuerpo()
         
     def config_window(self):
-        # configuracion inicial de la ventana
         self.title('Contador de Calorias Pro 60Hz')
         self.iconbitmap("./img/logo2.ico")
         w, h = 1024, 600
@@ -34,7 +33,7 @@ class Main(tk.Tk):
             self, bg=COLOR_BARRA_SUPERIOR, height=200)
         self.barra_superior.pack(side=tk.TOP, fill='both')
         
-        self.menu_lateral   = tk.Frame(self, bg=COLOR_MENU_LATERAL, width=150)
+        self.menu_lateral = tk.Frame(self, bg=COLOR_MENU_LATERAL, width=150)
         self.menu_lateral.pack(side=tk.LEFT, fill='both', expand=False)
         
         self.cuerpo_principal = tk.Frame(
