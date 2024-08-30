@@ -14,7 +14,7 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
-        self.perfil = util_img.leer_imagen("./sin_imagen.png", (100, 100))
+        self.perfil = util_img.leer_imagen("./img/sin_imagen.png", (100, 100))
         self.config_window()
         self.paneles()
         self.controles_barra_superior()
