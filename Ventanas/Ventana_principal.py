@@ -57,6 +57,9 @@ class Main(tk.Tk):
                                            command=self.toglle_panel, bd=0, bg=COLOR_BARRA_SUPERIOR, fg="white")
         self.buttonMenuLateral.pack(side=tk.LEFT)
         
+        # Fecha bien pro
+        tiempo = dt.datetime.now()
+        
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
             self.barra_superior, text="{}/{}/{}".format(tiempo.day,tiempo.month,tiempo.year))
