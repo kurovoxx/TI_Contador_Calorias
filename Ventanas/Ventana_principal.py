@@ -8,6 +8,7 @@ from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
 from Ventanas.Historial import Historial
+from Ventanas.Configuracion import Configuracion
 
 
 class Main(tk.Tk):
@@ -86,7 +87,7 @@ class Main(tk.Tk):
             ("Agregar Alimento", "\uf007", self.btn_agregar, self.abrir_agregar_alimento),
             ("Gráfico", "\uf03e", self.btn_grafico, self.abrir_grafico),
             ("Historial", "\uf129", self.btn_historial, self.abrir_historial),
-            ("Settings", "\uf013", self.btn_en_contruccion, self.abrir_panel_en_construccion)
+            ("Settings", "\uf013", self.btn_en_contruccion, self.abrir_configuracion)
         ]
         
         for text, icon, button, comando in buttons_info:
@@ -141,6 +142,10 @@ class Main(tk.Tk):
         self.limpiar_panel(self.cuerpo_principal)
         Historial(self.cuerpo_principal, 'black')
 
+    def abrir_configuracion(self):
+        self.limpiar_panel(self.cuerpo_principal)
+        Configuracion(self.cuerpo_principal, 'green')    
+    
     def abrir_panel_en_construccion(self):
         print('Nada por aquí...')
 
