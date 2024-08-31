@@ -64,7 +64,7 @@ class Main(tk.Tk):
         self.labelTitutlo = tk.Label(
             self.barra_superior, text="{}/{}/{}".format(tiempo.day,tiempo.month,tiempo.year))
         self.labelTitutlo.config(fg="#fff", font=(
-            "Roboto", 10), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
+            "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
         
     def controles_barra_lateral(self):
