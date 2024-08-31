@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from tkinter import Canvas
 from Ventanas.Ventana_interfaz import New_ventana
+from CTkMessagebox import CTkMessagebox
+
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
