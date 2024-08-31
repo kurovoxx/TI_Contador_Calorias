@@ -1,5 +1,6 @@
 import tkinter as tk 
-from tkinter import font 
+from tkinter import font
+import datetime  as dt
 from colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
@@ -58,7 +59,7 @@ class Main(tk.Tk):
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
-            self.barra_superior, text="AQUÍ VA LA FECHA")
+            self.barra_superior, text="{}/{}/{}".format(tiempo.day,tiempo.month,tiempo.year))
         self.labelTitutlo.config(fg="#fff", font=(
             "Roboto", 10), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
