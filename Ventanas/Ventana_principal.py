@@ -155,3 +155,4 @@ class Main(tk.Tk):
 
     def abrir_panel_info(self):
         pass
+ 
