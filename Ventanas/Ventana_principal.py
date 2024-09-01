@@ -132,7 +132,7 @@ class Main(tk.Tk):
 
     def abrir_registro_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Registro_Alimento(self.cuerpo_principal, 'red')
+        Registro_Alimento(self.cuerpo_principal, '#404B4C')
         
     def abrir_agregar_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
