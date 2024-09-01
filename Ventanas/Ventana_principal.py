@@ -136,7 +136,7 @@ class Main(tk.Tk):
         
     def abrir_agregar_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Agregar_Alimento(self.cuerpo_principal, 'blue')
+        Agregar_Alimento(self.cuerpo_principal, '#404B4C')
 
     def abrir_grafico(self):
         self.limpiar_panel(self.cuerpo_principal)
