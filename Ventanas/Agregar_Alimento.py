@@ -31,7 +31,7 @@ class Agregar_Alimento(New_ventana):
         self.boton_agregar = ctk.CTkButton(self.sub, text="+", text_color="black", fg_color="#f1faff",
                                   width=100, height=100, corner_radius=50,font=("Impact",50),
                                   command=self.boton_agregar_click)
-        self.boton_agregar.place(relx=0.5, rely=0.3)
+        self.boton_agregar.place(relx=0.45, rely=0.3)
 
     def boton_agregar_click(self):  # Prueba de que funciona el botón "agregar alimento"
         CTkMessagebox(title="Alimento registrado", message="Se agrego el alimento correctamente") #Mensaje pro, funcionalidad basica
