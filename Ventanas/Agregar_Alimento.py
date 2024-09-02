@@ -1,7 +1,6 @@
 import customtkinter as ctk
-from tkinter import Canvas
+from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
-from CTkMessagebox import CTkMessagebox
 import sqlite3  # Importamos el módulo sqlite3 para interactuar con la base de datos
 
 class Agregar_Alimento(New_ventana):
@@ -22,14 +21,21 @@ class Agregar_Alimento(New_ventana):
         
         # Se crea el Entry "agregar alimento"
         self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Nombre del alimento",
-                                    placeholder_text_color="white", border_width=0, fg_color="#183549",text_color="white")
+                                    placeholder_text_color="black", border_width=0, fg_color="white",text_color="black")
         self.agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.1)   
 
         # ComboBox debajo del Entry
-        self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="White",
-                                         values=["", "100gr", "Por porción"], border_width=0, button_color="#26656D",
-                                         button_hover_color="white", command=self.actualizar_label)
+        self.alimento = ["100gr", "Por porción"]
+        self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
+                                         values=self.alimento, border_width=0, button_color="#26656D",
+                                         button_hover_color="white", command=self.actualizar_label, text_color="white")
         self.combo_box.place(relx=0.1, rely=0.35, relwidth=0.3, relheight=0.05)
+
+        # Mensaje "predeterminado" para el combobox
+        self.combo_box.set("Seleccionar cantidad de alimento")  
+
+        # Evento para manejar la selección del combobox
+        self.combo_box.bind("<<ComboboxSelected>>", self.seleccion)
 
         # Label "Seleccione Cantidad Calorías"
         self.label_calorias = ctk.CTkLabel(self.sub, text="Calorías", text_color="White", fg_color="Black")
@@ -38,8 +44,8 @@ class Agregar_Alimento(New_ventana):
         # Entry para cantidad de calorías, solo números
         vcmd = (self.sub.register(self.solo_numeros), "%S")
         self.entry_calorias = ctk.CTkEntry(self.sub, validate="key", validatecommand=vcmd,
-                                           corner_radius=0, placeholder_text="0", placeholder_text_color="gray", 
-                                           border_width=0, fg_color="#183549",text_color="white")
+                                           corner_radius=0, placeholder_text="0", placeholder_text_color="black", 
+                                           border_width=0, fg_color="white",text_color="black")
         self.entry_calorias.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.05)
 
         # Se crea el botón "Registrar" redondo
@@ -69,13 +75,13 @@ class Agregar_Alimento(New_ventana):
         seleccion = self.combo_box.get()
 
         if nombre_alimento == "" or calorias == "" or seleccion == "":
-            CTkMessagebox(title="Error", message="Por favor, complete todos los campos.")
+            messagebox.showinfo(title="Error", message="Por favor, complete todos los campos.")
             return
 
         try:
             calorias = int(calorias)
         except ValueError:
-            CTkMessagebox(title="Error", message="Por favor, ingrese un valor numérico válido para las calorías.")
+            messagebox.showinfo(title="Error", message="Por favor, ingrese un valor numérico válido para las calorías.")
             return
 
         # Verificar si el alimento ya existe en la base de datos
@@ -83,7 +89,7 @@ class Agregar_Alimento(New_ventana):
         resultado = self.cursor.fetchone()
 
         if resultado:
-            CTkMessagebox(title="Error", message="El alimento ya existe en la base de datos.")
+             messagebox.showinfo(title="Error", message="El alimento ya existe en la base de datos.")
         else:
             if seleccion == "100gr":
                 calorias_100g = calorias
@@ -98,10 +104,14 @@ class Agregar_Alimento(New_ventana):
                 (nombre_alimento, calorias_100g, calorias_porcion)
             )
             self.conn.commit()  # Guardar cambios en la base de datos
-            CTkMessagebox(title="Alimento registrado", message=f"Se agregó {nombre_alimento} correctamente.")
+            messagebox.showinfo(title="Alimento registrado", message=f"Se agregó {nombre_alimento} correctamente.")
 
         print(f"Botón 'Registrar' clickeado con alimento: {nombre_alimento}, calorías: {calorias}, selección: {seleccion}")
 
     def __del__(self):
         """Cierra la conexión con la base de datos cuando se destruye la instancia."""
         self.conn.close()
+    
+    def seleccion(self): # Esta función verifica si el mensaje predeterminado está seleccionado o no para limpiarlo al seleccionar una opción
+        if self.combo_box.get() == "Seleccionar cantidad de alimento":
+            self.combo_box.set("")  
