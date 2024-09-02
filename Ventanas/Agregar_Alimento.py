@@ -29,7 +29,7 @@ class Agregar_Alimento(New_ventana):
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
                                          values=self.alimento, border_width=0, button_color="#26656D",
                                          button_hover_color="white", command=self.actualizar_label, text_color="white")
-        self.combo_box.place(relx=0.1, rely=0.35, relwidth=0.3, relheight=0.05)
+        self.combo_box.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05)
 
         # Mensaje "predeterminado" para el combobox
         self.combo_box.set("Seleccionar cantidad de alimento")  
