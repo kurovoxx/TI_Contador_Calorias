@@ -29,7 +29,7 @@ class Agregar_Alimento(New_ventana):
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
                                          values=self.alimento, border_width=0, button_color="#26656D",
                                          button_hover_color="white", command=self.actualizar_label, text_color="white")
-        self.combo_box.place(relx=0.1, rely=0.35, relwidth=0.3, relheight=0.05)
+        self.combo_box.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05)
 
         # Mensaje "predeterminado" para el combobox
         self.combo_box.set("Seleccionar cantidad de alimento")  
@@ -49,10 +49,14 @@ class Agregar_Alimento(New_ventana):
         self.entry_calorias.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.05)
 
         # Se crea el botón "Registrar" redondo
-        self.boton_agregar = ctk.CTkButton(self.sub, text="+", text_color="black", fg_color="#f1faff", width=100,
-                                           height=100, corner_radius=50, font=("Impact", 50),
-                                           command=self.boton_agregar_click)
-        self.boton_agregar.place(relx=0.45, rely=0.3)
+        #self.boton_agregar = ctk.CTkButton(self.sub, text="+", text_color="black", fg_color="#f1faff", width=100,
+        #                                   height=100, corner_radius=50, font=("Impact", 50),
+        #                                   command=self.boton_agregar_click)
+        #self.boton_agregar.place(relx=0.45, rely=0.3)
+
+        self.boton_agregar = ctk.CTkButton(self.sub, text="Añadir Alimento", text_color="black", fg_color="#f1faff", width=240,
+                                           height=50,border_width=0,command=self.boton_agregar_click)
+        self.boton_agregar.place(relx=0.1, rely=0.7)
 
     def actualizar_label(self, *args):
         """Actualiza el texto del label de calorías según la selección del ComboBox."""
