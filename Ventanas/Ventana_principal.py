@@ -148,7 +148,7 @@ class Main(tk.Tk):
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Configuracion(self.cuerpo_principal, 'green')    
+        Configuracion(self.cuerpo_principal, ''#404B4C'')    
     
     def abrir_panel_en_construccion(self):
         print('Nada por aquí...')
