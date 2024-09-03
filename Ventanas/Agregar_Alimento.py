@@ -3,7 +3,11 @@ from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3 # Importamos el módulo sqlite3 para interactuar con la base de datos
 from tkinter import font
-
+import os
+from PIL import Image
+import util.util_ventana as util_ventana
+import util.util_imagenes as util_img
+import tkinter as tk
 
 class Agregar_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
@@ -18,11 +22,11 @@ class Agregar_Alimento(New_ventana):
 
     def add_widget_agregar(self):
         # Label "agregar" de alimentos
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar Alimentos", text_color="white", bg_color="black")
+        self.label_agregar = ctk.CTkLabel(self.sub,font=("FuturaNo2", 20), text="Agregar Alimentos", text_color="white", bg_color="black")
         self.label_agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)
         
         # Se crea el Entry "agregar alimento"
-        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Nombre del alimento",
+        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0,
                                     placeholder_text_color="black", border_width=0, fg_color="white",text_color="black")
         self.agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.1)   
 
@@ -49,11 +53,19 @@ class Agregar_Alimento(New_ventana):
         self.entry_calorias = ctk.CTkEntry(self.sub, validate="key", validatecommand=vcmd,
                                            corner_radius=0, placeholder_text="0", placeholder_text_color="black", 
                                            border_width=0, fg_color="white",text_color="black")
-        self.entry_calorias.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.05)
+        self.entry_calorias.place(relx=0.1, rely=0.5, relwidth=0.25, relheight=0.05)
         
-        self.boton_agregar = ctk.CTkButton(self.sub, text="Añadir Alimento", text_color="White", fg_color="black", width=240,
+        self.boton_agregar = ctk.CTkButton(self.sub, text="Añadir Alimento",font=("FuturaNo2", 20), text_color="White", fg_color="black", width=240,
                                            height=50,border_width=0,command=self.boton_agregar_click)
         self.boton_agregar.place(relx=0.1, rely=0.7)
+
+        self.mas = util_img.leer_imagen("./img/mas2.png", (25, 25))
+        labelmas = tk.Label(self.sub, image=self.mas)
+        labelmas.place(relx=0.347, rely=0.5, relwidth=0.05, relheight=0.05)
+
+        ruta_fuente = "./fonts/Futura-No-2-Medium-DEE.ttf"
+        font.nametofont("FuturaNo2").config(file=ruta_fuente)
+
 
     def actualizar_label(self, *args):
         """Actualiza el texto del label de calorías según la selección del ComboBox."""
