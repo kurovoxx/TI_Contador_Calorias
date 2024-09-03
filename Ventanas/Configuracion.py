@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from tkinter import filedialog
+from tkinter import *
 from Ventanas.Ventana_interfaz import New_ventana
 
 
@@ -70,13 +72,36 @@ class Configuracion(New_ventana):
         self.labelAutor.pack(pady=3)
 
     def guardar(self):
+        archivo_n = filedialog.asksaveasfile(defaultextension='.txt',
+                                           filetypes=[
+                                               ('Archivo de Texto','.txt'),
+                                               ('HTML','.html'),
+                                               ('Todos los Archivos','.*')
+                                           ])
+        if archivo_n is None:
+            return
+        
         nombre = self.nombre_entry.get()
-        edad = self.edad_entry.get()
-        sexo = self.gen_combobox.get()
-        peso = self.peso_entry.get()
-        altura = self.altura_entry.get()
-        objetivo_calorias = self.obj_calorias_combobox.get()
-        nivel_actividad = self.lvl_actividad_combobox.get()
+        archivo_n.write(f'Nombre: {nombre}\n')
 
-        print(f"Nombre: {nombre}, Edad: {edad}, Sexo: {sexo}, Peso: {peso}, Altura: {altura}, "
-              f"Objetivo de Calorías: {objetivo_calorias}, Nivel de Actividad: {nivel_actividad}")
+        edad = self.edad_entry.get()
+        archivo_n.write(f'Edad: {edad}\n')
+
+        sexo = self.gen_combobox.get()
+        archivo_n.write(f'Genero: {sexo}\n')
+
+        peso = self.peso_entry.get()
+        archivo_n.write(f'Peso: {peso}\n')
+
+        altura = self.altura_entry.get()
+        archivo_n.write(f'Altura: {altura}\n')
+
+        objetivo_calorias = self.obj_calorias_combobox.get()
+        archivo_n.write(f'Objetivo: {objetivo_calorias}\n')
+
+        nivel_actividad = self.lvl_actividad_combobox.get()
+        archivo_n.write(f'Nivel de actividad: {nivel_actividad}\n')
+
+        archivo_n.close()
+        
+    
