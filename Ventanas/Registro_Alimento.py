@@ -37,7 +37,7 @@ class Registro_Alimento(New_ventana):
         self.entry_buscar.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.1) 
 
         # Se crea el botón "Registrar"
-        self.boton_agregar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color="black",
+        self.boton_agregar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color="black", hover_color="#007bff",
                                            command=self.boton_agregar_click)
         self.boton_agregar.place(relx=0.1, rely=0.7, relwidth=0.3, relheight=0.05)
         
