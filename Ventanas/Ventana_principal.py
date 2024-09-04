@@ -1,5 +1,6 @@
 import tkinter as tk 
 from tkinter import font
+from tkinter import filedialog
 import datetime  as dt
 from colores import *
 import util.util_ventana as util_ventana
@@ -10,6 +11,7 @@ from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
 from Ventanas.Historial import Historial
 from Ventanas.Configuracion import Configuracion
+
 
 
 class Main(tk.Tk):
@@ -66,6 +68,13 @@ class Main(tk.Tk):
         self.labelTitutlo.config(fg="#fff", font=(
             "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
+
+    def seleccionar_archivo(self):
+        archivo = filedialog.askopenfilename(filetypes=[("Imagen", "*.png .jpg .jpeg")])
+        if archivo:
+            print(f"Archivo seleccionado: {archivo}")
+            self.perfil = util_img.leer_imagen(archivo, (100, 100))
+        self.labelPerfil.config(image=self.perfil)
         
     def controles_barra_lateral(self):
         # Configuración del menu lateral
@@ -82,10 +91,9 @@ class Main(tk.Tk):
                          fg="white", 
                          relief="flat", 
                          borderwidth=0,
-                         command="nada")
+                         command=self.seleccionar_archivo)
         self.btn_mas.place(x=130, y=90, width=20, height=20)
         # Botoenes del menú lateral
-        
         # Botoenes del menú lateral
         
         self.btn_registro = tk.Button(self.menu_lateral)
@@ -104,6 +112,7 @@ class Main(tk.Tk):
         
         for text, icon, button, comando in buttons_info:
             self.configurar_boton_menu(button, text, icon, font_awesome, ancho_menu, alto_menu, comando)
+    
 
     def controles_cuerpo(self):
         # Imagen en el cuerpo principal
