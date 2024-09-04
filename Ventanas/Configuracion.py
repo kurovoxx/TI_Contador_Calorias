@@ -1,8 +1,6 @@
 import customtkinter as ctk
-from tkinter import filedialog
-from tkinter import *
+from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
-
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
@@ -11,11 +9,9 @@ class Configuracion(New_ventana):
         self.contruirWidget()
 
     def add_widget_config(self):
+        self.perfil_frame = ctk.CTkFrame(self.sub, width=300)
+        self.perfil_frame.pack(padx=20, pady=10, anchor="w")
 
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=300) #se usa .sub envez de solamente el self
-        self.perfil_frame.pack(padx=20, pady=10,anchor="w") 
-
-        # Widgets uno debajo del otro
         self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
         self.nombre_label.pack(anchor="w", padx=3, pady=3)
         
@@ -60,48 +56,42 @@ class Configuracion(New_ventana):
 
         self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Guardar", command=self.guardar, width=250)
         self.guardar_button.pack(pady=5)
+        
+    def guardar(self):
+        try:
+            with open("Configuracion.txt", "a") as archivo_n:
+                nombre = self.nombre_entry.get()
+                archivo_n.write(f'Nombre: {nombre}\n')
+
+                edad = self.edad_entry.get()
+                archivo_n.write(f'Edad: {edad}\n')
+
+                sexo = self.gen_combobox.get()
+                archivo_n.write(f'Genero: {sexo}\n')
+
+                peso = self.peso_entry.get()
+                archivo_n.write(f'Peso: {peso}\n')
+
+                altura = self.altura_entry.get()
+                archivo_n.write(f'Altura: {altura}\n')
+
+                objetivo_calorias = self.obj_calorias_combobox.get()
+                archivo_n.write(f'Objetivo: {objetivo_calorias}\n')
+
+                nivel_actividad = self.lvl_actividad_combobox.get()
+                archivo_n.write(f'Nivel de actividad: {nivel_actividad}\n')
+
+            messagebox.showinfo("Confirmación", "Los datos se guardaron correctamente.")
+            
+        except FileNotFoundError:
+            messagebox.showerror("Error", "Hubo un problema al guardar los datos.")
 
     def contruirWidget(self):
         self.info_frame = ctk.CTkFrame(self.sub, width=250)
-        self.info_frame.pack(padx=20, pady=5, anchor="w") 
+        self.info_frame.pack(padx=20, pady=5, anchor="w")
         
-        self.labelVersion = ctk.CTkLabel(self.info_frame, text="Version : 1.0",width=250)
+        self.labelVersion = ctk.CTkLabel(self.info_frame, text="Version : 1.0", width=250)
         self.labelVersion.pack(pady=3)
 
-        self.labelAutor = ctk.CTkLabel(self.info_frame, text="Autor : Los insanos 2.0",width=250)
+        self.labelAutor = ctk.CTkLabel(self.info_frame, text="Autor : Los insanos 2.0", width=250)
         self.labelAutor.pack(pady=3)
-
-    def guardar(self):
-        archivo_n = filedialog.asksaveasfile(defaultextension='.txt',
-                                           filetypes=[
-                                               ('Archivo de Texto','.txt'),
-                                               ('HTML','.html'),
-                                               ('Todos los Archivos','.*')
-                                           ])
-        if archivo_n is None:
-            return
-        
-        nombre = self.nombre_entry.get()
-        archivo_n.write(f'Nombre: {nombre}\n')
-
-        edad = self.edad_entry.get()
-        archivo_n.write(f'Edad: {edad}\n')
-
-        sexo = self.gen_combobox.get()
-        archivo_n.write(f'Genero: {sexo}\n')
-
-        peso = self.peso_entry.get()
-        archivo_n.write(f'Peso: {peso}\n')
-
-        altura = self.altura_entry.get()
-        archivo_n.write(f'Altura: {altura}\n')
-
-        objetivo_calorias = self.obj_calorias_combobox.get()
-        archivo_n.write(f'Objetivo: {objetivo_calorias}\n')
-
-        nivel_actividad = self.lvl_actividad_combobox.get()
-        archivo_n.write(f'Nivel de actividad: {nivel_actividad}\n')
-
-        archivo_n.close()
-        
-    
