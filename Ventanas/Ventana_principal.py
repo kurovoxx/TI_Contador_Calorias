@@ -73,10 +73,18 @@ class Main(tk.Tk):
         alto_menu = 2
         font_awesome = font.Font(family='FontAwesome', size=15)
         
-        # Etiqueta de perfil
-        self.labelPerfil = tk.Label(
-            self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
+        self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
         self.labelPerfil.pack(side=tk.TOP, pady=10)
+        self.btn_mas = tk.Button(self.menu_lateral, 
+                         text="+", 
+                         font=("Arial", 15), 
+                         bg="#34A85A", 
+                         fg="white", 
+                         relief="flat", 
+                         borderwidth=0,
+                         command="nada")
+        self.btn_mas.place(x=130, y=90, width=20, height=20)
+        # Botoenes del menú lateral
         
         # Botoenes del menú lateral
         
