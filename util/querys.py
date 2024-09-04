@@ -33,6 +33,7 @@ def sql_insert(self, nomb, n_cal, sel):
 
 # Para Hector
 
+# implemetar con su metodología de conexión sql
 
 def insert(self):
     conn = sqlite3.connect('alimentos.db')
