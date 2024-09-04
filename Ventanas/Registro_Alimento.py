@@ -11,41 +11,41 @@ class Registro_Alimento(New_ventana):
 
     def add_widget_registro(self):
         # Label "Agregar alimento"
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color="black")
-        self.label_agregar.place(relx=0.1, rely=0.3, relwidth=0.3, relheight=0.05)
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color="black",font=("Arial", 20))
+        self.label_agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.05)
 
         # ComboBox dinámico, será llenado desde la base de datos
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
                                          values=[],  # Inicialmente vacío, lo llenaremos después
                                          border_width=0, button_color="#26656D",
                                          button_hover_color="white", text_color="white")
-        self.combo_box.place(relx=0.1, rely=0.35, relwidth=0.3, relheight=0.05)
+        self.combo_box.place(relx=0.1, rely=0.3, relwidth=0.3, relheight=0.05)
 
         # Mensaje "predeterminado" para el combobox
         self.combo_box.set("Seleccionar alimento")  
 
         # Label "Buscador de alimentos"
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color="black")
-        self.label_buscar.place(relx=0.1, rely=0.45, relwidth=0.3, relheight=0.05)
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color="black",font=("Arial", 20))
+        self.label_buscar.place(relx=0.1, rely=0.4505, relwidth=0.3, relheight=0.055)
         
         # Entry "Buscar alimento" que también estará vinculado a la búsqueda
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
-        self.entry_buscar.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.1) 
+        self.entry_buscar.place(relx=0.1, rely=0.505, relwidth=0.3, relheight=0.105) 
 
         # Botón "Registrar"
         self.boton_buscar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color="black", 
-                                          hover_color="#007bff", command=self.boton_registrar_click)
-        self.boton_buscar.place(relx=0.1, rely=0.65, relwidth=0.3, relheight=0.05)
+                                          hover_color="#007bff", command=self.boton_registrar_click,font=("Arial", 20))
+        self.boton_buscar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
         # Registro        
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
-                                           bg_color="#183549")
-        self.label_registro.place(relx=0.5, rely=0.3, relwidth=0.3, relheight=0.05)
+                                           bg_color="#183549",font=("Arial", 20))
+        self.label_registro.place(relx=0.5, rely=0.3, relwidth=0.4, relheight=0.055)
         
         self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329")
-        self.label_segundo_registro.place(relx=0.5, relwidth=0.3, relheight=0.05, rely=0.35)
+        self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.35)
 
     def cargar_alimentos(self):
         conn = sqlite3.connect('alimentos.db')
@@ -80,7 +80,7 @@ class Registro_Alimento(New_ventana):
             nombre, calorias_100g, calorias_porcion = alimento_info
             
             # Mostrar el nombre del alimento
-            self.label_registro.configure(text=f"Último alimento registrado: {nombre}")
+            self.label_registro.configure(text=f"Último alimento registrado: {nombre}",font=("Arial", 14))
             
             # Mostrar las calorías en porción o por 100g
             if calorias_porcion:
