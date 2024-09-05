@@ -33,20 +33,22 @@ class Historial(New_ventana):
         self.filter_button = ctk.CTkButton(self.perfil_treeview, text="Filtrar por fecha", command=self.filtrar_por_fecha)
         self.filter_button.pack(pady=10)
 
-        self.tree = ttk.Treeview(self.perfil_treeview, columns=("Alimento", "Calorias 100gr", "Calorias por porcion"), show="headings")
+        self.tree = ttk.Treeview(self.perfil_treeview, columns=("Alimento", "Calorias"), show="headings")
         self.tree.heading("Alimento", text="Alimento")
-        self.tree.heading("Calorias 100gr", text="Calorias 100gr")
-        self.tree.heading("Calorias por porcion", text="Calorias por porcion")
+        self.tree.heading("Calorias", text="Calorías (100g/por porción)")
         self.tree.pack(anchor="w", padx=3, pady=3)
 
     def agregar_treeview(self):
-        """Obtiene todos los datos de la base de datos y los inserta en el Treeview."""
-        self.cursor.execute("SELECT nombre, calorias_100g, calorias_porcion FROM alimentos")
+        self.cursor.execute("""
+            SELECT nombre, 
+                IFNULL(calorias_100g, 0) || '/' || IFNULL(calorias_porcion, 0) AS calorias_combinadas 
+            FROM alimentos
+        """)
         registros = self.cursor.fetchall()
-
+        
         for registro in registros:
-            self.tree.insert("", "end", values=registro)
-
+            self.tree.insert("", "end", values=(registro[0], registro[1]))  
+            
     def filtrar_por_fecha(self):
         """Filtra los alimentos por la fecha seleccionada."""
         fecha_seleccionada = self.date_entry.get_date()
