@@ -24,6 +24,7 @@ class Main(tk.Tk):
         self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
         self.perfil = util_img.leer_imagen("./img/sin_imagen.png", (100, 100))
         self.config_window()
+        self.log_in()
         self.paneles()
         self.controles_barra_superior()
         self.controles_barra_lateral()
@@ -202,7 +203,10 @@ class Main(tk.Tk):
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Configuracion(self.cuerpo_principal, '#404B4C')    
+        Configuracion(self.cuerpo_principal, '#404B4C')   
+
+    def log_in(self):
+        Log_in(self)
     
     def abrir_panel_en_construccion(self):
         print('Nada por aquí...')
