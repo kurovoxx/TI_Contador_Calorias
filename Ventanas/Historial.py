@@ -33,21 +33,33 @@ class Historial(New_ventana):
         self.filter_button = ctk.CTkButton(self.perfil_treeview, text="Filtrar por fecha", command=self.filtrar_por_fecha)
         self.filter_button.pack(pady=10)
 
-        self.tree = ttk.Treeview(self.perfil_treeview, columns=("Alimento", "Calorias"), show="headings")
+        self.tree = ttk.Treeview(self.perfil_treeview, columns=("Alimento", "Cal/100gr/Porcion","Total Calorias","Hora"), show="headings")
         self.tree.heading("Alimento", text="Alimento")
-        self.tree.heading("Calorias", text="Calorías (100g/por porción)")
+        self.tree.heading("Cal/100gr/Porcion", text="Cal/100gr/Porcion")
+        self.tree.heading("Total Calorias", text="Total Calorias")
+        self.tree.heading("Hora",text="Hora")
         self.tree.pack(anchor="w", padx=3, pady=3)
 
     def agregar_treeview(self):
         self.cursor.execute("""
             SELECT nombre, 
-                IFNULL(calorias_100g, 0) || '/' || IFNULL(calorias_porcion, 0) AS calorias_combinadas 
+                CASE 
+                    WHEN calorias_porcion IS NOT NULL THEN 'Porción'
+                    ELSE '100g'
+                END AS tipo_caloria,
+                CASE 
+                    WHEN calorias_porcion IS NOT NULL THEN calorias_porcion
+                    ELSE calorias_100g
+                END AS total_calorias
             FROM alimentos
         """)
+        
+        tiempo = dt.datetime.now()
         registros = self.cursor.fetchall()
         
+        # La fecha puesta es solo una referencia de como deberia verse, ya que no tiene relacion con la hora correcta ingresada
         for registro in registros:
-            self.tree.insert("", "end", values=(registro[0], registro[1]))  
+            self.tree.insert("", "end", values=(registro[0], registro[1], registro[2],"{}:{}".format(tiempo.hour, tiempo.minute))) 
             
     def filtrar_por_fecha(self):
         """Filtra los alimentos por la fecha seleccionada."""
