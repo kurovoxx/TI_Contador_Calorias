@@ -92,9 +92,9 @@ class Main(tk.Tk):
                 ruta_imagen = data.get("ruta_imagen")
                 if ruta_imagen:
                     # Cargar y mostrar la imagen
-                    img = Image.open(ruta_imagen).convert("RGBA")
+                    img = Image.open(ruta_imagen).convert('RGBA')
                     img = self.hacer_imagen_circular(img)
-                    img_tk = ImageTk.PhotoImage(img) # <--- Agregué format='PNG'
+                    img_tk = ImageTk.PhotoImage(img, format='PNG') # <--- Agregué format='PNG'
                     etiqueta_imagen = tk.Label(self.menu_lateral, image=img_tk)
                     etiqueta_imagen.image = img_tk
                     etiqueta_imagen.pack()
@@ -106,8 +106,8 @@ class Main(tk.Tk):
             etiqueta_imagen = tk.Label(self.menu_lateral, image=img_noperfil)
             etiqueta_imagen.image = img_noperfil
             etiqueta_imagen.pack()
-            self.perfil = img_noperfil
-
+        
+            self.perfil = img_noperfil  # Asignar la imagen a self.perfil
     def hacer_imagen_circular(self, imagen):
     # Crear una máscara circular
         mascarilla = Image.new("L", (120, 120), 0)  # Ajustar tamaño aquí
