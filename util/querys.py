@@ -105,3 +105,17 @@ def get_total_calorias(self, fecha):
         self.total_calorias_2 = ctk.CTkLabel(self.sub, text=str(calorias_totales) + ' calorías.', text_color='black',
                                              font=('arial', 25))
         self.total_calorias_2.place(x=730, y=110)
+
+
+# para obtener los usuarios (devuelve una lista con los usuarios)
+
+def leer_usuarios(filename='usuarios_registrados.txt'):
+    try:
+        with open(filename, 'r') as file:
+            # Leer todas las líneas del archivo y eliminar los saltos de línea
+            usuarios = [linea.strip() for linea in file.readlines()]
+        return usuarios
+    except FileNotFoundError:
+        # Manejar el caso en que el archivo no exista
+        print(f"El archivo {filename} no existe.")
+        return []
