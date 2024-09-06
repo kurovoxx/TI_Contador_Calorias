@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import os
+from CTkMessagebox import CTkMessagebox
 
 class Log_in(ctk.CTkToplevel):
     def __init__(self, parent):
@@ -106,10 +107,13 @@ class Log_in(ctk.CTkToplevel):
                 nivel_actividad = self.lvl_actividad_combobox.get()
                 archivo_n.write(f'{nivel_actividad}\n')
 
-            messagebox.showinfo("Confirmación", "Los datos se guardaron correctamente.")
+            CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
+                          icon='check',
+                          option_1="Ok")
             
         except FileNotFoundError:
-            messagebox.showerror("Error", "Hubo un problema al guardar los datos.")
+            CTkMessagebox(title="Advertencia", message="Por favor, selecciona una fila para eliminar.",
+                          icon='warning', option_1="Ok")
 
     def limpiar_panel(self):
         for widget in self.main_frame.winfo_children():
