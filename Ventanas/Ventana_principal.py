@@ -207,7 +207,7 @@ class Main(tk.Tk):
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Historial(self.cuerpo_principal, '404B4C')
+        Historial(self.cuerpo_principal, '#404B4C')
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
