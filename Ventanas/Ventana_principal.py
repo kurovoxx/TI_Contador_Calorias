@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import font
 from tkinter import filedialog
-import datetime  as dt
+from datetime import datetime
 from colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
@@ -62,12 +62,10 @@ class Main(tk.Tk):
                                            command=self.toglle_panel, bd=0, bg=COLOR_BARRA_SUPERIOR, fg="white")
         self.buttonMenuLateral.pack(side=tk.LEFT)
         
-        # Fecha bien pro
-        tiempo = dt.datetime.now()
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
-            self.barra_superior, text="{}/{}/{}".format(tiempo.day,tiempo.month,tiempo.year))
+            self.barra_superior, text='Hoy es: ' + datetime.now().strftime('%d-%m-%Y'))
         self.labelTitutlo.config(fg="#fff", font=(
             "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)

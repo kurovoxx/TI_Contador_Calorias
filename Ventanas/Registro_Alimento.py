@@ -75,18 +75,14 @@ class Registro_Alimento(New_ventana):
     def update_coincidencias(self):
         self.coincidencias.delete(0, tk.END)
         
-        num_coincidencias = len(self.match)  # Obtener el número de coincidencias
+        num_coincidencias = len(self.match)
     
-        # Definir una altura mínima y ajustar dinámicamente si hay más de una coincidencia
         if num_coincidencias > 0:
-            # Ajustamos la altura en función de las coincidencias, hasta un máximo de 5 elementos visibles
-            height = min(num_coincidencias, 5)  # Por ejemplo, mostrar máximo 5 elementos
+            height = min(num_coincidencias, 5)
             self.coincidencias.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05 * height)
         else:
-            # Si no hay coincidencias, esconder la ListBox
             self.coincidencias.place_forget()
 
-        # Rellenar la ListBox con las coincidencias encontradas
         for alimento in self.match:
             self.coincidencias.insert(tk.END, alimento)
 
