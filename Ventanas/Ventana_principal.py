@@ -1,10 +1,13 @@
 import tkinter as tk 
+from tkinter import *
 from tkinter import font
 from tkinter import filedialog
 import datetime  as dt
 from colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
+from PIL import Image, ImageDraw, ImageTk
+
 
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
@@ -73,8 +76,26 @@ class Main(tk.Tk):
         archivo = filedialog.askopenfilename(filetypes=[("Imagen", "*.png .jpg .jpeg")])
         if archivo:
             print(f"Archivo seleccionado: {archivo}")
-            self.perfil = util_img.leer_imagen(archivo, (100, 100))
-        self.labelPerfil.config(image=self.perfil)
+            # Store the image file path in a class attribute
+            self.image_path = archivo
+            # Load the image using PIL
+            imagen_perfil = Image.open(archivo).resize((100, 100))
+            imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
+            self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)
+            self.labelPerfil.config(image=self.perfil)
+
+    def hacer_imagen_circular(self, imagen):
+        # Crear una máscara circular
+        mascarilla = Image.new("L", imagen.size, 0)
+        dibujar = ImageDraw.Draw(mascarilla)
+        dibujar.ellipse((0, 0, imagen.size[0], imagen.size[1]), fill=255)
+
+        # Aplicar la máscara a la imagen
+        imagen_circular = Image.new("RGBA", imagen.size)
+        imagen_circular.paste(imagen, (0, 0), mascarilla)
+
+        return imagen_circular
+
         
     def controles_barra_lateral(self):
         # Configuración del menu lateral
@@ -83,7 +104,7 @@ class Main(tk.Tk):
         font_awesome = font.Font(family='FontAwesome', size=15)
         
         self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
-        self.labelPerfil.pack(side=tk.TOP, pady=10)
+        self.labelPerfil.pack(side=tk.TOP, pady=5)
         self.btn_mas = tk.Button(self.menu_lateral, 
                          text="+", 
                          font=("Arial", 15), 
@@ -93,6 +114,7 @@ class Main(tk.Tk):
                          borderwidth=0,
                          command=self.seleccionar_archivo)
         self.btn_mas.place(x=130, y=90, width=20, height=20)
+  
         # Botoenes del menú lateral
         # Botoenes del menú lateral
         
@@ -161,7 +183,7 @@ class Main(tk.Tk):
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Historial(self.cuerpo_principal, '#404B4C')
+        Historial(self.cuerpo_principal, '404B4C')
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
