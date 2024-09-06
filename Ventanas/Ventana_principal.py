@@ -22,10 +22,10 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
-        self.perfil = util_img.leer_imagen("./img/sin_imagen.png", (100, 100))
         self.config_window()
         self.log_in()
         self.paneles()
+        self.perfil = self.cargar_imagen_guardada()
         self.controles_barra_superior()
         self.controles_barra_lateral()
         self.controles_cuerpo()
@@ -80,7 +80,7 @@ class Main(tk.Tk):
             # Cargar la imagen seleccionada usando PIL directamente
             imagen_perfil = Image.open(archivo).resize((100, 100))  # Asegúrate de que esto devuelve un objeto de tipo Image
             imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
-            self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)
+            self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)  # Asignar la imagen a self.perfil
             self.labelPerfil.config(image=self.perfil)
             with open("imagen_seleccionada.json", "w") as f:
                 json.dump({"ruta_imagen": archivo}, f)
@@ -92,23 +92,31 @@ class Main(tk.Tk):
                 ruta_imagen = data.get("ruta_imagen")
                 if ruta_imagen:
                     # Cargar y mostrar la imagen
-                    img = Image.open(ruta_imagen)
-                    img_tk = ImageTk.PhotoImage(img)
+                    img = Image.open(ruta_imagen).convert("RGBA")
+                    img = self.hacer_imagen_circular(img)
+                    img_tk = ImageTk.PhotoImage(img) # <--- Agregué format='PNG'
                     etiqueta_imagen = tk.Label(self.menu_lateral, image=img_tk)
                     etiqueta_imagen.image = img_tk
                     etiqueta_imagen.pack()
+
+                    self.perfil = img_tk  # Asignar la imagen a self.perfil
         except FileNotFoundError:
-            print("No hay imagen seleccionada previamente.")
+            print("no hay archivo seleccionado")
+            img_noperfil = util_img.leer_imagen("./img/sin_imagen.png", (100, 100))
+            etiqueta_imagen = tk.Label(self.menu_lateral, image=img_noperfil)
+            etiqueta_imagen.image = img_noperfil
+            etiqueta_imagen.pack()
+            self.perfil = img_noperfil
 
     def hacer_imagen_circular(self, imagen):
-        # Crear una máscara circular
-        mascarilla = Image.new("L", imagen.size, 0)
+    # Crear una máscara circular
+        mascarilla = Image.new("L", (120, 120), 0)  # Ajustar tamaño aquí
         dibujar = ImageDraw.Draw(mascarilla)
-        dibujar.ellipse((0, 0, imagen.size[0], imagen.size[1]), fill=255)
+        dibujar.ellipse((0, 0, 120, 120), fill=255)  # Ajustar tamaño aquí
 
         # Aplicar la máscara a la imagen
-        imagen_circular = Image.new("RGBA", imagen.size)
-        imagen_circular.paste(imagen, (0, 0), mascarilla)
+        imagen_circular = Image.new("RGBA", (120, 120))  # Ajustar tamaño aquí
+        imagen_circular.paste(imagen.resize((120, 120)), (0, 0), mascarilla)  # Ajustar tamaño aquí
 
         return imagen_circular
 
