@@ -1,6 +1,6 @@
 prueba 1
-28
+34
 Masculino
-480
-120
+53
+175
 Sedentario

@@ -1,6 +1,0 @@
-prueba 5
-34
-Masculino
-89
-170
-Sedentario

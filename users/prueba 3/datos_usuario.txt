@@ -1,6 +1,0 @@
-prueba 3
-28
-Masculino
-74
-180
-Sedentario

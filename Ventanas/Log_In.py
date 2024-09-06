@@ -110,6 +110,10 @@ class Log_in(ctk.CTkToplevel):
 
             self.crear_db(f"./users/{self.nombre_entry.get()}/alimentos.db")
 
+            with open('usuarios_registrados.txt', 'a') as users:
+                nombre = self.nombre_entry.get()
+                users.write(f'{nombre}\n')
+
             CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
                           icon='check',
                           option_1="Ok")

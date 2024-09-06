@@ -1,6 +1,6 @@
 prueba 2
-23
-Femenino
-56
-167
-Moderado
+58
+Masculino
+70
+180
+Sedentario
