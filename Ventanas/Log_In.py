@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import os
 from CTkMessagebox import CTkMessagebox
+import sqlite3
 
 class Log_in(ctk.CTkToplevel):
     def __init__(self, parent):
@@ -107,14 +108,41 @@ class Log_in(ctk.CTkToplevel):
                 nivel_actividad = self.lvl_actividad_combobox.get()
                 archivo_n.write(f'{nivel_actividad}\n')
 
+            self.crear_db(f"./users/{self.nombre_entry.get()}/alimentos.db")
+
             CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
                           icon='check',
                           option_1="Ok")
             
         except FileNotFoundError:
-            CTkMessagebox(title="Advertencia", message="Por favor, selecciona una fila para eliminar.",
+            CTkMessagebox(title="Advertencia", message="Error al registrarse.",
                           icon='warning', option_1="Ok")
 
     def limpiar_panel(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
+    
+    def crear_db(self, path):
+        conn = sqlite3.connect(path)
+
+        cursor = conn.cursor()
+
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS alimento (
+                    nombre TEXT NOT NULL,
+                    calorias_100gr INTEGER,
+                    calorias_porcion INTEGER
+                )
+                ''')
+
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS consumo_diario (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nombre TEXT NOT NULL,
+                    fecha TEXT NOT NULL,
+                    hora TEXT NOT NULL
+                )
+                ''')
+                
+        conn.commit()
+        conn.close()
