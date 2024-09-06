@@ -14,6 +14,7 @@ from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
 from Ventanas.Historial import Historial
 from Ventanas.Configuracion import Configuracion
+from Ventanas.Log_In import Log_in
 
 
 
