@@ -1,0 +1,6 @@
+prueba 1
+28
+Masculino
+480
+120
+Sedentario
