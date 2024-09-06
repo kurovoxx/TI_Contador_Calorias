@@ -7,7 +7,7 @@ from colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
 from PIL import Image, ImageDraw, ImageTk
-
+import json
 
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
@@ -27,6 +27,7 @@ class Main(tk.Tk):
         self.controles_barra_superior()
         self.controles_barra_lateral()
         self.controles_cuerpo()
+        
         
     def config_window(self):
         self.title('Contador de Calorias Pro 60Hz')
@@ -76,13 +77,28 @@ class Main(tk.Tk):
         archivo = filedialog.askopenfilename(filetypes=[("Imagen", "*.png .jpg .jpeg")])
         if archivo:
             print(f"Archivo seleccionado: {archivo}")
-            # Store the image file path in a class attribute
-            self.image_path = archivo
-            # Load the image using PIL
-            imagen_perfil = Image.open(archivo).resize((100, 100))
+            # Cargar la imagen seleccionada usando PIL directamente
+            imagen_perfil = Image.open(archivo).resize((100, 100))  # Asegúrate de que esto devuelve un objeto de tipo Image
             imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
             self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)
             self.labelPerfil.config(image=self.perfil)
+            with open("imagen_seleccionada.json", "w") as f:
+                json.dump({"ruta_imagen": archivo}, f)
+    
+    def cargar_imagen_guardada(self):
+        try:
+            with open("imagen_seleccionada.json", "r") as f:
+                data = json.load(f)
+                ruta_imagen = data.get("ruta_imagen")
+                if ruta_imagen:
+                    # Cargar y mostrar la imagen
+                    img = Image.open(ruta_imagen)
+                    img_tk = ImageTk.PhotoImage(img)
+                    etiqueta_imagen = tk.Label(self.menu_lateral, image=img_tk)
+                    etiqueta_imagen.image = img_tk
+                    etiqueta_imagen.pack()
+        except FileNotFoundError:
+            print("No hay imagen seleccionada previamente.")
 
     def hacer_imagen_circular(self, imagen):
         # Crear una máscara circular
@@ -104,7 +120,7 @@ class Main(tk.Tk):
         font_awesome = font.Font(family='FontAwesome', size=15)
         
         self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
-        self.labelPerfil.pack(side=tk.TOP, pady=5)
+        self.labelPerfil.pack(side=tk.TOP, pady=10)
         self.btn_mas = tk.Button(self.menu_lateral, 
                          text="+", 
                          font=("Arial", 15), 
@@ -183,7 +199,7 @@ class Main(tk.Tk):
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Historial(self.cuerpo_principal, '#404B4C')
+        Historial(self.cuerpo_principal, '404B4C')
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
