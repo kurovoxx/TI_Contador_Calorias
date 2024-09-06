@@ -3,6 +3,7 @@ import tkinter as tk
 import sqlite3
 from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
+from datetime import datetime
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
@@ -18,7 +19,7 @@ class Registro_Alimento(New_ventana):
 
         # ComboBox dinámico, será llenado desde la base de datos
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
-                                         values=self.cargar_alimentos(),  # Inicialmente vacío, lo llenaremos después
+                                         values=self.cargar_alimentos(),
                                          border_width=0, button_color="#26656D",
                                          button_hover_color="white", text_color="white")
         self.combo_box.place(relx=0.1, rely=0.3, relwidth=0.3, relheight=0.05)
@@ -48,7 +49,7 @@ class Registro_Alimento(New_ventana):
         # Botón "Registrar"
         
         self.boton_buscar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color="black", 
-                                          hover_color="#007bff", command=self.boton_registrar_click,font=("Arial", 20))
+                                          hover_color="#007bff", command=self.insert_alimento, font=("Arial", 20))
         self.boton_buscar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
         # Registro        
@@ -105,7 +106,6 @@ class Registro_Alimento(New_ventana):
         self.update_coincidencias()
         print('typed')
 
-
     def boton_registrar_click(self):
         # Obtener el alimento desde el ComboBox o desde el Entry
         alimento_seleccionado = self.combo_box.get()
@@ -155,3 +155,14 @@ class Registro_Alimento(New_ventana):
         conn.close()
         
         return resultado
+
+    def insert_alimento(self):
+        conn = sqlite3.connect('alimentos.db')
+        cursor = conn.cursor()
+        query = '''
+        INSERT INTO consumo_diario (fecha, nombre) VALUES (?, ?);
+        '''
+        cursor.execute(query, (datetime.now().strftime('%d-%m-%Y'), self.combo_box.get()))
+        conn.commit()
+        conn.close()
+        
