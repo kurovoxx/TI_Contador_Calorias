@@ -119,3 +119,12 @@ def leer_usuarios(filename='usuarios_registrados.txt'):
         # Manejar el caso en que el archivo no exista
         print(f"El archivo {filename} no existe.")
         return []
+
+
+'''
+from tkinter import ttk
+
+style = ttk.Style()
+style.configure('Treeview', font=('Arial', 12))
+style.configure('Treeview.Heading', font=('Arial', 12))
+'''
