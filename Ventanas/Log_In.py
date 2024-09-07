@@ -31,8 +31,14 @@ class Log_in(ctk.CTkToplevel):
         self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue')
         self.frame_iniciar.pack(fill='both', expand=True)
 
+        self.gen_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
+        self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
+        
+        self.users_combobox = ctk.CTkComboBox(self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer)
+        self.users_combobox.pack(padx=3, pady=(0, 2))
+
         self.btn_volver = ctk.CTkButton(self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login)
-        self.btn_volver.place(x=180, y=300)
+        self.btn_volver.place(x=180, y=550)
     
     def win_registrar(self):
         self.limpiar_panel()
@@ -45,6 +51,12 @@ class Log_in(ctk.CTkToplevel):
         
         self.nombre_entry = ctk.CTkEntry(self.frame_registrar, placeholder_text="Introduce tu nombre", width=250)
         self.nombre_entry.pack(padx=3, pady=(0, 2))
+
+        self.contra_label = ctk.CTkLabel(self.frame_registrar, text="Contraseña:")
+        self.contra_label.pack(anchor="w", padx=3, pady=3)
+        
+        self.contra_entry = ctk.CTkEntry(self.frame_registrar, width=250, show="*")
+        self.contra_entry.pack(padx=3, pady=(0, 2))
 
         self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Edad:")
         self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
@@ -88,6 +100,10 @@ class Log_in(ctk.CTkToplevel):
 
         os.makedirs(directorio, exist_ok=True)
 
+        self.crear_db(f"./users/{self.nombre_entry.get()}/alimentos.db")
+
+        self.insertar_usuario(self.nombre_entry.get(), self.contra_entry.get())
+
         try:
             with open(f"./users/{self.nombre_entry.get()}/datos_usuario.txt", "a") as archivo_n:
                 nombre = self.nombre_entry.get()
@@ -108,12 +124,10 @@ class Log_in(ctk.CTkToplevel):
                 nivel_actividad = self.lvl_actividad_combobox.get()
                 archivo_n.write(f'{nivel_actividad}\n')
 
-            self.crear_db(f"./users/{self.nombre_entry.get()}/alimentos.db")
-
             with open('usuarios_registrados.txt', 'a') as users:
                 nombre = self.nombre_entry.get()
                 users.write(f'{nombre}\n')
-
+            
             CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
                           icon='check',
                           option_1="Ok")
@@ -150,3 +164,112 @@ class Log_in(ctk.CTkToplevel):
                 
         conn.commit()
         conn.close()
+
+    def leer_usuarios(self, filename='usuarios_registrados.txt'):
+        try:
+            with open(filename, 'r') as file:
+                # Leer todas las líneas del archivo y eliminar los saltos de línea
+                usuarios = [linea.strip() for linea in file.readlines()]
+            return usuarios
+        except FileNotFoundError:
+            # Manejar el caso en que el archivo no exista
+            print(f"El archivo {filename} no existe.")
+            return []
+        
+    def insertar_usuario(self, nombre, contra):
+        try:
+            conn = sqlite3.connect('usuarios.db')
+            cursor = conn.cursor()
+
+            query = "INSERT INTO users (nombre, contra) VALUES (?, ?)"
+            cursor.execute(query, (nombre, contra))
+
+            conn.commit()
+
+            CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
+                          icon='check',
+                          option_1="Ok")
+
+        except sqlite3.IntegrityError:
+            CTkMessagebox(title="Advertencia", message="Nombre de usuario ocupado.",
+                          icon='warning', option_1="Ok")
+        
+        finally:
+            # Cerrar la conexión a la base de datos
+            conn.close()
+
+    def contra_aparecer(self, e):
+        self.contra_label = ctk.CTkLabel(self.frame_iniciar, text="Contraseña:")
+        self.contra_label.pack(anchor="w", padx=3, pady=3)
+        
+        self.contra_ingreso_entry = ctk.CTkEntry(self.frame_iniciar, width=250, show="*")
+        self.contra_ingreso_entry.pack(padx=3, pady=(0, 2))
+
+        self.guardar_button = ctk.CTkButton(self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250)
+        self.guardar_button.pack(pady=10)
+
+    def obtener_usuarios(self):
+        try:
+            # Conectar a la base de datos 'users.db'
+            conn = sqlite3.connect('usuarios.db')
+            cursor = conn.cursor()
+
+            # Ejecutar la consulta para obtener todos los nombres de usuario
+            query = "SELECT nombre FROM users"
+            cursor.execute(query)
+
+            # Recuperar todos los resultados de la consulta
+            usuarios = cursor.fetchall()
+
+            # Devolver la lista de nombres de usuario
+            # Extraemos solo el primer valor de cada fila (porque fetchall devuelve una lista de tuplas)
+            lista_usuarios = [usuario[0] for usuario in usuarios]
+            
+            return lista_usuarios
+
+        except sqlite3.Error as e:
+            print(f"Error al obtener los usuarios: {e}")
+            return []
+
+        finally:
+            # Cerrar la conexión a la base de datos
+            conn.close()
+
+    def verificar_contra(self):
+            usuario = self.users_combobox.get()
+            contra = self.contra_ingreso_entry.get()
+            try:
+                # Conectar a la base de datos 'users.db'
+                conn = sqlite3.connect('usuarios.db')
+                cursor = conn.cursor()
+
+                query = "SELECT contra FROM users WHERE nombre = ?"
+                cursor.execute(query, (usuario,))
+
+                resultado = cursor.fetchone()
+
+                if resultado:
+                    # La contraseña en la base de datos es el primer valor de la tupla 'resultado'
+                    contraseña_correcta = resultado[0]
+
+                    # Verificar si la contraseña ingresada coincide con la almacenada
+                    if contra == contraseña_correcta:
+                        CTkMessagebox(title="Exito", message=f"Ha iniciado sesión como {usuario}",
+                          icon='check',
+                          option_1="Ok")
+                        return True
+                    else:
+                        CTkMessagebox(title="Advertencia", message="Contraseña incorrecta.",
+                          icon='warning', option_1="Ok")
+                        return False
+                else:
+                    print("Error", "Usuario no encontrado.")
+                    return False
+
+            except sqlite3.Error as e:
+                print(f"Error al verificar la contraseña: {e}")
+                return False
+
+            finally:
+                conn.close()
+            pass
