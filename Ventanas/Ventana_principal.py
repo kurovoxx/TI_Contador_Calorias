@@ -8,6 +8,7 @@ import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
 from PIL import Image, ImageDraw, ImageTk
 import json
+import os
 
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
@@ -76,51 +77,48 @@ class Main(ctk.CTk):
             "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
 
+    def existe_archivo(ruta_archivo, valor_predeterminado=None):
+        if os.path.exists(ruta_archivo):
+            return ruta_archivo
+        else:
+            return valor_predeterminado
+
     def seleccionar_archivo(self):
         archivo = filedialog.askopenfilename(filetypes=[("Imagen", "*.png .jpg .jpeg")])
         if archivo:
             print(f"Archivo seleccionado: {archivo}")
-            # Cargar la imagen seleccionada usando PIL directamente
-            imagen_perfil = Image.open(archivo).resize((100, 100))  # Asegúrate de que esto devuelve un objeto de tipo Image
+            imagen_perfil = Image.open(archivo).resize((100, 100))
             imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
-            self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)  # Asignar la imagen a self.perfil
+            self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)
             self.labelPerfil.config(image=self.perfil)
-            with open("imagen_seleccionada.json", "w") as f:
-                json.dump({"ruta_imagen": archivo}, f)
+            self.guardar_ruta_imagen(archivo)
+    
+    def guardar_ruta_imagen(self, ruta):
+        with open("imagen_perfil.json", "w") as f:
+            json.dump({"ruta_imagen": ruta}, f)
     
     def cargar_imagen_guardada(self):
         try:
-            with open("imagen_seleccionada.json", "r") as f:
+            with open("imagen_perfil.json", "r") as f:
                 data = json.load(f)
                 ruta_imagen = data.get("ruta_imagen")
-                if ruta_imagen:
-                    # Cargar y mostrar la imagen
-                    img = Image.open(ruta_imagen).convert('RGBA')
-                    img = self.hacer_imagen_circular(img)
-                    img_tk = ImageTk.PhotoImage(img, format='PNG') # <--- Agregué format='PNG'
-                    etiqueta_imagen = tk.Label(self.menu_lateral, image=img_tk)
-                    etiqueta_imagen.image = img_tk
-                    etiqueta_imagen.pack()
+        except (FileNotFoundError, json.JSONDecodeError):
+            ruta_imagen = None
 
-                    self.perfil = img_tk  # Asignar la imagen a self.perfil
-        except FileNotFoundError:
-            print("no hay archivo seleccionado")
-            img_noperfil = util_img.leer_imagen("./img/sin_imagen.png", (100, 100))
-            etiqueta_imagen = tk.Label(self.menu_lateral, image=img_noperfil)
-            etiqueta_imagen.image = img_noperfil
-            etiqueta_imagen.pack()
+        if ruta_imagen and os.path.exists(ruta_imagen):
+            img = Image.open(ruta_imagen).resize((100, 100))
+        else:
+            img = Image.open("./img/sin_imagen.png").resize((100, 100)) # Asignar la imagen a self.perfil
         
-            self.perfil = img_noperfil  # Asignar la imagen a self.perfil
-
+        img_circular = self.hacer_imagen_circular(img)
+        return ImageTk.PhotoImage(img_circular)   
     def hacer_imagen_circular(self, imagen):
-    # Crear una máscara circular
-        mascarilla = Image.new("L", (120, 120), 0)  # Ajustar tamaño aquí
+        mascarilla = Image.new("L", (100, 100), 0)
         dibujar = ImageDraw.Draw(mascarilla)
-        dibujar.ellipse((0, 0, 120, 120), fill=255)  # Ajustar tamaño aquí
+        dibujar.ellipse((0, 0, 100, 100), fill=255)
 
-        # Aplicar la máscara a la imagen
-        imagen_circular = Image.new("RGBA", (120, 120))  # Ajustar tamaño aquí
-        imagen_circular.paste(imagen.resize((120, 120)), (0, 0), mascarilla)  # Ajustar tamaño aquí
+        imagen_circular = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
+        imagen_circular.paste(imagen, (0, 0), mascarilla)
 
         return imagen_circular
 
@@ -140,7 +138,7 @@ class Main(ctk.CTk):
                          relief="flat", 
                          borderwidth=0,
                          command=self.seleccionar_archivo)
-        self.btn_mas.place(x=130, y=90, width=20, height=20)
+        self.btn_mas.place(x=80, y=80, width=20, height=20)
   
         # Botones del menú lateral
         
