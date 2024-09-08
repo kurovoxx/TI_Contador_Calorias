@@ -1,7 +1,7 @@
 import tkinter as tk 
 from tkinter import *
-from tkinter import font
-from tkinter import filedialog
+from tkinter import font, filedialog
+import customtkinter as ctk
 from datetime import datetime
 from colores import *
 import util.util_ventana as util_ventana
@@ -23,6 +23,7 @@ class Main(tk.Tk):
         super().__init__()
         self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
         self.config_window()
+        #self.esperando_login()
         self.log_in()
         self.paneles()
         self.perfil = self.cargar_imagen_guardada()
@@ -223,3 +224,12 @@ class Main(tk.Tk):
     def abrir_panel_info(self):
         pass
  
+    def esperando_login(self):
+        self.frame_tapar = ctk.CTkFrame(self)
+        self.frame_tapar.pack(expand=True, fill='both')
+        image_path = "./img/logo1.png"
+        image_tapar = ctk.CTkImage(Image.open(image_path), size=(600, 600))
+        image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar)
+        image_label.place(x=0, y=0, relwidth=1, relheight=1)
+        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in)
+        btn_reabrir_login.place(x=600, y=300)
