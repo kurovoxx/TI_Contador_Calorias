@@ -230,9 +230,9 @@ class Main(ctk.CTk):
     def esperando_login(self):
         self.frame_tapar = ctk.CTkFrame(self, fg_color='black')
         self.frame_tapar.pack(expand=True, fill='both')
-        image_path = "./img/logo1.png"
-        image_tapar = ctk.CTkImage(Image.open(image_path), size=(600, 600))
+        image_path = "./img/banner.png"
+        image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
         image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar)
         image_label.place(x=0, y=0, relwidth=1, relheight=1)
-        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in)
-        btn_reabrir_login.place(x=600, y=300)
+        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in, width=150, height=75, corner_radius=0)
+        btn_reabrir_login.place(x=430, y=450)
