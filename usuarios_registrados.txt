@@ -1,4 +1,0 @@
-prueba 1
-prueba 2
-nose
-pedrito

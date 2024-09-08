@@ -30,7 +30,6 @@ class Main(tk.Tk):
         self.controles_barra_lateral()
         self.controles_cuerpo()
         
-        
     def config_window(self):
         self.title('Contador de Calorias Pro 60Hz')
         self.iconbitmap("./img/logo2.ico")
@@ -108,6 +107,7 @@ class Main(tk.Tk):
             etiqueta_imagen.pack()
         
             self.perfil = img_noperfil  # Asignar la imagen a self.perfil
+
     def hacer_imagen_circular(self, imagen):
     # Crear una máscara circular
         mascarilla = Image.new("L", (120, 120), 0)  # Ajustar tamaño aquí
@@ -120,7 +120,6 @@ class Main(tk.Tk):
 
         return imagen_circular
 
-        
     def controles_barra_lateral(self):
         # Configuración del menu lateral
         ancho_menu = 20
@@ -139,8 +138,7 @@ class Main(tk.Tk):
                          command=self.seleccionar_archivo)
         self.btn_mas.place(x=130, y=90, width=20, height=20)
   
-        # Botoenes del menú lateral
-        # Botoenes del menú lateral
+        # Botones del menú lateral
         
         self.btn_registro = tk.Button(self.menu_lateral)
         self.btn_agregar = tk.Button(self.menu_lateral)
@@ -157,8 +155,7 @@ class Main(tk.Tk):
         ]
         
         for text, icon, button, comando in buttons_info:
-            self.configurar_boton_menu(button, text, icon, font_awesome, ancho_menu, alto_menu, comando)
-    
+            self.configurar_boton_menu(button, text, icon, font_awesome, ancho_menu, alto_menu, comando)  
 
     def controles_cuerpo(self):
         # Imagen en el cuerpo principal
@@ -215,7 +212,7 @@ class Main(tk.Tk):
 
     def log_in(self):
         Log_in(self)
-    
+
     def abrir_panel_en_construccion(self):
         print('Nada por aquí...')
 

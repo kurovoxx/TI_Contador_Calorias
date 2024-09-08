@@ -11,6 +11,7 @@ class Log_in(ctk.CTkToplevel):
         self.resizable(False, False)
         self.main_frame = ctk.CTkFrame(self)
         self.main_frame.pack(fill='both', expand=True)
+        self.limpiar_usuario()
         self.add_widget_login()
 
     def add_widget_login(self):
@@ -31,8 +32,8 @@ class Log_in(ctk.CTkToplevel):
         self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue')
         self.frame_iniciar.pack(fill='both', expand=True)
 
-        self.gen_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
-        self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
+        self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
+        self.users_label.pack(anchor="w", padx=3, pady=(2, 0))
         
         self.users_combobox = ctk.CTkComboBox(self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer)
         self.users_combobox.pack(padx=3, pady=(0, 2))
@@ -115,18 +116,15 @@ class Log_in(ctk.CTkToplevel):
                 sexo = self.gen_combobox.get()
                 archivo_n.write(f'{sexo}\n')
 
-                peso = self.peso_entry.get()
-                archivo_n.write(f'{peso}\n')
-
                 altura = self.altura_entry.get()
                 archivo_n.write(f'{altura}\n')
 
                 nivel_actividad = self.lvl_actividad_combobox.get()
                 archivo_n.write(f'{nivel_actividad}\n')
 
-            with open('usuarios_registrados.txt', 'a') as users:
+            with open('usuario_actual.txt', 'w') as users:
                 nombre = self.nombre_entry.get()
-                users.write(f'{nombre}\n')
+                users.write(f'{nombre}')
             
             CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
                           icon='check',
@@ -171,19 +169,8 @@ class Log_in(ctk.CTkToplevel):
                 
         conn.commit()
         conn.close()
-
-    def leer_usuarios(self, filename='usuarios_registrados.txt'):
-        try:
-            with open(filename, 'r') as file:
-                # Leer todas las líneas del archivo y eliminar los saltos de línea
-                usuarios = [linea.strip() for linea in file.readlines()]
-            return usuarios
-        except FileNotFoundError:
-            # Manejar el caso en que el archivo no exista
-            print(f"El archivo {filename} no existe.")
-            return []
         
-    def insertar_usuario(self, nombre, contra):
+    def insertar_usuario(self, nombre: str, contra: str):
         try:
             conn = sqlite3.connect('usuarios.db')
             cursor = conn.cursor()
@@ -280,3 +267,7 @@ class Log_in(ctk.CTkToplevel):
             finally:
                 conn.close()
             pass
+    
+    def limpiar_usuario(self):
+        with open('usuario_actual.txt', 'w') as users:
+                users.write('')
