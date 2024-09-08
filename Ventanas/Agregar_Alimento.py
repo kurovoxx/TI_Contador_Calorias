@@ -1,10 +1,10 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
-import sqlite3 # Importamos el módulo sqlite3 para interactuar con la base de datos
+import sqlite3 
 from tkinter import font
 import os
-from PIL import Image
+from PIL import Image, ImageTk
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
 import tkinter as tk
@@ -21,6 +21,26 @@ class Agregar_Alimento(New_ventana):
         self.cursor = self.conn.cursor()
 
     def add_widget_agregar(self):
+
+        self.canvas = tk.Canvas(self.sub, width=800, height=600)
+        self.canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Mostrar imagen con PIL
+        self.img_alimento = Image.open("./img/a_alimento.png")
+        self.img_alimento = self.img_alimento.resize((800, 600), Image.Resampling.LANCZOS)
+        self.img_alimento_tk = ImageTk.PhotoImage(self.img_alimento)
+
+        # Muestra imagen en el canvas
+        self.canvas.create_image(0, 0, anchor="nw", image=self.img_alimento_tk)
+
+        # Label "agregar" de alimentos
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("FuturaNo2", 20), text="Agregar Alimentos", text_color="white", bg_color="black")
+        self.label_agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)
+
+        # Se crea el Entry "agregar alimento"
+        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black", border_width=0, fg_color="white", text_color="black")
+        self.agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.1)
+
         # Label "agregar" de alimentos
         self.label_agregar = ctk.CTkLabel(self.sub,font=("FuturaNo2", 20), text="Agregar Alimentos", text_color="white", bg_color="black")
         self.label_agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)

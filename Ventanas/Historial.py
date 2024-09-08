@@ -20,6 +20,17 @@ class Historial(New_ventana):
         self.cursor = self.conn.cursor()
 
     def add_widget_historial(self):
+        self.canvas = tk.Canvas(self.sub, width=800, height=600)
+        self.canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Mostrar imagen con PIL
+        self.img_historial = Image.open("./img/historial.png")
+        self.img_historial = self.img_historial.resize((800, 600), Image.Resampling.LANCZOS)
+        self.img_historial_tk = ImageTk.PhotoImage(self.img_historial)
+
+        # Muestra imagen en el canvas
+        self.canvas.create_image(0, 0, anchor="nw", image=self.img_historial_tk)
+        
         """Añade los widgets a la ventana"""
         self.perfil_treeview = ctk.CTkFrame(self.sub, width=300)
         self.perfil_treeview.pack(padx=20, pady=10, anchor="center")

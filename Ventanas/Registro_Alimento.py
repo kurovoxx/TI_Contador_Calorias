@@ -2,6 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 import sqlite3
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
 
@@ -13,6 +14,16 @@ class Registro_Alimento(New_ventana):
         self.update_coincidencias()
 
     def add_widget_registro(self):
+        self.canvas = tk.Canvas(self.sub, width=800, height=600)
+        self.canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Mostrar imagen con PIL
+        self.img_r_alimento = Image.open("./img/r_alimento.png")
+        self.img_r_alimento = self.img_r_alimento.resize((800, 600), Image.Resampling.LANCZOS)
+        self.img_r_alimento_tk = ImageTk.PhotoImage(self.img_r_alimento)
+
+        # Muestra imagen en el canvas
+        self.canvas.create_image(0, 0, anchor="nw", image=self.img_r_alimento_tk)
         # Label "Agregar alimento"
         self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color="black",font=("Arial", 20))
         self.label_agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.05)

@@ -1,6 +1,9 @@
 import customtkinter as ctk
+import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from Ventanas.Ventana_interfaz import New_ventana
+
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
@@ -9,7 +12,22 @@ class Configuracion(New_ventana):
         self.contruirWidget()
 
     def add_widget_config(self):
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=300)
+        self.canvas = tk.Canvas(self.sub, width=800, height=600)
+        self.canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Mostrar imagen con PIL
+        self.img_config = Image.open("./img/config.png")
+        self.img_config = self.img_config.resize((800, 600), Image.Resampling.LANCZOS)
+        self.img_config_tk = ImageTk.PhotoImage(self.img_config)
+
+        # Muestra imagen en el canvas
+        self.canvas.create_image(0, 0, anchor="nw", image=self.img_config_tk)
+        
+        #Titulo para el modulo configuración :)
+        self.title_label = ctk.CTkLabel(self.sub, text="Actualizar informacion Usuario",text_color="white",font=("Arial", 27), bg_color="#27282d")
+        self.title_label.pack(padx=20, pady=5, anchor="w")
+        
+        self.perfil_frame = ctk.CTkScrollableFrame(self.sub, width=300)
         self.perfil_frame.pack(padx=20, pady=10, anchor="w")
 
         self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
@@ -54,7 +72,7 @@ class Configuracion(New_ventana):
         self.lvl_actividad_combobox = ctk.CTkComboBox(self.perfil_frame, values=["Sedentario", "Ligero", "Moderado", "Intenso"], width=250)
         self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
 
-        self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Guardar", command=self.guardar, width=250)
+        self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Actualizar información", command=self.guardar, width=250)
         self.guardar_button.pack(pady=5)
         
     def guardar(self):

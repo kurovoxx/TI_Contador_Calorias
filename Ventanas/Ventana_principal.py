@@ -21,14 +21,14 @@ from Ventanas.Log_In import Log_in
 class Main(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
+        self.logo = util_img.leer_imagen("./img/banner.png", (800, 600))
         self.config_window()
         self.esperando_login()
         self.log_in()
         
     def config_window(self):
         self.title('Contador de Calorias Pro 60Hz')
-        self.iconbitmap("./img/logo2.ico")
+        self.iconbitmap("./img/logo.ico")
         w, h = 1024, 600
         util_ventana.centrar_ventana(self, w, h)
 
@@ -231,8 +231,8 @@ class Main(ctk.CTk):
         self.frame_tapar = ctk.CTkFrame(self, fg_color='black')
         self.frame_tapar.pack(expand=True, fill='both')
         image_path = "./img/logo1.png"
-        image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
-        image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar, text='')
-        image_label.place(x=0, y=0)
-        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in, width=150, height=75)
-        btn_reabrir_login.place(x=400, y=300)
+        image_tapar = ctk.CTkImage(Image.open(image_path), size=(600, 600))
+        image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar)
+        image_label.place(x=0, y=0, relwidth=1, relheight=1)
+        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in)
+        btn_reabrir_login.place(x=600, y=300)
