@@ -161,6 +161,13 @@ class Log_in(ctk.CTkToplevel):
                     hora TEXT NOT NULL
                 )
                 ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS peso (
+                    fecha TEXT PRIMARY KEY,
+                    peso REAL
+                )
+                ''')
                 
         conn.commit()
         conn.close()
