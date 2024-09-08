@@ -1,6 +1,9 @@
 import customtkinter as ctk
+import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from Ventanas.Ventana_interfaz import New_ventana
+
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
@@ -9,6 +12,17 @@ class Configuracion(New_ventana):
         self.contruirWidget()
 
     def add_widget_config(self):
+        self.canvas = tk.Canvas(self.sub, width=800, height=600)
+        self.canvas.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Mostrar imagen con PIL
+        self.img_config = Image.open("./img/config.png")
+        self.img_config = self.img_config.resize((800, 600), Image.Resampling.LANCZOS)
+        self.img_config_tk = ImageTk.PhotoImage(self.img_config)
+
+        # Muestra imagen en el canvas
+        self.canvas.create_image(0, 0, anchor="nw", image=self.img_config_tk)
+        
         self.perfil_frame = ctk.CTkFrame(self.sub, width=300)
         self.perfil_frame.pack(padx=20, pady=10, anchor="w")
 
