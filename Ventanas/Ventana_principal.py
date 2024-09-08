@@ -21,7 +21,7 @@ from Ventanas.Log_In import Log_in
 class Main(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.logo = util_img.leer_imagen("./img/logo1.png", (800, 800))
+        self.logo = util_img.leer_imagen("./img/banner.png", (800, 600))
         self.config_window()
         #self.esperando_login()
         self.log_in()
@@ -33,7 +33,7 @@ class Main(tk.Tk):
         
     def config_window(self):
         self.title('Contador de Calorias Pro 60Hz')
-        self.iconbitmap("./img/logo2.ico")
+        self.iconbitmap("./img/logo.ico")
         w, h = 1024, 600
         util_ventana.centrar_ventana(self, w, h)
 
