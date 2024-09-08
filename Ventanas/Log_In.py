@@ -6,6 +6,7 @@ import sqlite3
 class Log_in(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
+        self.parent = parent
         self.geometry('500x600')
         self.title('Log In')
         self.resizable(False, False)
@@ -251,18 +252,16 @@ class Log_in(ctk.CTkToplevel):
                         CTkMessagebox(title="Exito", message=f"Ha iniciado sesión como {usuario}",
                           icon='check',
                           option_1="Ok")
-                        return True
+                        self.destroy()
+                        self.parent.cargar_main()
                     else:
                         CTkMessagebox(title="Advertencia", message="Contraseña incorrecta.",
                           icon='warning', option_1="Ok")
-                        return False
                 else:
                     print("Error", "Usuario no encontrado.")
-                    return False
 
             except sqlite3.Error as e:
                 print(f"Error al verificar la contraseña: {e}")
-                return False
 
             finally:
                 conn.close()
@@ -271,3 +270,4 @@ class Log_in(ctk.CTkToplevel):
     def limpiar_usuario(self):
         with open('usuario_actual.txt', 'w') as users:
                 users.write('')
+                
