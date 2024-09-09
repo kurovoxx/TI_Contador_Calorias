@@ -77,7 +77,7 @@ class Main(ctk.CTk):
             "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
 
-    def existe_archivo(ruta_archivo, valor_predeterminado=None):
+    def existe_archivo(self, ruta_archivo, valor_predeterminado=None):
         if os.path.exists(ruta_archivo):
             return ruta_archivo
         else:
@@ -111,7 +111,8 @@ class Main(ctk.CTk):
             img = Image.open("./img/sin_imagen.png").resize((100, 100)) # Asignar la imagen a self.perfil
         
         img_circular = self.hacer_imagen_circular(img)
-        return ImageTk.PhotoImage(img_circular)   
+        return ImageTk.PhotoImage(img_circular)  
+     
     def hacer_imagen_circular(self, imagen):
         mascarilla = Image.new("L", (100, 100), 0)
         dibujar = ImageDraw.Draw(mascarilla)
@@ -140,24 +141,37 @@ class Main(ctk.CTk):
                          command=self.seleccionar_archivo)
         self.btn_mas.place(x=80, y=80, width=20, height=20)
   
+        # Lista de íconos
+
+        self.iconos = util_img.cargar_imagenes_para_ctkbutton(carpeta='./img/icon_img')
+
         # Botones del menú lateral
-        
-        self.btn_registro = tk.Button(self.menu_lateral)
-        self.btn_agregar = tk.Button(self.menu_lateral)
-        self.btn_grafico = tk.Button(self.menu_lateral)
-        self.btn_historial = tk.Button(self.menu_lateral)
-        self.btn_en_contruccion = tk.Button(self.menu_lateral)
-        
-        buttons_info = [
-            ("Registrar Alimento", "\uf109", self.btn_registro, self.abrir_registro_alimento),
-            ("Agregar Alimento", "\uf007", self.btn_agregar, self.abrir_agregar_alimento),
-            ("Gráfico", "\uf03e", self.btn_grafico, self.abrir_grafico),
-            ("Historial", "\uf129", self.btn_historial, self.abrir_historial),
-            ("Settings", "\uf013", self.btn_en_contruccion, self.abrir_configuracion)
-        ]
-        
-        for text, icon, button, comando in buttons_info:
-            self.configurar_boton_menu(button, text, icon, font_awesome, ancho_menu, alto_menu, comando)  
+
+        self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
+                                          width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                          command=self.abrir_registro_alimento)
+        self.btn_registro.pack(side=ctk.TOP)
+
+        self.btn_agregar = ctk.CTkButton(self.menu_lateral, text="Agregar Alimento", image=self.iconos[0], compound='left',
+                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         command=self.abrir_agregar_alimento)
+        self.btn_agregar.pack(side=ctk.TOP)
+
+        self.btn_grafico = ctk.CTkButton(self.menu_lateral, text="Gráfico", image=self.iconos[1], compound='left',
+                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         command=self.abrir_grafico)
+        self.btn_grafico.pack(side=ctk.TOP)
+
+        self.btn_historial = ctk.CTkButton(self.menu_lateral, text="Historial", image=self.iconos[2], compound='left',
+                                           width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                           command=self.abrir_historial)
+        self.btn_historial.pack(side=ctk.TOP)
+
+        self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[4], compound='left',
+                                            width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                            command=self.abrir_configuracion)
+        self.btn_en_contruccion.pack(side=ctk.TOP)
+
 
     def controles_cuerpo(self):
         # Imagen en el cuerpo principal

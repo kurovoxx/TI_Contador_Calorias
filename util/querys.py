@@ -128,3 +128,20 @@ style = ttk.Style()
 style.configure('Treeview', font=('Arial', 12))
 style.configure('Treeview.Heading', font=('Arial', 12))
 '''
+
+self.btn_registro = tk.Button(self.menu_lateral)
+self.btn_agregar = tk.Button(self.menu_lateral)
+self.btn_grafico = tk.Button(self.menu_lateral)
+self.btn_historial = tk.Button(self.menu_lateral)
+self.btn_en_contruccion = tk.Button(self.menu_lateral)
+        
+buttons_info = [
+            ("Registrar Alimento", "\uf109", self.btn_registro, self.abrir_registro_alimento),
+            ("Agregar Alimento", "\uf007", self.btn_agregar, self.abrir_agregar_alimento),
+            ("Gráfico", "\uf03e", self.btn_grafico, self.abrir_grafico),
+            ("Historial", "\uf129", self.btn_historial, self.abrir_historial),
+            ("Settings", "\uf013", self.btn_en_contruccion, self.abrir_configuracion)
+        ]
+        
+for text, icon, button, comando in buttons_info:
+            self.configurar_boton_menu(button, text, icon, font_awesome, ancho_menu, alto_menu, comando)  
