@@ -1,6 +1,0 @@
-prueba 1
-34
-Masculino
-53
-175
-Sedentario

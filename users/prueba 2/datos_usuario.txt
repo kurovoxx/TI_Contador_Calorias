@@ -1,6 +1,0 @@
-prueba 2
-58
-Masculino
-70
-180
-Sedentario

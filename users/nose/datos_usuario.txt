@@ -1,6 +1,0 @@
-nose
-35
-Masculino
-197
-197
-Sedentario

@@ -148,7 +148,8 @@ class Log_in(ctk.CTkToplevel):
                 CREATE TABLE IF NOT EXISTS alimento (
                     nombre TEXT NOT NULL,
                     calorias_100gr INTEGER,
-                    calorias_porcion INTEGER
+                    calorias_porcion INTEGER,
+                    cantidad INTEGER NOT NULL
                 )
                 ''')
 
