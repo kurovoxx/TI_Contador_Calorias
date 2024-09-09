@@ -145,7 +145,7 @@ class Main(ctk.CTk):
   
         # Lista de íconos
 
-        self.iconos = util_img.cargar_imagenes_para_ctkbutton(carpeta='./img/icon_img')
+        self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
         # Botones del menú lateral
 
