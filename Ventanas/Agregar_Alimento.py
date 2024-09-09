@@ -5,7 +5,6 @@ import sqlite3
 from tkinter import font
 import os
 from PIL import Image, ImageTk
-import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
 import tkinter as tk
 
@@ -14,11 +13,6 @@ class Agregar_Alimento(New_ventana):
         super().__init__(panel_principal, color)
         self.conectar_base_datos()  # Conectar a la base de datos al iniciar
         self.add_widget_agregar()
-        self.print_user()
-
-    def print_user(self):
-        for i in range(200):
-            print(self.usuario)
 
     def conectar_base_datos(self):
         """Conecta a la base de datos SQLite."""
