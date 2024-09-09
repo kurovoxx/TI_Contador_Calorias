@@ -130,6 +130,7 @@ class Log_in(ctk.CTkToplevel):
             CTkMessagebox(title="Exito", message="Se ha registrado correctamente",
                           icon='check',
                           option_1="Ok")
+            self.win_iniciar()
             
         except FileNotFoundError:
             CTkMessagebox(title="Advertencia", message="Error al registrarse.",
@@ -195,6 +196,12 @@ class Log_in(ctk.CTkToplevel):
             conn.close()
 
     def contra_aparecer(self, e):
+        try:
+            self.contra_label.destroy()
+            self.contra_ingreso_entry.destroy()
+            self.guardar_button.destroy()
+        except:
+            pass
         self.contra_label = ctk.CTkLabel(self.frame_iniciar, text="Contraseña:")
         self.contra_label.pack(anchor="w", padx=3, pady=3)
         
