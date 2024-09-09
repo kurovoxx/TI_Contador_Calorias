@@ -19,45 +19,51 @@ class Log_in(ctk.CTkToplevel):
     def add_widget_login(self):
         self.limpiar_panel()
 
-        self.frame = ctk.CTkFrame(self.main_frame, fg_color='red')
+        self.geometry('500x350')
+
+        self.frame = ctk.CTkFrame(self.main_frame, fg_color='red', corner_radius=0)
         self.frame.pack(fill='both', expand=True)
 
         self.btn_iniciar = ctk.CTkButton(
-            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar)
+            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0)
         self.btn_iniciar.place(x=170, y=100)
 
         self.btn_registrarse = ctk.CTkButton(
-            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar)
+            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0)
         self.btn_registrarse.place(x=170, y=180)
 
     def win_iniciar(self):
         self.limpiar_panel()
 
-        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue')
+        self.geometry('500x350')
+
+        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue', corner_radius=0)
         self.frame_iniciar.pack(fill='both', expand=True)
 
         self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
-        self.users_label.pack(anchor="w", padx=3, pady=(2, 0))
+        self.users_label.pack(anchor="w", padx=3, pady=(25, 0))
 
         self.users_combobox = ctk.CTkComboBox(
-            self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer)
+            self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer, corner_radius=0)
         self.users_combobox.pack(padx=3, pady=(0, 2))
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login)
-        self.btn_volver.place(x=180, y=550)
+            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
+        self.btn_volver.place(x=180, y=300)
 
     def win_registrar(self):
         self.limpiar_panel()
 
-        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='yellow')
+        self.geometry('500x600')
+
+        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='yellow', corner_radius=0)
         self.frame_registrar.pack(fill='both', expand=True)
 
         self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre:")
         self.nombre_label.pack(anchor="w", padx=3, pady=3)
 
         self.nombre_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu nombre", width=250)
+            self.frame_registrar, placeholder_text="Introduce tu nombre", width=250, corner_radius=0)
         self.nombre_entry.pack(padx=3, pady=(0, 2))
 
         self.contra_label = ctk.CTkLabel(
@@ -65,28 +71,28 @@ class Log_in(ctk.CTkToplevel):
         self.contra_label.pack(anchor="w", padx=3, pady=3)
 
         self.contra_entry = ctk.CTkEntry(
-            self.frame_registrar, width=250, show="*")
+            self.frame_registrar, width=250, show="*", corner_radius=0)
         self.contra_entry.pack(padx=3, pady=(0, 2))
 
         self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Edad:")
         self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.edad_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu edad", width=250)
+            self.frame_registrar, placeholder_text="Introduce tu edad", width=250, corner_radius=0)
         self.edad_entry.pack(padx=3, pady=(0, 2))
 
         self.gen_label = ctk.CTkLabel(self.frame_registrar, text="Sexo:")
         self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.gen_combobox = ctk.CTkComboBox(self.frame_registrar, values=[
-                                            "Masculino", "Femenino", "Otro"], width=250)
+                                            "Masculino", "Femenino", "Otro"], width=250, corner_radius=0)
         self.gen_combobox.pack(padx=3, pady=(0, 2))
 
         self.peso_label = ctk.CTkLabel(self.frame_registrar, text="Peso (kg):")
         self.peso_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.peso_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu peso", width=250)
+            self.frame_registrar, placeholder_text="Introduce tu peso", width=250, corner_radius=0)
         self.peso_entry.pack(padx=3, pady=(0, 2))
 
         self.altura_label = ctk.CTkLabel(
@@ -94,7 +100,7 @@ class Log_in(ctk.CTkToplevel):
         self.altura_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.altura_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu altura", width=250)
+            self.frame_registrar, placeholder_text="Introduce tu altura", width=250, corner_radius=0)
         self.altura_entry.pack(padx=3, pady=(0, 2))
 
         self.lvl_actividad_label = ctk.CTkLabel(
@@ -102,15 +108,15 @@ class Log_in(ctk.CTkToplevel):
         self.lvl_actividad_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.lvl_actividad_combobox = ctk.CTkComboBox(self.frame_registrar, values=[
-                                                      "Sedentario", "Ligero", "Moderado", "Intenso"], width=250)
+                                                      "Sedentario", "Ligero", "Moderado", "Intenso"], width=250, corner_radius=0)
         self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_registrar, text="Guardar", command=self.guardar, width=250)
+            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0)
         self.guardar_button.pack(pady=10)
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login)
+            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
         self.btn_volver.pack(pady=10)
 
     def guardar(self):
@@ -223,12 +229,12 @@ class Log_in(ctk.CTkToplevel):
         self.contra_label.pack(anchor="w", padx=3, pady=3)
 
         self.contra_ingreso_entry = ctk.CTkEntry(
-            self.frame_iniciar, width=250, show="*")
+            self.frame_iniciar, width=250, show="*", corner_radius=0)
         self.contra_ingreso_entry.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250)
-        self.guardar_button.pack(pady=10)
+            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0)
+        self.guardar_button.pack(pady=30)
 
     def obtener_usuarios(self):
         try:
