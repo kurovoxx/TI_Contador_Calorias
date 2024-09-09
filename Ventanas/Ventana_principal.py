@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import font, filedialog
 import customtkinter as ctk
 from datetime import datetime
-from colores import *
+from util.colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
 from PIL import Image, ImageDraw, ImageTk

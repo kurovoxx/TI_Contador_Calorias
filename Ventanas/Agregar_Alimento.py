@@ -3,7 +3,6 @@ from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3 
 from tkinter import font
-import os
 from PIL import Image, ImageTk
 import util.util_imagenes as util_img
 import tkinter as tk

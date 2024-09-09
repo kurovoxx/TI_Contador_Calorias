@@ -16,7 +16,7 @@ class Historial(New_ventana):
 
     def conectar_base_datos(self):
         """Conecta a la base de datos SQLite."""
-        self.conn = sqlite3.connect('alimentos.db')
+        self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         self.cursor = self.conn.cursor()
 
     def add_widget_historial(self):
@@ -47,13 +47,13 @@ class Historial(New_ventana):
             SELECT nombre, 
                 CASE 
                     WHEN calorias_porcion IS NOT NULL THEN 'Porción'
-                    ELSE '100g'
+                    ELSE '100gr'
                 END AS tipo_caloria,
                 CASE 
                     WHEN calorias_porcion IS NOT NULL THEN calorias_porcion
-                    ELSE calorias_100g
+                    ELSE calorias_100gr
                 END AS total_calorias
-            FROM alimentos
+            FROM alimento
         """)
         
         tiempo = dt.datetime.now()
@@ -74,15 +74,15 @@ class Historial(New_ventana):
             SELECT a.nombre,
                 CASE 
                     WHEN a.calorias_porcion IS NOT NULL THEN 'Porción'
-                    ELSE '100g'
+                    ELSE '100gr'
                 END AS tipo_caloria,
                 CASE 
                     WHEN a.calorias_porcion IS NOT NULL THEN a.calorias_porcion
-                    ELSE a.calorias_100g
+                    ELSE a.calorias_100gr
                 END AS total_calorias,
                 TIME(c.fecha) AS hora
             FROM consumo_diario c
-            JOIN alimentos a ON c.nombre = a.nombre
+            JOIN alimento a ON c.nombre = a.nombre
             WHERE strftime('%Y-%m-%d', substr(c.fecha, 7, 4) || '-' || substr(c.fecha, 4, 2) || '-' || substr(c.fecha, 1, 2)) = ?
         """, (fecha_str,))
         
