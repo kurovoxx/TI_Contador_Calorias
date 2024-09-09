@@ -95,10 +95,12 @@ class Main(ctk.CTk):
     
     def guardar_ruta_imagen(self, ruta):
         with open("imagen_perfil.json", "w") as f:
-            json.dump({"ruta_imagen": ruta}, f)
+        #ruta_imagen = os.path.join('./users', self.usuario_actual, 'imagen_perfil.json')
+         json.dump({"ruta_imagen": ruta},f)
     
     def cargar_imagen_guardada(self):
         try:
+            #with open(f'./users/{self.usuario_actual}/imagen_perfil.json', 'r') as f:
             with open("imagen_perfil.json", "r") as f:
                 data = json.load(f)
                 ruta_imagen = data.get("ruta_imagen")
@@ -139,7 +141,7 @@ class Main(ctk.CTk):
                          relief="flat", 
                          borderwidth=0,
                          command=self.seleccionar_archivo)
-        self.btn_mas.place(x=80, y=80, width=20, height=20)
+        self.btn_mas.place(x=170, y=90, width=20, height=20)
   
         # Lista de íconos
 
