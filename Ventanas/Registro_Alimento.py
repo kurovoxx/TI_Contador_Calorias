@@ -72,10 +72,10 @@ class Registro_Alimento(New_ventana):
         self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.35)
 
     def cargar_alimentos(self):
-        conn = sqlite3.connect('alimentos.db')
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
 
-        cursor.execute("SELECT nombre FROM alimentos")
+        cursor.execute("SELECT nombre FROM alimento")
         alimentos = cursor.fetchall()
 
         # Cargar los alimentos en el ComboBox
@@ -155,10 +155,10 @@ class Registro_Alimento(New_ventana):
             print("Alimento no encontrado en la base de datos.")
 
     def buscar_alimento_en_db(self, nombre_alimento):
-        conn = sqlite3.connect('alimentos.db')
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
         
-        query = "SELECT nombre, calorias_100g, calorias_porcion FROM alimentos WHERE nombre = ?"
+        query = "SELECT nombre, calorias_100gr, calorias_porcion FROM alimento WHERE nombre = ?"
         cursor.execute(query, (nombre_alimento,))
         
         resultado = cursor.fetchone()
@@ -168,7 +168,7 @@ class Registro_Alimento(New_ventana):
         return resultado
 
     def insert_alimento(self):
-        conn = sqlite3.connect('alimentos.db')
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
         query = '''
         INSERT INTO consumo_diario (fecha, nombre) VALUES (?, ?);

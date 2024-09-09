@@ -14,10 +14,15 @@ class Agregar_Alimento(New_ventana):
         super().__init__(panel_principal, color)
         self.conectar_base_datos()  # Conectar a la base de datos al iniciar
         self.add_widget_agregar()
+        self.print_user()
+
+    def print_user(self):
+        for i in range(200):
+            print(self.usuario)
 
     def conectar_base_datos(self):
         """Conecta a la base de datos SQLite."""
-        self.conn = sqlite3.connect('alimentos.db')  # Conectar a la base de datos
+        self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")  # Conectar a la base de datos
         self.cursor = self.conn.cursor()
 
     def add_widget_agregar(self):
@@ -118,7 +123,7 @@ class Agregar_Alimento(New_ventana):
             return
 
         # Verificar si el alimento ya existe en la base de datos
-        self.cursor.execute("SELECT * FROM alimentos WHERE nombre = ?", (nombre_alimento,))
+        self.cursor.execute("SELECT * FROM alimento WHERE nombre = ?", (nombre_alimento,))
         resultado = self.cursor.fetchone()
 
         if resultado:
@@ -133,7 +138,7 @@ class Agregar_Alimento(New_ventana):
 
             # Insertar el alimento en la base de datos con las calorías correspondientes
             self.cursor.execute(
-                "INSERT INTO alimentos (nombre, calorias_100g, calorias_porcion) VALUES (?, ?, ?)",
+                "INSERT INTO alimento (nombre, calorias_100gr, calorias_porcion) VALUES (?, ?, ?)",
                 (nombre_alimento, calorias_100g, calorias_porcion)
             )
             self.conn.commit()  # Guardar cambios en la base de datos
