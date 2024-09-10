@@ -146,4 +146,3 @@ class Agregar_Alimento(New_ventana):
     def seleccion(self): # Esta función verifica si el mensaje predeterminado está seleccionado o no para limpiarlo al seleccionar una opción
         if self.combo_box.get() == "Seleccionar cantidad de alimento":
             self.combo_box.set("")  
-
