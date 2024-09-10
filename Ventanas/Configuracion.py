@@ -66,7 +66,7 @@ class Configuracion(New_ventana):
         
     def guardar(self):
         try:
-            with open("Configuracion.txt", "a") as archivo_n:
+            with open("users/holi/datos_usuario.txt", "w") as archivo_n:
                 nombre = self.nombre_entry.get()
                 archivo_n.write(f'Nombre: {nombre}\n')
 
@@ -88,7 +88,7 @@ class Configuracion(New_ventana):
                 nivel_actividad = self.lvl_actividad_combobox.get()
                 archivo_n.write(f'Nivel de actividad: {nivel_actividad}\n')
 
-            messagebox.showinfo("Confirmación", "Los datos se guardaron correctamente.")
+            messagebox.showinfo("Confirmación", "Los datos se actualizaron correctamente.")
             
         except FileNotFoundError:
             messagebox.showerror("Error", "Hubo un problema al guardar los datos.")
