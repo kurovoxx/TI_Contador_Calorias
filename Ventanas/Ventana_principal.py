@@ -227,11 +227,11 @@ class Main(ctk.CTk):
 
     def abrir_panel_info(self):
         pass
- 
+        
     def esperando_login(self):
         self.frame_tapar = ctk.CTkFrame(self, fg_color='black', corner_radius=0)
         self.frame_tapar.pack(expand=True, fill='both')
-        image_path = "./img/banner.png"
+        image_path = "./img/banner_l.png"
         image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
         image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar)
         image_label.place(x=0, y=0, relwidth=1, relheight=1)
