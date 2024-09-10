@@ -61,14 +61,8 @@ class Main(ctk.CTk):
         #etiqueta de titulo
         self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador calorias")
         self.labelTitutlo.config(fg="#fff",font=(
-            "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, pady=10, width=16)
+            "Arial", 20), bg=COLOR_BARRA_SUPERIOR, pady=10, width=16)
         self.labelTitutlo.pack(side=tk.LEFT)
-        
-        # boton del menu lateral
-        self.buttonMenuLateral = tk.Button(self.barra_superior, text="\uf0c9", font=font_awesome,
-                                           command=self.toglle_panel, bd=0, bg=COLOR_BARRA_SUPERIOR, fg="white")
-        self.buttonMenuLateral.pack(side=tk.LEFT)
-        
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
@@ -180,14 +174,7 @@ class Main(ctk.CTk):
         label = tk.Label(self.cuerpo_principal, image=self.logo,
                          bg=COLOR_CUERPO_PRINCIPAL)
         label.place(x=0, y=0, relwidth=1, relheight=1)
-            
-    def configurar_boton_menu(self, button, text, icon, font_awesome, ancho_menu, alto_menu, comando):
-        button.config(text=f" {icon}    {text}", anchor="w", font=font_awesome,
-                      bd=0, bg=COLOR_MENU_LATERAL, fg="white", width=ancho_menu, height=alto_menu,
-                      command=comando)
-        button.pack(side=tk.TOP)
-        self.bind_hover_events(button)
-        
+
     def bind_hover_events(self, button):
         # Asociar eventos Enter y Leave con la función dinámica
         button.bind("<Enter>", lambda event: self.on_enter(event, button))
