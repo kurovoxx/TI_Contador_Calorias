@@ -48,15 +48,13 @@ class Main(ctk.CTk):
     def paneles(self):
         self.frame_tapar.destroy()
         # Crear paneles: Barra superior, Menu lateral y cuerpo principal
-        self.barra_superior = tk.Frame(
-            self, bg=COLOR_BARRA_SUPERIOR, height=200)
+        self.barra_superior = tk.Frame(self, bg=COLOR_BARRA_SUPERIOR, height=200)
         self.barra_superior.pack(side=tk.TOP, fill='both')
         
         self.menu_lateral = tk.Frame(self, bg=COLOR_MENU_LATERAL, width=150)
         self.menu_lateral.pack(side=tk.LEFT, fill='both', expand=False)
         
-        self.cuerpo_principal = tk.Frame(
-            self, bg=COLOR_CUERPO_PRINCIPAL)
+        self.cuerpo_principal = tk.Frame(self, bg=COLOR_CUERPO_PRINCIPAL)
         self.cuerpo_principal.pack(side=tk.RIGHT, fill='both', expand=True)
         
     def controles_barra_superior(self):
@@ -64,15 +62,13 @@ class Main(ctk.CTk):
         
         #etiqueta de titulo
         self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador de Calorías")
-        self.labelTitutlo.config(fg="#fff",font=(
-            "Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
+        self.labelTitutlo.config(fg="#fff",font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
         self.labelTitutlo.pack(side=tk.LEFT)
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
             self.barra_superior, text='Hoy es: ' + datetime.now().strftime('%d-%m-%Y'))
-        self.labelTitutlo.config(fg="#fff", font=(
-            "Arila", 25), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
+        self.labelTitutlo.config(fg="#fff", font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
 
     def existe_archivo(self, ruta_archivo, valor_predeterminado=None):
