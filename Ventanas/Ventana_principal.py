@@ -21,20 +21,19 @@ from Ventanas.Log_In import Log_in
 class Main(ctk.CTk):
     def __init__(self):
         super().__init__()
+        self.title('Contador de Calorias Pro 60Hz')
+        self.geometry('1024x600')
         self.logo = util_img.leer_imagen("./img/banner.png", (800, 600))
         self.config_window()
-        self.usuario = None
         self.esperando_login()
         self.log_in()
         self.usuario = self.obtener_usuario()
-        print(self.usuario)
     
     def obtener_usuario(self):
         with open('usuario_actual.txt', 'r') as users:
                 return users.readline()
         
     def config_window(self):
-        self.title('Contador de Calorias Pro 60Hz')
         self.iconbitmap("./img/logo.ico")
         w, h = 1024, 600
         util_ventana.centrar_ventana(self, w, h)
@@ -62,19 +61,18 @@ class Main(ctk.CTk):
         
     def controles_barra_superior(self):
         # Configuración de la barra superior
-        font_awesome = font.Font(family='FontAwesome', size=12)
         
         #etiqueta de titulo
-        self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador calorias")
+        self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador de Calorías")
         self.labelTitutlo.config(fg="#fff",font=(
-            "Arial", 20), bg=COLOR_BARRA_SUPERIOR, pady=10, width=16)
+            "Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
         self.labelTitutlo.pack(side=tk.LEFT)
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
             self.barra_superior, text='Hoy es: ' + datetime.now().strftime('%d-%m-%Y'))
         self.labelTitutlo.config(fg="#fff", font=(
-            "Roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
+            "Arila", 25), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
 
     def existe_archivo(self, ruta_archivo, valor_predeterminado=None):
@@ -127,9 +125,6 @@ class Main(ctk.CTk):
 
     def controles_barra_lateral(self):
         # Configuración del menu lateral
-        ancho_menu = 20
-        alto_menu = 2
-        font_awesome = font.Font(family='FontAwesome', size=15)
         
         self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
         self.labelPerfil.pack(side=tk.TOP, pady=10)
@@ -193,13 +188,6 @@ class Main(ctk.CTk):
     def on_leave(self, event, button):
         # Restaurar el estilo al salir el raton
         button.config(bg=COLOR_MENU_LATERAL, fg='white')
-        
-    def toglle_panel(self):
-        # Alternar visibilidad del menú lateral
-        if self.menu_lateral.winfo_ismapped():
-            self.menu_lateral.pack_forget()
-        else:
-            self.menu_lateral.pack(side=tk.LEFT, fill='y')
 
     def abrir_registro_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
@@ -224,22 +212,16 @@ class Main(ctk.CTk):
     def log_in(self):
         Log_in(self)
 
-    def abrir_panel_en_construccion(self):
-        print('Nada por aquí...')
-
     def limpiar_panel(self, panel):
         for widget in panel.winfo_children():
             widget.destroy()
 
-    def abrir_panel_info(self):
-        pass
-        
     def esperando_login(self):
         self.frame_tapar = ctk.CTkFrame(self, fg_color='black', corner_radius=0)
         self.frame_tapar.pack(expand=True, fill='both')
         image_path = "./img/banner_l.png"
         image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
-        image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar)
+        image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar, text='')
         image_label.place(x=0, y=0, relwidth=1, relheight=1)
         btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in, width=150, height=75, corner_radius=0,
                                           fg_color='white', text_color='black')
