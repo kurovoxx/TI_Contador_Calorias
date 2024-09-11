@@ -24,8 +24,15 @@ class Main(ctk.CTk):
         super().__init__()
         self.logo = util_img.leer_imagen("./img/banner.png", (800, 600))
         self.config_window()
+        self.usuario = None
         self.esperando_login()
         self.log_in()
+        self.usuario = self.obtener_usuario()
+        print(self.usuario)
+    
+    def obtener_usuario(self):
+        with open('usuario_actual.txt', 'r') as users:
+                return users.readline()
         
     def config_window(self):
         self.title('Contador de Calorias Pro 60Hz')
@@ -89,13 +96,13 @@ class Main(ctk.CTk):
     
     def guardar_ruta_imagen(self, ruta):
         with open("imagen_perfil.json", "w") as f:
-        #ruta_imagen = os.path.join('./users', self.usuario_actual, 'imagen_perfil.json')
-         json.dump({"ruta_imagen": ruta},f)
+            ruta_imagen = os.path.join('./users', self.usuario, 'imagen_perfil.json')
+            json.dump({"ruta_imagen": ruta}, f)
     
     def cargar_imagen_guardada(self):
         try:
-            #with open(f'./users/{self.usuario_actual}/imagen_perfil.json', 'r') as f:
-            with open("imagen_perfil.json", "r") as f:
+            with open(f'./users/{self.usuario}/imagen_perfil.json', 'r') as f:
+            #with open("imagen_perfil.json", "r") as f:
                 data = json.load(f)
                 ruta_imagen = data.get("ruta_imagen")
         except (FileNotFoundError, json.JSONDecodeError):
