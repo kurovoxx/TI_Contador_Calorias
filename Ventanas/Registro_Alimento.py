@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import tkinter as tk
 import sqlite3
-from tkinter import messagebox
+from CTkMessagebox import CTkMessagebox
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
@@ -58,7 +58,7 @@ class Registro_Alimento(New_ventana):
                                    values=["Por 100gr", "Por porcion"],
                                    border_width=0, button_color="#26656D",
                                    button_hover_color="white", text_color="white",
-                                   command=self.on_combobox_change)  # Se debe agregar el 'command'
+                                   command=self.aparecer_label)  # Se debe agregar el 'command'
         self.combo_box_b.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.05)
 
        
@@ -67,7 +67,7 @@ class Registro_Alimento(New_ventana):
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
         
-    def on_combobox_change(self, selection):
+    def aparecer_label(self, selection):
         if selection == "Por 100gr":
             self.label.configure(text="100gr")
         elif selection == "Por porcion":
@@ -77,9 +77,9 @@ class Registro_Alimento(New_ventana):
         self.label.place(relx=0.1, rely=0.5,relwidth=0.3, relheight=0.05)
         self.entry.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05)
         # Botón "Registrar"
-        self.boton_buscar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color= COLOR_BOTON2, 
-                                          hover_color= COLOR_DESPLEGABLE, command=self.insert_alimento, font=("Arial", 20))
-        self.boton_buscar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
+        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color= COLOR_BOTON2, 
+                                          hover_color= COLOR_DESPLEGABLE, command=self.boton_mensanjes_insert, font=("Arial", 20))
+        self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
 
 
@@ -133,13 +133,16 @@ class Registro_Alimento(New_ventana):
         # Obtener el alimento desde el ComboBox o desde el Entry
         alimento_seleccionado = self.combo_box.get()
         alimento_entry = self.entry_buscar.get().strip()
+        # Obtener la calorias ingresadas en el entry
+        calorias_ingresadas = self.entry.get().strip()
 
         if alimento_seleccionado != "Seleccionar alimento":  # Si se seleccionó un alimento en el ComboBox
             alimento = alimento_seleccionado
         elif alimento_entry:  # Si no hay selección en el ComboBox pero hay texto en el Entry
             alimento = alimento_entry
         else:
-            messagebox.showwarning("Advertencia", "Por favor, selecciona un alimento o ingresa uno válido.")
+            CTkMessagebox(title="Advertencia", message="Por favor, selecciona un alimento o ingresa uno válido.",
+                          icon='warning', option_1="Ok")
             return
         
         # Consultar el alimento en la base de datos
@@ -151,19 +154,19 @@ class Registro_Alimento(New_ventana):
             # Mostrar el nombre del alimento
             self.label_registro.configure(text=f"Último alimento registrado: {nombre}",font=("Arial", 14))
             
-            # Mostrar las calorías en porción o por 100g
-            if calorias_porcion:
-                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_porcion} por porción")
+            # Se cambio para mostrar las calorias ingresadas en el entry :)
+            if self.combo_box_b.get() == "Por porcion":
+                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_ingresadas} por porción")
             else:
-                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_100g} por 100g")
-            
-            messagebox.showinfo("Búsqueda exitosa", f"Se encontró el alimento: {nombre}")
+                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_ingresadas} por 100g")
+            CTkMessagebox(title="Búsqueda exitosa", message=f"Se encontró el alimento: {nombre}", icon='info', option_1="Ok")
 
-            # Reiniciar el ComboBox y limpiar el Entry
+            # Reiniciar el  y limpiar el Entry
             self.combo_box.set("Seleccionar alimento")
             self.entry_buscar.delete(0, "end")
         else:
-            messagebox.showwarning("Alimento no encontrado", "No se encontró el alimento en la base de datos.")
+            CTkMessagebox(title="Alimento no encontrado", message="No se encontró el alimento en la base de datos.", 
+                  icon='warning', option_1="Ok")
             print("Alimento no encontrado en la base de datos.")
 
     def buscar_alimento_en_db(self, nombre_alimento):
@@ -183,9 +186,28 @@ class Registro_Alimento(New_ventana):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
         query = '''
-        INSERT INTO consumo_diario (fecha, nombre) VALUES (?, ?);
+        INSERT INTO consumo_diario (nombre, fecha, hora, cantidad) VALUES (?, ?, ?, ?);
         '''
-        cursor.execute(query, (datetime.now().strftime('%d-%m-%Y'), self.combo_box.get()))
+        # Obtener la hora actual en formato de horas, minutos y segundos
+        hora_actual = datetime.now().strftime('%H:%M:%S')
+        cantidad = self.entry.get()
+
+        # Obtener el alimento desde el ComboBox o desde el Entry
+        alimento_seleccionado = self.combo_box.get()
+        alimento_entry = self.entry_buscar.get().strip()
+
+        # Si el alimento del combobox es válido, se usa ese, si no, se usa el del Entry
+        alimento = alimento_seleccionado if alimento_seleccionado != "Seleccionar alimento" else alimento_entry
+        
+        # Ejecutar la inserción con los valores correspondientes
+        cursor.execute(query, (alimento, datetime.now().strftime('%d-%m-%Y'), hora_actual, cantidad))
         conn.commit()
         conn.close()
+     
+    #Se crea esta funcion para poder llamar a ambas funciones y que el boton haga las 2, :)    
+    def boton_mensanjes_insert(self):
+        self.insert_alimento()        
+        self.boton_registrar_click()  
+
+
         
