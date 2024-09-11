@@ -18,7 +18,6 @@ from Ventanas.Configuracion import Configuracion
 from Ventanas.Log_In import Log_in
 
 
-
 class Main(ctk.CTk):
     def __init__(self):
         super().__init__()
