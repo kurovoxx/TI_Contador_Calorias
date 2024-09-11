@@ -2,7 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 import sqlite3
 from tkinter import messagebox
-from PIL import Image, ImageTk
+from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
 
@@ -14,43 +14,36 @@ class Registro_Alimento(New_ventana):
         self.update_coincidencias()
 
     def add_widget_registro(self):
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color="black",font=("Arial", 20))
-        self.label_agregar.place(relx=0.1, rely=0.25, relwidth=0.3, relheight=0.05)
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=COLOR_BOTON2,font=("Arial", 20))
+        self.label_agregar.place(relx=0.1, rely=0.10, relwidth=0.3, relheight=0.05)
 
         # ComboBox dinámico, será llenado desde la base de datos
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
                                          values=self.cargar_alimentos(),
                                          border_width=0, button_color="#26656D",
                                          button_hover_color="white", text_color="white")
-        self.combo_box.place(relx=0.1, rely=0.3, relwidth=0.3, relheight=0.05)
+        self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         # Mensaje "predeterminado" para el combobox
         self.combo_box.set("Seleccionar alimento")  
 
         # Label "Buscador de alimentos"
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color="black",font=("Arial", 20))
-        self.label_buscar.place(relx=0.1, rely=0.4505, relwidth=0.3, relheight=0.055)
-        
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=COLOR_BOTON2,font=("Arial", 20))
+        self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
+                
         # Entry "Buscar alimento" que también estará vinculado a la búsqueda
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
-        self.entry_buscar.place(relx=0.1, rely=0.505, relwidth=0.3) 
+        self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3) 
         self.entry_buscar.bind('<KeyRelease>', self.obtener_busqueda)
-
         # ListBox
         self.coincidencias = tk.Listbox(self.sub)
-        self.coincidencias.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.055)
+        self.coincidencias.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.055)
         self.coincidencias.bind('<<ListboxSelect>>', self.rellenar)
 
         self.alimentos_buscar = self.cargar_alimentos()
         self.match = []
-
-        # Botón "Registrar"
-        
-        self.boton_buscar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color="black", 
-                                          hover_color="#007bff", command=self.insert_alimento, font=("Arial", 20))
-        self.boton_buscar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
         # Registro        
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
@@ -59,6 +52,36 @@ class Registro_Alimento(New_ventana):
         
         self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329")
         self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.35)
+        
+        # Corrección para mostrar el Label y Entry al cambiar la opción del ComboBox
+        self.combo_box_b = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
+                                   values=["Por 100gr", "Por porcion"],
+                                   border_width=0, button_color="#26656D",
+                                   button_hover_color="white", text_color="white",
+                                   command=self.on_combobox_change)  # Se debe agregar el 'command'
+        self.combo_box_b.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.05)
+
+       
+        self.label = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color=COLOR_BOTON2,font=("Arial", 20))
+        self.entry = ctk.CTkEntry(self.sub,corner_radius=0, placeholder_text="Ingrese kcal consumidas", 
+                                         placeholder_text_color="black", border_width=0, fg_color="white", 
+                                         text_color="black") 
+        
+    def on_combobox_change(self, selection):
+        if selection == "Por 100gr":
+            self.label.configure(text="100gr")
+        elif selection == "Por porcion":
+            self.label.configure(text="Porción")
+
+        # Corregir las posiciones de los elementos
+        self.label.place(relx=0.1, rely=0.5,relwidth=0.3, relheight=0.05)
+        self.entry.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05)
+        # Botón "Registrar"
+        self.boton_buscar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color= COLOR_BOTON2, 
+                                          hover_color= COLOR_DESPLEGABLE, command=self.insert_alimento, font=("Arial", 20))
+        self.boton_buscar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
+
+
 
     def cargar_alimentos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -80,7 +103,7 @@ class Registro_Alimento(New_ventana):
     
         if num_coincidencias > 0:
             height = min(num_coincidencias, 5)
-            self.coincidencias.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05 * height)
+            self.coincidencias.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.05 * height)
         else:
             self.coincidencias.place_forget()
 
