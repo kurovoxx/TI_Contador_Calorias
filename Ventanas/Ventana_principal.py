@@ -9,6 +9,7 @@ import util.util_imagenes as util_img
 from PIL import Image, ImageDraw, ImageTk
 import json
 import os
+import shutil
 
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
@@ -31,7 +32,7 @@ class Main(ctk.CTk):
     
     def obtener_usuario(self):
         with open('usuario_actual.txt', 'r') as users:
-                return users.readline()
+            return users.readline().strip()
         
     def config_window(self):
         self.iconbitmap("./img/logo.ico")
@@ -81,21 +82,31 @@ class Main(ctk.CTk):
         archivo = filedialog.askopenfilename(filetypes=[("Imagen", "*.png .jpg .jpeg")])
         if archivo:
             print(f"Archivo seleccionado: {archivo}")
-            imagen_perfil = Image.open(archivo).resize((100, 100))
+            nuevo_archivo = self.copiar_imagen_a_carpeta_usuario(archivo)
+            imagen_perfil = Image.open(nuevo_archivo).resize((100, 100))
             imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
             self.perfil = ImageTk.PhotoImage(imagen_perfil_circular)
             self.labelPerfil.config(image=self.perfil)
-            self.guardar_ruta_imagen(archivo)
+            self.guardar_ruta_imagen(nuevo_archivo)
+
+    def copiar_imagen_a_carpeta_usuario(self, ruta_origen):
+        carpeta_usuario = os.path.join('./users', self.usuario)
+        os.makedirs(carpeta_usuario, exist_ok=True)
+        _, extension = os.path.splitext(ruta_origen)
+        ruta_destino = os.path.join(carpeta_usuario, f'perfil{extension}')
+        shutil.copy2(ruta_origen, ruta_destino)
+        
+        return ruta_destino
     
     def guardar_ruta_imagen(self, ruta):
-        with open("imagen_perfil.json", "w") as f:
-            ruta_imagen = os.path.join('./users', self.usuario, 'imagen_perfil.json')
+        ruta_json = os.path.join('./users', self.usuario, 'imagen_perfil.json')
+        with open(ruta_json, "w") as f:
             json.dump({"ruta_imagen": ruta}, f)
     
     def cargar_imagen_guardada(self):
         try:
-            with open(f'./users/{self.usuario}/imagen_perfil.json', 'r') as f:
-            #with open("imagen_perfil.json", "r") as f:
+            ruta_json = os.path.join('./users', self.usuario, 'imagen_perfil.json')
+            with open(ruta_json, 'r') as f:
                 data = json.load(f)
                 ruta_imagen = data.get("ruta_imagen")
         except (FileNotFoundError, json.JSONDecodeError):
@@ -104,10 +115,19 @@ class Main(ctk.CTk):
         if ruta_imagen and os.path.exists(ruta_imagen):
             img = Image.open(ruta_imagen).resize((100, 100))
         else:
-            img = Image.open("./img/sin_imagen.png").resize((100, 100)) # Asignar la imagen a self.perfil
+            img = Image.open("./img/sin_imagen.png").resize((100, 100))
         
         img_circular = self.hacer_imagen_circular(img)
-        return ImageTk.PhotoImage(img_circular)  
+        return ImageTk.PhotoImage(img_circular)
+
+    def abrir_archivo_json(self):
+        ruta_json = os.path.join('./users', self.usuario, 'imagen_perfil.json')
+        try:
+            with open(ruta_json, 'r') as f:
+                data = json.load(f)
+                return data
+        except (FileNotFoundError, json.JSONDecodeError):
+            return None  
      
     def hacer_imagen_circular(self, imagen):
         mascarilla = Image.new("L", (100, 100), 0)
