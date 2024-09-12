@@ -8,8 +8,7 @@ from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
 
 # Aquí añadir la llave de la IA de disc
-
-
+# Id organizacion tambien :(
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
@@ -18,7 +17,7 @@ class Registro_Alimento(New_ventana):
         self.update_coincidencias()
 
     def add_widget_registro(self):
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=COLOR_BOTON2, font=("Arial", 20))
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=oscuro, font=("Arial", 20))
         self.label_agregar.place(relx=0.1, rely=0.10, relwidth=0.3, relheight=0.05)
 
         # ComboBox dinámico, será llenado desde la base de datos
@@ -32,7 +31,7 @@ class Registro_Alimento(New_ventana):
         self.combo_box.set("Seleccionar alimento")  
 
         # Label "Buscador de alimentos"
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=COLOR_BOTON2, font=("Arial", 20))
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=oscuro, font=("Arial", 20))
         self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
 
         # Entry "Buscar alimento" que también estará vinculado a la búsqueda
@@ -66,19 +65,19 @@ class Registro_Alimento(New_ventana):
                                            command=self.aparecer_label)  # Se debe agregar el 'command'
         self.combo_box_b.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.05)
 
-        self.label = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color=COLOR_BOTON2, font=("Arial", 20))
+        self.label = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color=oscuro, font=("Arial", 20))
         self.entry = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese kcal consumidas", 
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
 
         # Botón "Registrar"
-        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=COLOR_BOTON2, 
-                                             hover_color=COLOR_DESPLEGABLE, command=self.boton_mensanjes_insert, font=("Arial", 20))
+        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=oscuro, 
+                                             hover_color=azul_mas_clarito, command=self.boton_mensanjes_insert, font=("Arial", 20))
         self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
         # Etiqueta para mostrar el total de calorías consumidas en el día
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
-                                                 bg_color=COLOR_BOTON2, font=("Arial", 20))
+                                                 bg_color=oscuro, font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
         
         
@@ -93,7 +92,7 @@ class Registro_Alimento(New_ventana):
     
         # Botón para generar el consejo del día
         self.boton_generar = ctk.CTkButton(self.sub, text="Generar Consejo Saludable", text_color="white",
-                                           command=self.mostrar_consejo, fg_color=COLOR_BOTON2)
+                                           command=self.mostrar_consejo, fg_color=oscuro)
         self.boton_generar.place(relx=0.6, rely=0.63, relwidth=0.4, relheight=0.05)
         
         # Si ya existe un consejo, mostrarlo y deshabilitar el botón
