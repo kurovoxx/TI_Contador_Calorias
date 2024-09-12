@@ -1,10 +1,14 @@
 import customtkinter as ctk
 import tkinter as tk
 import sqlite3
+import openai
 from CTkMessagebox import CTkMessagebox
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
+
+# Aquí añadir la llave de la IA de disc
+
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
@@ -76,6 +80,27 @@ class Registro_Alimento(New_ventana):
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
                                                  bg_color=COLOR_BOTON2, font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
+        
+        
+        #Label y Botón de IA:
+        
+        consejo_guardado = self.cargar_consejo_desde_archivo()
+        
+        # Label para el consejo del día
+        self.label_consejo = ctk.CTkLabel(self.sub, text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}):", 
+                                          text_color="white", bg_color='#404B4C', font=("Arial", 16), wraplength=300)
+        self.label_consejo.place(relx=0.4, rely=0.7, relwidth=0.8)
+    
+        # Botón para generar el consejo del día
+        self.boton_generar = ctk.CTkButton(self.sub, text="Generar Consejo Saludable", text_color="white",
+                                           command=self.mostrar_consejo, fg_color=COLOR_BOTON2)
+        self.boton_generar.place(relx=0.6, rely=0.63, relwidth=0.4, relheight=0.05)
+        
+        # Si ya existe un consejo, mostrarlo y deshabilitar el botón
+        if consejo_guardado:
+            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
+            self.boton_generar.configure(state="disabled")
+
 
     def aparecer_label(self, selection):
         if selection == "Por 100gr":
@@ -200,3 +225,51 @@ class Registro_Alimento(New_ventana):
         resultado = cursor.fetchone()[0]
         conn.close()
         return resultado if resultado else 0
+
+    # Funciones IA:
+    def generar_consejo_saludable(self):
+        prompt = "Da un consejo saludable para el día en no más de 160 caracteres" # El limite de caracteres es para que no sea demasiado grande el label
+        try:
+            # Solicitar a la API de OpenAI utilizando el modelo gpt-3.5-turbo
+            respuesta = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=50
+            )
+            consejo = respuesta['choices'][0]['message']['content'].strip()
+            return consejo
+        except openai.error.AuthenticationError:
+            return "Error: clave API no válida."
+        except Exception as e:
+            return f"Error: {str(e)}"
+
+    def mostrar_consejo(self):
+        
+        consejo_guardado = self.cargar_consejo_desde_archivo()
+        if consejo_guardado:
+            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
+            self.boton_generar.configure(state="disabled") 
+        else:
+            consejo = self.generar_consejo_saludable()
+            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo}")
+            self.guardar_consejo_en_archivo(consejo)  # Guardar el consejo en un archivo
+            self.boton_generar.configure(state="disabled")  
+
+        
+    def guardar_consejo_en_archivo(self, consejo):
+        with open("consejo_saludable.txt", "w") as archivo:
+            archivo.write(f"{datetime.now().strftime('%d-%m-%Y')}\n{consejo}")
+    
+    def cargar_consejo_desde_archivo(self):
+        try:
+            with open("consejo_saludable.txt", "r") as archivo:
+                
+                fecha = archivo.readline().strip()
+                consejo = archivo.readline().strip()
+                # Verificar si el consejo es del día actual
+                if fecha == datetime.now().strftime('%d-%m-%Y'):
+                    return consejo
+                else:
+                    return None
+        except FileNotFoundError:
+            return None
