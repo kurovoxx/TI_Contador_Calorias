@@ -4,6 +4,12 @@ from CTkMessagebox import CTkMessagebox
 import sqlite3
 
 
+import customtkinter as ctk
+import os
+from CTkMessagebox import CTkMessagebox
+import sqlite3
+
+
 class Log_in(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -21,15 +27,19 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame = ctk.CTkFrame(self.main_frame, fg_color='red', corner_radius=0)
+        self.frame = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame.pack(fill='both', expand=True)
 
         self.btn_iniciar = ctk.CTkButton(
-            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0)
+            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0, 
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_iniciar.place(x=170, y=100)
 
         self.btn_registrarse = ctk.CTkButton(
-            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0)
+            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0, 
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_registrarse.place(x=170, y=180)
 
     def win_iniciar(self):
@@ -37,7 +47,7 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue', corner_radius=0)
+        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame_iniciar.pack(fill='both', expand=True)
 
         self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
@@ -48,7 +58,9 @@ class Log_in(ctk.CTkToplevel):
         self.users_combobox.pack(padx=3, pady=(0, 2))
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
+            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_volver.place(x=180, y=300)
 
     def win_registrar(self):
@@ -56,7 +68,7 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x600')
 
-        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='yellow', corner_radius=0)
+        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame_registrar.pack(fill='both', expand=True)
 
         self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre:")
@@ -112,11 +124,15 @@ class Log_in(ctk.CTkToplevel):
         self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0)
+            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.guardar_button.pack(pady=10)
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
+            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_volver.pack(pady=10)
 
     def guardar(self):
@@ -233,7 +249,9 @@ class Log_in(ctk.CTkToplevel):
         self.contra_ingreso_entry.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0)
+            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.guardar_button.pack(pady=30)
 
     def obtener_usuarios(self):

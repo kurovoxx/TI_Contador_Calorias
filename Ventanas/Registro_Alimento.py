@@ -8,7 +8,7 @@ from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
 
 # Aquí añadir la llave de la IA de disc
-
+openai.api_key = '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'
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
