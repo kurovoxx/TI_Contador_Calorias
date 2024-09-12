@@ -16,7 +16,7 @@ class Registro_Alimento(New_ventana):
         self.update_coincidencias()
 
     def add_widget_registro(self):
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=COLOR_BOTON2, font=("Arial", 20))
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color='black', font=("Arial", 20))
         self.label_agregar.place(relx=0.1, rely=0.10, relwidth=0.3, relheight=0.05)
 
         # ComboBox dinámico, será llenado desde la base de datos
@@ -30,7 +30,7 @@ class Registro_Alimento(New_ventana):
         self.combo_box.set("Seleccionar alimento")  
 
         # Label "Buscador de alimentos"
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=COLOR_BOTON2, font=("Arial", 20))
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color='black', font=("Arial", 20))
         self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
 
         # Entry "Buscar alimento" que también estará vinculado a la búsqueda
@@ -53,7 +53,7 @@ class Registro_Alimento(New_ventana):
                                            bg_color="#183549", font=("Arial", 20))
         self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
 
-        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329")
+        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329", font=("Arial", 20))
         self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.15)
 
         # Corrección para mostrar el Label y Entry al cambiar la opción del ComboBox
@@ -74,9 +74,11 @@ class Registro_Alimento(New_ventana):
                                              hover_color=COLOR_DESPLEGABLE, command=self.boton_mensanjes_insert, font=("Arial", 20))
         self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
-        # Etiqueta para mostrar el total de calorías consumidas en el día
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Calorias del dia", text_color="white", bg_color='#183549', font=("Arial", 20))
+        self.label_agregar.place(relx=0.5, rely=0.3, relwidth=0.4, relheight=0.055)
+
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
-                                                 bg_color=COLOR_BOTON2, font=("Arial", 20))
+                                                 bg_color="#1f2329", font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
         
         
