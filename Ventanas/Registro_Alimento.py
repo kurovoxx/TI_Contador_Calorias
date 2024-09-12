@@ -48,10 +48,10 @@ class Registro_Alimento(New_ventana):
         # Registro        
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
                                            bg_color="#183549",font=("Arial", 20))
-        self.label_registro.place(relx=0.5, rely=0.3, relwidth=0.4, relheight=0.055)
+        self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
         
         self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329")
-        self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.35)
+        self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.15)
         
         # Corrección para mostrar el Label y Entry al cambiar la opción del ComboBox
         self.combo_box_b = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
@@ -211,3 +211,4 @@ class Registro_Alimento(New_ventana):
 
 
         
+
