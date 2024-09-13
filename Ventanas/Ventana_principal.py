@@ -221,7 +221,7 @@ class Main(ctk.CTk):
 
     def abrir_grafico(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Grafico(self.cuerpo_principal, 'orange')
+        Grafico(self.cuerpo_principal, '#404B4C')
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
