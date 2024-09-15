@@ -17,6 +17,7 @@ from Ventanas.Grafico import Grafico
 from Ventanas.Historial import Historial
 from Ventanas.Configuracion import Configuracion
 from Ventanas.Log_In import Log_in
+from Ventanas.Salud import Salud
 
 
 class Main(ctk.CTk):
@@ -180,10 +181,15 @@ class Main(ctk.CTk):
                                            command=self.abrir_historial)
         self.btn_historial.pack(side=ctk.TOP)
 
-        self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[4], compound='left',
+        self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[5], compound='left',
                                             width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
                                             command=self.abrir_configuracion)
         self.btn_en_contruccion.pack(side=ctk.TOP)
+
+        self.btn_salud = ctk.CTkButton(self.menu_lateral, text="Salud", image=self.iconos[4], compound='left',
+                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         command=self.abrir_salud)
+        self.btn_salud.pack(side=ctk.TOP)
 
 
     def controles_cuerpo(self):
@@ -215,7 +221,7 @@ class Main(ctk.CTk):
 
     def abrir_grafico(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Grafico(self.cuerpo_principal, 'orange')
+        Grafico(self.cuerpo_principal, '#404B4C')
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
@@ -223,7 +229,11 @@ class Main(ctk.CTk):
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Configuracion(self.cuerpo_principal, '#404B4C')   
+        Configuracion(self.cuerpo_principal, '#404B4C')
+
+    def abrir_salud(self):
+        self.limpiar_panel(self.cuerpo_principal)
+        Salud(self.cuerpo_principal, 'white')   
 
     def log_in(self):
         Log_in(self)
