@@ -29,11 +29,10 @@ class Main(ctk.CTk):
         self.config_window()
         self.esperando_login()
         self.log_in()
-        self.usuario = self.obtener_usuario()
     
     def obtener_usuario(self):
         with open('usuario_actual.txt', 'r') as users:
-            return users.readline().strip()
+                return users.readline()
         
     def config_window(self):
         self.iconbitmap("./img/logo.ico")
@@ -41,6 +40,7 @@ class Main(ctk.CTk):
         util_ventana.centrar_ventana(self, w, h)
 
     def cargar_main(self):
+        self.usuario = self.obtener_usuario()
         self.paneles()
         self.perfil = self.cargar_imagen_guardada()
         self.controles_barra_superior()
@@ -59,7 +59,7 @@ class Main(ctk.CTk):
         self.cuerpo_principal = tk.Frame(self, bg=COLOR_CUERPO_PRINCIPAL)
         self.cuerpo_principal.pack(side=tk.RIGHT, fill='both', expand=True)
         
-    def controles_barra_superior(self):
+    def controles_barra_superior(self):        
         #etiqueta de titulo
         self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador de Calorías")
         self.labelTitutlo.config(fg="#fff",font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
@@ -89,13 +89,27 @@ class Main(ctk.CTk):
             self.guardar_ruta_imagen(nuevo_archivo)
 
     def copiar_imagen_a_carpeta_usuario(self, ruta_origen):
+        # Verifica que self.usuario tiene un valor válido.
+        if not self.usuario:
+            raise ValueError("El nombre del usuario no es válido.")
+
+        # Construye la ruta para la carpeta del usuario.
         carpeta_usuario = os.path.join('./users', self.usuario)
+        
+        # Crea la carpeta si no existe.
         os.makedirs(carpeta_usuario, exist_ok=True)
+        
+        # Extrae la extensión del archivo seleccionado.
         _, extension = os.path.splitext(ruta_origen)
+        
+        # Define la ruta de destino para guardar la imagen del perfil.
         ruta_destino = os.path.join(carpeta_usuario, f'perfil{extension}')
+        
+        # Copia el archivo a la carpeta del usuario.
         shutil.copy2(ruta_origen, ruta_destino)
         
         return ruta_destino
+
     
     def guardar_ruta_imagen(self, ruta):
         ruta_json = os.path.join('./users', self.usuario, 'imagen_perfil.json')
