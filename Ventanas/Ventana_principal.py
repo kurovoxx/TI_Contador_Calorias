@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import font, filedialog
+from tkinter import filedialog
 import customtkinter as ctk
 from datetime import datetime
 from util.colores import *

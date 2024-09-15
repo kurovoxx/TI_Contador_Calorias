@@ -6,7 +6,6 @@ import sqlite3
 
 import customtkinter as ctk
 import os
-from CTkMessagebox import CTkMessagebox
 import sqlite3
 
 

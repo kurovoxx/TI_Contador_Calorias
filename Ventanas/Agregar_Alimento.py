@@ -2,10 +2,9 @@ import customtkinter as ctk
 from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3 
-from tkinter import font
-from PIL import Image, ImageTk
 import util.util_imagenes as util_img
 import tkinter as tk
+
 
 class Agregar_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
