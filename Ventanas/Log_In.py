@@ -320,3 +320,4 @@ class Log_in(ctk.CTkToplevel):
     def escribir_usuario_actual(self):
         with open('usuario_actual.txt', 'w') as users:
             users.write(self.users_combobox.get())
+            
