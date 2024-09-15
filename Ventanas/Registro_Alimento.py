@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import tkinter as tk
+from tkinter import Listbox
 import sqlite3
 import openai
 from CTkMessagebox import CTkMessagebox
@@ -43,7 +43,7 @@ class Registro_Alimento(New_ventana):
         self.entry_buscar.bind('<KeyRelease>', self.obtener_busqueda)
 
         # ListBox para coincidencias de búsqueda
-        self.coincidencias = tk.Listbox(self.sub)
+        self.coincidencias = Listbox(self.sub)
         self.coincidencias.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.055)
         self.coincidencias.bind('<<ListboxSelect>>', self.rellenar)
 
@@ -125,7 +125,7 @@ class Registro_Alimento(New_ventana):
         return lista_alimentos
 
     def update_coincidencias(self):
-        self.coincidencias.delete(0, tk.END)
+        self.coincidencias.delete(0, ctk.END)
         num_coincidencias = len(self.match)
 
         if num_coincidencias > 0:
@@ -135,11 +135,11 @@ class Registro_Alimento(New_ventana):
             self.coincidencias.place_forget()
 
         for alimento in self.match:
-            self.coincidencias.insert(tk.END, alimento)
+            self.coincidencias.insert(ctk.END, alimento)
 
     def rellenar(self, e):
         self.entry_buscar.delete(0, ctk.END)
-        self.entry_buscar.insert(0, self.coincidencias.get(tk.ACTIVE))
+        self.entry_buscar.insert(0, self.coincidencias.get(ctk.ACTIVE))
 
     def obtener_busqueda(self, e):
         typeado = self.entry_buscar.get()
@@ -227,7 +227,7 @@ class Registro_Alimento(New_ventana):
         return resultado if resultado else 0
 
     # Funciones IA:
-    def generar_consejo_saludable(self):
+    '''def generar_consejo_saludable(self):
         prompt = "Da un consejo saludable para el día en no más de 160 caracteres" # El limite de caracteres es para que no sea demasiado grande el label
         try:
             # Solicitar a la API de OpenAI utilizando el modelo gpt-3.5-turbo
@@ -241,18 +241,17 @@ class Registro_Alimento(New_ventana):
         except openai.error.AuthenticationError:
             return "Error: clave API no válida."
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"Error: {str(e)}"'''
 
     def mostrar_consejo(self):
-        
         consejo_guardado = self.cargar_consejo_desde_archivo()
         if consejo_guardado:
             self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
             self.boton_generar.configure(state="disabled") 
         else:
-            consejo = self.generar_consejo_saludable()
-            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo}")
-            self.guardar_consejo_en_archivo(consejo)  # Guardar el consejo en un archivo
+            #consejo = self.generar_consejo_saludable()
+            #self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo}")
+            #self.guardar_consejo_en_archivo(consejo)  # Guardar el consejo en un archivo
             self.boton_generar.configure(state="disabled")  
 
         

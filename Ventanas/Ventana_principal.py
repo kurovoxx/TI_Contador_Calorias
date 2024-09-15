@@ -60,8 +60,6 @@ class Main(ctk.CTk):
         self.cuerpo_principal.pack(side=tk.RIGHT, fill='both', expand=True)
         
     def controles_barra_superior(self):
-        # Configuración de la barra superior
-        
         #etiqueta de titulo
         self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador de Calorías")
         self.labelTitutlo.config(fg="#fff",font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
@@ -142,7 +140,6 @@ class Main(ctk.CTk):
 
     def controles_barra_lateral(self):
         # Configuración del menu lateral
-        
         self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
         self.labelPerfil.pack(side=tk.TOP, pady=10)
         self.btn_mas = tk.Button(self.menu_lateral, 
@@ -156,11 +153,9 @@ class Main(ctk.CTk):
         self.btn_mas.place(x=170, y=90, width=20, height=20)
   
         # Lista de íconos
-
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
         # Botones del menú lateral
-
         self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
                                           width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
                                           command=self.abrir_registro_alimento)
