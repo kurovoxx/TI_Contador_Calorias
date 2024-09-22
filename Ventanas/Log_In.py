@@ -222,7 +222,8 @@ class Log_in(ctk.CTkToplevel):
                     estatura INTEGER,
                     nivel_actividad TEXT,
                     genero TEXT,
-                    meta_cal INTEGER
+                    meta_cal INTEGER,
+                    edad INTEGER
                 )
                 ''')
 
