@@ -197,7 +197,8 @@ class Log_in(ctk.CTkToplevel):
                     nombre TEXT NOT NULL,
                     fecha TEXT NOT NULL,
                     hora TEXT NOT NULL,
-                    cantidad INTEGER NOT NULL
+                    cantidad INTEGER NOT NULL,
+                    total_cal REAL NOT NULL
                 )
                 ''')
 
@@ -205,6 +206,23 @@ class Log_in(ctk.CTkToplevel):
                 CREATE TABLE IF NOT EXISTS peso (
                     fecha TEXT PRIMARY KEY,
                     peso REAL
+                )
+                ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS agua (
+                    fecha TEXT PRIMARY KEY,
+                    cant INTEGER
+                )
+                ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS datos (
+                    nombre TEXT PRIMARY KEY,
+                    estatura INTEGER,
+                    nivel_actividad TEXT,
+                    genero TEXT,
+                    meta_cal INTEGER
                 )
                 ''')
 
