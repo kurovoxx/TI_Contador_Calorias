@@ -136,25 +136,28 @@ class Main(ctk.CTk):
         dibujar.ellipse((0, 0, 100, 100), fill=255)
 
         imagen_circular = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
-        imagen_circular.paste(imagen, (0, 0), mascarilla)
+        imagen_circular.paste(imagen.resize((100, 100)), (0, 0), mascarilla)
 
         return imagen_circular
 
     def controles_barra_lateral(self):
+        # Configuración del menu lateral
         self.labelPerfil = ctk.CTkLabel(self.menu_lateral, image=self.perfil, text='')
         self.labelPerfil.pack(side=tk.TOP, pady=10)
-        self.btn_mas = tk.Button(self.menu_lateral, 
+        self.btn_mas = ctk.CTkButton(self.menu_lateral, 
                          text="+", 
                          font=("Arial", 15), 
-                         bg="#34A85A", 
-                         fg="white", 
-                         relief="flat", 
-                         borderwidth=0,
+                         fg_color="#34A85A", 
+                         text_color="white", 
+                         width=20,
+                         height=20,
                          command=self.seleccionar_archivo)
         self.btn_mas.place(x=170, y=90)
   
+        # Lista de íconos
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
+        # Botones del menú lateral
         self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
                                           width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
                                           command=self.abrir_registro_alimento)
@@ -186,17 +189,21 @@ class Main(ctk.CTk):
         self.btn_salud.pack(side=ctk.TOP)
 
     def controles_cuerpo(self):
+        # Imagen en el cuerpo principal
         label = ctk.CTkLabel(self.cuerpo_principal, image=self.logo, text='')
         label.place(x=0, y=0, relwidth=1, relheight=1)
 
     def bind_hover_events(self, button):
+        # Asociar eventos Enter y Leave con la función dinámica
         button.bind("<Enter>", lambda event: self.on_enter(event, button))
         button.bind("<Leave>", lambda event: self.on_leave(event, button))
         
     def on_enter(self, event, button):
+        # Cambiar estilo al pasar el raton por encima
         button.configure(fg_color=COLOR_MENU_CURSOR_ENCIMA)
         
     def on_leave(self, event, button):
+        # Restaurar el estilo al salir el raton
         button.configure(fg_color=COLOR_MENU_LATERAL)
 
     def abrir_registro_alimento(self):
