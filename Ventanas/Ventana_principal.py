@@ -5,7 +5,7 @@ from datetime import datetime
 from util.colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageTk
 import json
 import os
 import shutil
@@ -23,14 +23,14 @@ class Main(ctk.CTk):
         super().__init__()
         self.title('Contador de Calorias Pro 60Hz')
         self.geometry('1024x600')
-        self.logo = self.load_image("./img/banner.png", (800, 600))
+        self.logo = self.load_image("./img/banner.png", (700, 500))
         self.config_window()
         self.esperando_login()
         self.log_in()
     
     def load_image(self, path, size):
+        #return ImageTk.PhotoImage(Image.open(path).resize(size, Image.Resampling.LANCZOS))
         return ctk.CTkImage(Image.open(path), size=size)
-
     def obtener_usuario(self):
         with open('usuario_actual.txt', 'r') as users:
                 return users.readline()
@@ -83,9 +83,9 @@ class Main(ctk.CTk):
         if archivo:
             print(f"Archivo seleccionado: {archivo}")
             nuevo_archivo = self.copiar_imagen_a_carpeta_usuario(archivo)
-            imagen_perfil = Image.open(nuevo_archivo).resize((100, 100))
+            imagen_perfil = Image.open(nuevo_archivo).resize((80, 80))
             imagen_perfil_circular = self.hacer_imagen_circular(imagen_perfil)
-            self.perfil = ctk.CTkImage(imagen_perfil_circular, size=(100, 100))
+            self.perfil = ctk.CTkImage(imagen_perfil_circular, size=(80, 80))
             self.labelPerfil.configure(image=self.perfil)
             self.guardar_ruta_imagen(nuevo_archivo)
 
@@ -114,12 +114,12 @@ class Main(ctk.CTk):
             ruta_imagen = None
 
         if ruta_imagen and os.path.exists(ruta_imagen):
-            img = Image.open(ruta_imagen).resize((100, 100))
+            img = Image.open(ruta_imagen).resize((80, 80))
         else:
-            img = Image.open("./img/sin_imagen.png").resize((100, 100))
+            img = Image.open("./img/sin_imagen.png").resize((80, 80))
         
         img_circular = self.hacer_imagen_circular(img)
-        return ctk.CTkImage(img_circular, size=(100, 100))
+        return ctk.CTkImage(img_circular, size=(80, 80))
 
     def abrir_archivo_json(self):
         ruta_json = os.path.join('./users', self.usuario, 'imagen_perfil.json')
@@ -131,11 +131,11 @@ class Main(ctk.CTk):
             return None  
      
     def hacer_imagen_circular(self, imagen):
-        mascarilla = Image.new("L", (100, 100), 0)
+        mascarilla = Image.new("L", (80, 80), 0)
         dibujar = ImageDraw.Draw(mascarilla)
-        dibujar.ellipse((0, 0, 100, 100), fill=255)
+        dibujar.ellipse((0, 0, 80, 80), fill=255)
 
-        imagen_circular = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
+        imagen_circular = Image.new("RGBA", (80, 80), (0, 0, 0, 0))
         imagen_circular.paste(imagen, (0, 0), mascarilla)
 
         return imagen_circular
@@ -151,7 +151,7 @@ class Main(ctk.CTk):
                          relief="flat", 
                          borderwidth=0,
                          command=self.seleccionar_archivo)
-        self.btn_mas.place(x=170, y=90)
+        self.btn_mas.place(x=180, y=110, width=25, height=25)
   
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
