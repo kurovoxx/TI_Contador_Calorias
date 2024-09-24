@@ -6,6 +6,7 @@ import sqlite3
 from tkcalendar import DateEntry
 from tkinter import ttk # Esta cochinadaba daba error 
 import re
+from util.colores import *
 
 class Historial(New_ventana):
     def __init__(self, panel_principal, color):

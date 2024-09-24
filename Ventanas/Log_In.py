@@ -2,6 +2,7 @@ import customtkinter as ctk
 import os
 from CTkMessagebox import CTkMessagebox
 import sqlite3
+from util.colores import *
 
 
 import customtkinter as ctk

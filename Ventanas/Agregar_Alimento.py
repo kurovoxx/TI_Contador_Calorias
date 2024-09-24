@@ -2,6 +2,7 @@ import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3 
+from util.colores import *
 
 
 class Agregar_Alimento(New_ventana):

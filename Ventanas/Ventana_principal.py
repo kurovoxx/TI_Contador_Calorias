@@ -50,25 +50,25 @@ class Main(ctk.CTk):
     def paneles(self):
         self.frame_tapar.destroy()
         # Crear paneles: Barra superior, Menu lateral y cuerpo principal
-        self.barra_superior = tk.Frame(self, bg=COLOR_BARRA_SUPERIOR, height=200)
+        self.barra_superior = tk.Frame(self, bg=azul_medio_oscuro, height=200)
         self.barra_superior.pack(side=tk.TOP, fill='both')
         
-        self.menu_lateral = tk.Frame(self, bg=COLOR_MENU_LATERAL, width=150)
+        self.menu_lateral = tk.Frame(self, bg=azul_medio_oscuro, width=150)
         self.menu_lateral.pack(side=tk.LEFT, fill='both', expand=False)
         
-        self.cuerpo_principal = tk.Frame(self, bg=COLOR_CUERPO_PRINCIPAL)
+        self.cuerpo_principal = tk.Frame(self, bg=gris)
         self.cuerpo_principal.pack(side=tk.RIGHT, fill='both', expand=True)
         
     def controles_barra_superior(self):        
         #etiqueta de titulo
         self.labelTitutlo = tk.Label(self.barra_superior, text= "Contador de Calorías")
-        self.labelTitutlo.config(fg="#fff",font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, pady=20, padx=20, width=16)
+        self.labelTitutlo.config(fg="#fff",font=("Arial", 25), bg=azul_medio_oscuro, pady=20, padx=20, width=16)
         self.labelTitutlo.pack(side=tk.LEFT)
         
         #Etiqueta de información
         self.labelTitutlo = tk.Label(
             self.barra_superior, text='Hoy es: ' + datetime.now().strftime('%d-%m-%Y'))
-        self.labelTitutlo.config(fg="#fff", font=("Arial", 25), bg=COLOR_BARRA_SUPERIOR, padx=10, width=20)
+        self.labelTitutlo.config(fg="#fff", font=("Arial", 25), bg=azul_medio_oscuro, padx=10, width=20)
         self.labelTitutlo.pack(side=tk.RIGHT)
 
     def existe_archivo(self, ruta_archivo, valor_predeterminado=None):
@@ -154,7 +154,7 @@ class Main(ctk.CTk):
 
     def controles_barra_lateral(self):
         # Configuración del menu lateral
-        self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=COLOR_MENU_LATERAL)
+        self.labelPerfil = tk.Label(self.menu_lateral, image=self.perfil, bg=azul_medio_oscuro)
         self.labelPerfil.pack(side=tk.TOP, pady=10)
         self.btn_mas = tk.Button(self.menu_lateral, 
                          text="+", 
@@ -171,32 +171,32 @@ class Main(ctk.CTk):
 
         # Botones del menú lateral
         self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
-                                          width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                          width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                           command=self.abrir_registro_alimento)
         self.btn_registro.pack(side=ctk.TOP)
 
         self.btn_agregar = ctk.CTkButton(self.menu_lateral, text="Agregar Alimento", image=self.iconos[0], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                          command=self.abrir_agregar_alimento)
         self.btn_agregar.pack(side=ctk.TOP)
 
         self.btn_grafico = ctk.CTkButton(self.menu_lateral, text="Gráfico", image=self.iconos[1], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                          command=self.abrir_grafico)
         self.btn_grafico.pack(side=ctk.TOP)
 
         self.btn_historial = ctk.CTkButton(self.menu_lateral, text="Historial", image=self.iconos[2], compound='left',
-                                           width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                           width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                            command=self.abrir_historial)
         self.btn_historial.pack(side=ctk.TOP)
 
         self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[5], compound='left',
-                                            width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                            width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                             command=self.abrir_configuracion)
         self.btn_en_contruccion.pack(side=ctk.TOP)
 
         self.btn_salud = ctk.CTkButton(self.menu_lateral, text="Salud", image=self.iconos[4], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=COLOR_MENU_LATERAL,
+                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                          command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
 
@@ -204,7 +204,7 @@ class Main(ctk.CTk):
     def controles_cuerpo(self):
         # Imagen en el cuerpo principal
         label = tk.Label(self.cuerpo_principal, image=self.logo,
-                         bg=COLOR_CUERPO_PRINCIPAL)
+                         bg=gris)
         label.place(x=0, y=0, relwidth=1, relheight=1)
 
     def bind_hover_events(self, button):
@@ -214,11 +214,11 @@ class Main(ctk.CTk):
         
     def on_enter(self, event, button):
         # Cambiar estilo al pasar el raton por encima
-        button.config(bg= COLOR_MENU_CURSOR_ENCIMA, fg='white')
+        button.config(bg= azul_mas_clarito, fg='white')
         
     def on_leave(self, event, button):
         # Restaurar el estilo al salir el raton
-        button.config(bg=COLOR_MENU_LATERAL, fg='white')
+        button.config(bg=azul_medio_oscuro, fg='white')
 
     def abrir_registro_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)

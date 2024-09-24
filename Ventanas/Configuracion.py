@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from Ventanas.Ventana_interfaz import New_ventana
+from util.colores import *
 
 
 class Configuracion(New_ventana):

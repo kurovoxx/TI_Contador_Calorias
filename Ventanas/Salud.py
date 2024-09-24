@@ -1,4 +1,5 @@
 from Ventanas.Ventana_interfaz import New_ventana
+from util.colores import *
 
 class Salud(New_ventana):
      def __init__(self, panel_principal, color):

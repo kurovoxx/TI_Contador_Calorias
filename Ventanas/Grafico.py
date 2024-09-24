@@ -2,6 +2,7 @@ from Ventanas.Ventana_interfaz import New_ventana
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import sqlite3
+from util.colores import *
 
 class Grafico(New_ventana):
     def __init__(self, panel_principal, color):
