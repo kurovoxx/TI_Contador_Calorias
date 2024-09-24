@@ -24,7 +24,7 @@ class Grafico(New_ventana):
         ax1.set_title('Gráfico calorías vs tiempo', color='white')
         ax1.set_ylabel('Calorías', color='white')
         ax1.set_xlabel('Fecha', color='white')
-        ax1.tick_params(axis='x', rotation=45, labelsize=8) # Etiqueta
+        ax1.tick_params(axis='x', rotation=45, labelsize=8) 
 
         fecha2, peso = self.datos_peso()
         ax2.set_facecolor('#404B4C')
@@ -33,7 +33,7 @@ class Grafico(New_ventana):
         ax2.set_title('Gráfico peso vs tiempo', color='white')
         ax2.set_ylabel('Peso (kg)', color='white')
         ax2.set_xlabel('Fecha', color='white')
-        ax2.tick_params(axis='x', rotation=45, labelsize=8) # Etiqueta
+        ax2.tick_params(axis='x', rotation=45, labelsize=8) 
 
         canvas = FigureCanvasTkAgg(fig, master=self.panel_principal)
         canvas.draw()
