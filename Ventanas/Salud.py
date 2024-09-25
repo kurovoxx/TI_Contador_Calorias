@@ -32,8 +32,11 @@ class Salud(New_ventana):
 
          # Crear los 8 botones redondeados debajo de la barra
          self.botones = []
+         self.estado_botones = [False] * 8  # Lista para almacenar el estado de cada botón (False = gris, True = verde)
+
          for i in range(8):
-             boton = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", command=lambda b=i: toggle_color(botones[b]))
+             boton = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                   command=lambda b=i: self.toggle_color(b))
              boton.place(x=50 + i * 60, y=400)  # Posicionar los botones
              self.botones.append(boton)
 
@@ -49,11 +52,13 @@ class Salud(New_ventana):
          self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
          self.label_vasos_agua.place(x=600, y=420)
 
-# Función para alternar el color del botón
-def toggle_color(boton):
-    # Cambiar entre verde y gris
-    if boton.cget("fg_color") == "gray":  # Si el botón está gris
-        boton.configure(fg_color="green")  # Cambia a verde
-    else:
-        boton.configure(fg_color="gray")  # Cambia a gris
+     # Nueva función para alternar el color y estado de los botones
+     def toggle_color(self, indice):
+         # Cambia el estado del botón (True = verde, False = gris)
+         if self.estado_botones[indice]:  # Si el botón está activo (verde)
+             self.botones[indice].configure(fg_color="gray")  # Cambiar a gris
+             self.estado_botones[indice] = False  # Cambiar estado a inactivo
+         else:  # Si el botón está inactivo (gris)
+             self.botones[indice].configure(fg_color="green")  # Cambiar a verde
+             self.estado_botones[indice] = True  # Cambiar estado a activo
 
