@@ -29,13 +29,13 @@ class Registro_Alimento(New_ventana):
         self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         # Mensaje "predeterminado" para el combobox
-        self.combo_box.set("Seleccionar alimento")  
+        self.combo_box.set("Seleccionar alimento")
 
         # Label "Buscador de alimentos"
         self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=oscuro, font=("Arial", 20))
         self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
 
-        # Entry "Buscar alimento" que también estará vinculado a la búsqueda
+        # Entry "Buscar alimento"
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
@@ -55,21 +55,21 @@ class Registro_Alimento(New_ventana):
                                            bg_color="#183549", font=("Arial", 20))
         self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
 
-        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329")
-        self.label_segundo_registro.place(relx=0.5, relwidth=0.4, relheight=0.055, rely=0.15)
+        # Ajustamos el tamaño y posición del segundo registro
+        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329", font=("Arial", 20))
+        self.label_segundo_registro.place(relx=0.5, rely=0.15, relwidth=0.4, relheight=0.055)
+        
+        # Label para calorías
+        self.label_calorias = ctk.CTkLabel(self.sub, text="Calorías", text_color="white", 
+                                           font=("Arial", 20), bg_color="black")
+        self.label_calorias.place(relx=0.1, rely=0.50, relwidth=0.3, relheight=0.05)
 
-        # Corrección para mostrar el Label y Entry al cambiar la opción del ComboBox
-        self.combo_box_b = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
-                                           values=["Por 100gr", "Por porcion"],
-                                           border_width=0, button_color="#26656D",
-                                           button_hover_color="white", text_color="white",
-                                           command=self.aparecer_label)  # Se debe agregar el 'command'
-        self.combo_box_b.place(relx=0.1, rely=0.4, relwidth=0.3, relheight=0.05)
-
-        self.label = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color=oscuro, font=("Arial", 20))
+        # Entry para calorías
         self.entry = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese kcal consumidas", 
-                                         placeholder_text_color="black", border_width=0, fg_color="white", 
-                                         text_color="black") 
+                                  placeholder_text_color="black", border_width=0, fg_color="white", 
+                                  text_color="black") 
+        self.entry.place(relx=0.1, rely=0.55, relwidth=0.3)
+
 
         # Botón "Registrar"
         self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=oscuro, 
@@ -80,49 +80,23 @@ class Registro_Alimento(New_ventana):
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
                                                  bg_color=oscuro, font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
-        
-        
-        #Label y Botón de IA:
-        
-        consejo_guardado = self.cargar_consejo_desde_archivo()
-        
-        # Label para el consejo del día
-        self.label_consejo = ctk.CTkLabel(self.sub, text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}):", 
-                                          text_color="white", bg_color='#404B4C', font=("Arial", 16), wraplength=300)
-        self.label_consejo.place(relx=0.4, rely=0.7, relwidth=0.8)
-    
-        # Botón para generar el consejo del día
-        self.boton_generar = ctk.CTkButton(self.sub, text="Generar Consejo Saludable", text_color="white",
-                                           command=self.mostrar_consejo, fg_color=oscuro)
-        self.boton_generar.place(relx=0.6, rely=0.63, relwidth=0.4, relheight=0.05)
-        
-        # Si ya existe un consejo, mostrarlo y deshabilitar el botón
-        if consejo_guardado:
-            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
-            self.boton_generar.configure(state="disabled")
 
 
-    def aparecer_label(self, selection):
-        if selection == "Por 100gr":
-            self.label.configure(text="100gr")
-        elif selection == "Por porcion":
-            self.label.configure(text="Porción")
-
-        # Corregir las posiciones de los elementos
-        self.label.place(relx=0.1, rely=0.5, relwidth=0.3, relheight=0.05)
-        self.entry.place(relx=0.1, rely=0.55, relwidth=0.3, relheight=0.05)
 
     def cargar_alimentos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
 
+        # Obtener todos los nombres de alimentos
         cursor.execute("SELECT nombre FROM alimento")
         alimentos = cursor.fetchall()
 
-        lista_alimentos = [alimento[0] for alimento in alimentos]
+        # Crear una lista de nombres de alimentos, excluyendo valores nulos
+        lista_alimentos = [alimento[0] for alimento in alimentos if alimento[0] is not None]
         
         conn.close()
         return lista_alimentos
+
 
     def update_coincidencias(self):
         self.coincidencias.delete(0, ctk.END)
@@ -168,17 +142,14 @@ class Registro_Alimento(New_ventana):
         else:
             CTkMessagebox(title="Advertencia", message="Por favor, selecciona un alimento o ingresa uno válido.", icon='warning', option_1="Ok")
             return
-        
+
         alimento_info = self.buscar_alimento_en_db(alimento)
-        
+
         if alimento_info:
-            nombre, calorias_100g, calorias_porcion = alimento_info
+            nombre = alimento_info
             self.label_registro.configure(text=f"Último alimento registrado: {nombre}", font=("Arial", 14))
-            if self.combo_box_b.get() == "Por porcion":
-                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_ingresadas} por porción")
-            else:
-                self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_ingresadas} por 100g")
-            CTkMessagebox(title="Búsqueda exitosa", message=f"Se encontró el alimento: {nombre}", icon='info', option_1="Ok")
+            # Eliminamos la distinción entre porción y 100g
+            self.label_segundo_registro.configure(text=f"Calorías totales: {calorias_ingresadas}")
             self.combo_box.set("Seleccionar alimento")
             self.entry_buscar.delete(0, "end")
         else:
@@ -192,23 +163,6 @@ class Registro_Alimento(New_ventana):
         resultado = cursor.fetchone()
         conn.close()
         return resultado
-
-    def insert_alimento(self):
-        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
-        cursor = conn.cursor()
-        query = '''
-        INSERT INTO consumo_diario (nombre, fecha, hora, cantidad) VALUES (?, ?, ?, ?);
-        '''
-        hora_actual = datetime.now().strftime('%H:%M:%S')
-        cantidad = self.entry.get()
-
-        alimento_seleccionado = self.combo_box.get()
-        alimento_entry = self.entry_buscar.get().strip()
-        alimento = alimento_seleccionado if alimento_seleccionado != "Seleccionar alimento" else alimento_entry
-        
-        cursor.execute(query, (alimento, datetime.now().strftime('%d-%m-%Y'), hora_actual, cantidad))
-        conn.commit()
-        conn.close()
 
     def actualizar_calorias_totales(self):
         total_calorias = self.calcular_calorias_totales()
@@ -226,49 +180,77 @@ class Registro_Alimento(New_ventana):
         conn.close()
         return resultado if resultado else 0
 
-    # Funciones IA:
-    '''def generar_consejo_saludable(self):
-        prompt = "Da un consejo saludable para el día en no más de 160 caracteres" # El limite de caracteres es para que no sea demasiado grande el label
-        try:
-            # Solicitar a la API de OpenAI utilizando el modelo gpt-3.5-turbo
-            respuesta = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=50
-            )
-            consejo = respuesta['choices'][0]['message']['content'].strip()
-            return consejo
-        except openai.error.AuthenticationError:
-            return "Error: clave API no válida."
-        except Exception as e:
-            return f"Error: {str(e)}"'''
 
-    def mostrar_consejo(self):
-        consejo_guardado = self.cargar_consejo_desde_archivo()
-        if consejo_guardado:
-            self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
-            self.boton_generar.configure(state="disabled") 
-        else:
-            #consejo = self.generar_consejo_saludable()
-            #self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo}")
-            #self.guardar_consejo_en_archivo(consejo)  # Guardar el consejo en un archivo
-            self.boton_generar.configure(state="disabled")  
+    def insert_alimento(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
 
+        # Query to insert or update food entry
+        insert_query = '''
+        INSERT INTO consumo_diario (nombre, fecha, hora, cantidad, total_cal) 
+        VALUES (?, ?, ?, ?, ?);
+        '''
+
+        update_query = '''
+        UPDATE consumo_diario 
+        SET cantidad = cantidad + ?, total_cal = total_cal + ?
+        WHERE nombre = ? AND fecha = ?;
+        '''
         
-    def guardar_consejo_en_archivo(self, consejo):
-        with open("consejo_saludable.txt", "w") as archivo:
-            archivo.write(f"{datetime.now().strftime('%d-%m-%Y')}\n{consejo}")
-    
-    def cargar_consejo_desde_archivo(self):
-        try:
-            with open("consejo_saludable.txt", "r") as archivo:
-                
-                fecha = archivo.readline().strip()
-                consejo = archivo.readline().strip()
-                # Verificar si el consejo es del día actual
-                if fecha == datetime.now().strftime('%d-%m-%Y'):
-                    return consejo
-                else:
-                    return None
-        except FileNotFoundError:
-            return None
+        hora_actual = datetime.now().strftime('%H:%M:%S')
+        fecha_actual = datetime.now().strftime('%d-%m-%Y')
+
+        # Default quantity
+        cantidad = 1
+
+        # Obtener el alimento seleccionado del combobox o ingresado manualmente
+        alimento_seleccionado = self.combo_box.get()  
+        alimento_entry = self.entry_buscar.get().strip()
+        alimento = alimento_seleccionado if alimento_seleccionado != "Seleccionar alimento" else alimento_entry
+        
+        # Verificar si el alimento existe en la base de datos
+        alimento_info = self.buscar_alimento_en_db(alimento)
+
+        if alimento_info:
+            nombre, calorias_100g, calorias_porcion = alimento_info
+            
+            # Ahora tomamos las calorías directamente del campo de entrada (Entry)
+            try:
+                calorias = float(self.entry.get())  # El campo entry ya contiene las calorías
+            except ValueError:
+                CTkMessagebox(title="Error", message="Por favor, ingrese un valor de calorías válido.", icon='warning', option_1="Ok")
+                return
+
+            # Comprobar si el alimento ya fue registrado hoy
+            cursor.execute('SELECT cantidad, total_cal FROM consumo_diario WHERE nombre = ? AND fecha = ?', (alimento, fecha_actual))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                # Si el alimento ya existe, actualizar la cantidad y total de calorías
+                cursor.execute(update_query, (cantidad, calorias, alimento, fecha_actual))
+            else:
+                # Si el alimento no existe, insertarlo con cantidad = 1 y total_cal
+                cursor.execute(insert_query, (alimento, fecha_actual, hora_actual, cantidad, calorias))
+
+            conn.commit()
+            CTkMessagebox(title="Registro exitoso", message=f"Alimento {alimento} registrado con éxito.", icon='info', option_1="Ok")
+        else:
+            CTkMessagebox(title="Alimento no encontrado", message="No se encontró el alimento en la base de datos.", icon='warning', option_1="Ok")
+        
+        conn.close()
+        
+    def actualizar_calorias_totales(self):
+        total_calorias = self.calcular_calorias_totales()
+        self.label_total_calorias.configure(text=f"Total calorías del día: {total_calorias}")
+
+    def calcular_calorias_totales(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+        fecha_actual = datetime.now().strftime('%d-%m-%Y')
+        query = '''
+        SELECT SUM(cantidad) FROM consumo_diario WHERE fecha = ?
+        '''
+        cursor.execute(query, (fecha_actual,))
+        resultado = cursor.fetchone()[0]
+        conn.close()
+        return resultado if resultado else 0
