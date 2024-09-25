@@ -115,6 +115,14 @@ class Log_in(ctk.CTkToplevel):
             self.frame_registrar, placeholder_text="Introduce tu altura", width=250, corner_radius=0)
         self.altura_entry.pack(padx=3, pady=(0, 2))
 
+        self.meta_label = ctk.CTkLabel(
+            self.frame_registrar, text="Meta de calorías diaria:")
+        self.meta_label.pack(anchor="w", padx=3, pady=(2, 0))
+
+        self.meta_entry = ctk.CTkEntry(
+            self.frame_registrar, width=250, corner_radius=0)
+        self.meta_entry.pack(padx=3, pady=(0, 2))
+
         self.lvl_actividad_label = ctk.CTkLabel(
             self.frame_registrar, text="Nivel de Actividad:")
         self.lvl_actividad_label.pack(anchor="w", padx=3, pady=(2, 0))
@@ -146,21 +154,27 @@ class Log_in(ctk.CTkToplevel):
         self.insertar_usuario(self.nombre_entry.get(), self.contra_entry.get())
 
         try:
-            with open(f"./users/{self.nombre_entry.get()}/datos_usuario.txt", "a") as archivo_n:
-                nombre = self.nombre_entry.get()
-                archivo_n.write(f'{nombre}\n')
+            conn = sqlite3.connect(f"./users/{self.nombre_entry.get()}/alimentos.db")
+            cursor = conn.cursor()
 
-                edad = self.edad_entry.get()
-                archivo_n.write(f'{edad}\n')
+            nombre = self.nombre_entry.get()
+            estatura = self.altura_entry.get()
+            nivel_actividad = self.lvl_actividad_combobox.get()
+            genero = self.gen_combobox.get()
+            meta_cal = self.meta_entry.get()
+            edad = self.edad_entry.get()
 
-                sexo = self.gen_combobox.get()
-                archivo_n.write(f'{sexo}\n')
+            # Consulta SQL para insertar los datos
+            sql = """
+            INSERT INTO datos (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """
+            valores = (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
 
-                altura = self.altura_entry.get()
-                archivo_n.write(f'{altura}\n')
+            # Ejecutar la consulta en la base de datos
+            cursor.execute(sql, valores)
+            conn.commit()
 
-                nivel_actividad = self.lvl_actividad_combobox.get()
-                archivo_n.write(f'{nivel_actividad}\n')
 
             with open('usuario_actual.txt', 'w') as users:
                 nombre = self.nombre_entry.get()
