@@ -9,6 +9,8 @@ from datetime import datetime
 
 
 class Registro_Alimento(New_ventana):
+    OBJETIVO_DIARIO_CALORIAS = 2000  # Definir el objetivo diario de calorías
+
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
         self.add_widget_registro()
@@ -71,7 +73,7 @@ class Registro_Alimento(New_ventana):
 
         # Botón "Registrar"
         self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=COLOR_BOTON2, 
-                                             hover_color=COLOR_DESPLEGABLE, command=self.boton_mensanjes_insert, font=("Arial", 20))
+                                              command=self.boton_mensanjes_insert, font=("Arial", 20))
         self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
         self.label_agregar = ctk.CTkLabel(self.sub, text="Calorias del dia", text_color="white", bg_color='#183549', font=("Arial", 20))
@@ -80,9 +82,18 @@ class Registro_Alimento(New_ventana):
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
                                                  bg_color="#1f2329", font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
-        
-        
-        #Label y Botón de IA:
+
+        # Label "Calorías recomendadas del día"
+        self.label_calorias_recomendadas = ctk.CTkLabel(self.sub, text="Calorías recomendadas del día", text_color="white", 
+                                                        bg_color='#183549', font=("Arial", 18))
+        self.label_calorias_recomendadas.place(relx=0.5, rely=0.42, relwidth=0.4, relheight=0.04)
+
+        # Barra de progreso de calorías
+        self.barra_progreso_calorias = ctk.CTkProgressBar(self.sub, fg_color="#183549", progress_color="#26656D")
+        self.barra_progreso_calorias.place(relx=0.5, rely=0.47, relwidth=0.4, relheight=0.05)
+        self.barra_progreso_calorias.set(0)  # Inicialmente vacío
+
+        # Label y Botón de IA:
         
         consejo_guardado = self.cargar_consejo_desde_archivo()
         
@@ -100,7 +111,6 @@ class Registro_Alimento(New_ventana):
         if consejo_guardado:
             self.label_consejo.configure(text=f"Consejo del día ({datetime.now().strftime('%d-%m-%Y')}): {consejo_guardado}")
             self.boton_generar.configure(state="disabled")
-
 
     def aparecer_label(self, selection):
         if selection == "Por 100gr":
@@ -213,6 +223,10 @@ class Registro_Alimento(New_ventana):
     def actualizar_calorias_totales(self):
         total_calorias = self.calcular_calorias_totales()
         self.label_total_calorias.configure(text=f"Total calorías del día: {total_calorias}")
+
+        # Actualizar barra de progreso
+        progreso = min(total_calorias / self.OBJETIVO_DIARIO_CALORIAS, 1)  # Calcular el porcentaje (máximo 100%)
+        self.barra_progreso_calorias.set(progreso)  # Actualizar la barra de progreso
 
     def calcular_calorias_totales(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
