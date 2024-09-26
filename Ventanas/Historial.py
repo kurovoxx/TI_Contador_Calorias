@@ -1,19 +1,29 @@
 from Ventanas.Ventana_interfaz import New_ventana
 from Ventanas.Agregar_Alimento import *
-import customtkinter as ctk 
-import datetime  as dt
+import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
+import datetime as dt
 import sqlite3
 from tkcalendar import DateEntry
-from tkinter import ttk # Esta cochinadaba daba error 
-import re
+from tkinter import ttk
 from util.colores import *
 
 class Historial(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.mostrar_messagebox()
         self.conectar_base_datos()
         self.add_widget_historial()
         self.agregar_treeview()
+
+    def mostrar_messagebox(self):
+        """Muestra un messagebox con una descripción de la funcionalidad de esta pestaña."""
+        CTkMessagebox(
+            title="Historial de Alimentos",
+            message="En esta sección puedes ver el historial de los alimentos consumidos, filtrarlos por fecha y visualizar el total de calorías por porción o por 100 gramos.",
+            icon="info",
+            option_1="Ok"
+        )
 
     def conectar_base_datos(self):
         """Conecta a la base de datos SQLite."""

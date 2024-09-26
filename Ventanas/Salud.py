@@ -2,12 +2,14 @@ from Ventanas.Ventana_interfaz import New_ventana
 from util.colores import *
 import customtkinter as ctk
 import sqlite3
+from CTkMessagebox import CTkMessagebox  # Importamos la librería para la messagebox
 
 class Salud(New_ventana):
-    def __init__(self, panel_principal, color, usuario):
+    def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
-
+  
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray")
@@ -60,6 +62,7 @@ class Salud(New_ventana):
             if resultado_estatura is None:
                 raise ValueError("No se encontró la estatura para el usuario")
             estatura = resultado_estatura[0]
+            estatura = float(estatura / 100)
 
             cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
             resultado_peso = cursor.fetchone()
@@ -69,6 +72,7 @@ class Salud(New_ventana):
 
             imc = peso / (estatura ** 2)
             self.label_imc.configure(text=f"IMC: {imc:.2f}")
+            return imc
 
         except sqlite3.Error as e:
             print(f"Error de base de datos: {e}")
@@ -82,7 +86,7 @@ class Salud(New_ventana):
         finally:
             if conn:
                 conn.close()
-
+    
     def toggle_color(self, boton):
         # Cambiar entre verde y gris
         if boton.cget("fg_color") == "gray":  # Si el botón está gris
