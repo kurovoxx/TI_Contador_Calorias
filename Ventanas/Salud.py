@@ -87,6 +87,60 @@ class Salud(New_ventana):
             if conn:
                 conn.close()
     
+    def calcular_TMB(self):
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT estatura FROM datos")
+            resultado_estatura = cursor.fetchone()
+            if resultado_estatura is None:
+                raise ValueError("No se encontró la estatura para el usuario")
+            estatura = resultado_estatura[0]
+            estatura = float(estatura / 100)
+
+            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
+            resultado_peso = cursor.fetchone()
+            if resultado_peso is None:
+                raise ValueError("No se encontró el peso para el usuario")
+            peso = resultado_peso[0]
+
+            cursor.execute("SELECT edad FROM datos ORDER BY fecha DESC LIMIT 1")
+            resultado_edad = cursor.fetchone()
+            if resultado_edad is None:
+                raise ValueError("No se encontró el peso para el usuario")
+            edad = resultado_edad[0]
+
+            cursor.execute("SELECT genero FROM datos")
+            resultado_genero = cursor.fetchone()
+            if resultado_genero is None:
+                raise ValueError("No se encontró el sexo para el usuario")
+            genero = resultado_genero[0]
+            
+            if genero == "hombre" or "masculino":
+                tmb = 66 + (13.75 * peso) + (5 * estatura * 100) - (6.75 * edad)
+            elif genero == "femenino" or "mujer":
+                tmb = 655 + (9.56 * peso) + (1.85 * estatura * 100) - (4.67 * edad)
+            else:
+                raise ValueError("Sexo no válido")
+            
+            self.label_imc.configure(text=f"TMB: {tmb:.2f}")
+
+            return tmb
+
+        except sqlite3.Error as e:
+            print(f"Error de base de datos: {e}")
+            self.label_imc.configure(text="Error al calcular IMC")
+        except ValueError as e:
+            print(f"Error de valor: {e}")
+            self.label_imc.configure(text="Datos insuficientes para IMC")
+        except Exception as e:
+            print(f"Error inesperado: {e}")
+            self.label_imc.configure(text="Error al calcular IMC")
+        finally:
+            if conn:
+                conn.close()
+
     def toggle_color(self, boton):
         # Cambiar entre verde y gris
         if boton.cget("fg_color") == "gray":  # Si el botón está gris
