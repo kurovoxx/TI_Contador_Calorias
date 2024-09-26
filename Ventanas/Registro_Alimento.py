@@ -1,49 +1,62 @@
 import customtkinter as ctk
 from tkinter import Listbox
 import sqlite3
-import openai
 from CTkMessagebox import CTkMessagebox
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
-import os
-
-# Aquí añadir la llave de la IA de disc
-
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        self.add_widget_registro()
-        self.cargar_alimentos()
-        self.update_coincidencias()
-
-        # Verificar si es la primera vez que el usuario ingresa a esta sección
-        if self.es_primer_acceso():
-            self.mostrar_resumen_inicial()
         
+        # Mostrar la ventana de alerta cada vez que se ingresa a esta sección
+        self.mostrar_ventana_alerta()
+
+        # Continuar con la configuración de la interfaz
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
 
-    def es_primer_acceso(self):
-        # Creamos un archivo 'config' para rastrear si es la primera vez que el usuario accede
-        config_path = f"./users/{self.usuario}/config.txt"
-        if not os.path.exists(config_path):
-            # Si no existe el archivo, lo creamos y es la primera vez
-            with open(config_path, 'w') as config_file:
-                config_file.write('primer_acceso=False')
-            return True
-        return False
-
-    def mostrar_resumen_inicial(self):
-        # Mostrar un mensaje al usuario con un resumen de la funcionalidad
-        CTkMessagebox(
-            title="Bienvenido",
-            message="Esta sección te permite registrar alimentos, calcular calorías y ver el consumo total del día.",
-            icon="info",
-            option_1="Entendido"
+    def mostrar_ventana_alerta(self):
+        # Texto introductorio para la sección "Registrar alimento"
+        mensaje = (
+            "Bienvenido a la sección 'Registrar alimento'. Aquí puedes buscar y seleccionar "
+            "alimentos desde una base de datos, o ingresar uno nuevo manualmente. También "
+            "puedes registrar las calorías consumidas y llevar un control del total diario."
         )
+        CTkMessagebox(title="Registrar alimento", message=mensaje, icon="info", option_1="Ok")
+
+    def add_widget_registro(self):
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=oscuro, font=("Arial", 20))
+        self.label_agregar.place(relx=0.1, rely=0.10, relwidth=0.3, relheight=0.05)
+
+        # ComboBox dinámico, será llenado desde la base de datos
+        self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
+                                         values=self.cargar_alimentos(),
+                                         border_width=0, button_color="#26656D",
+                                         button_hover_color="white", text_color="white")
+        self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
+
+        # Mensaje "predeterminado" para el combobox
+        self.combo_box.set("Seleccionar alimento")
+
+        # Label "Buscador de alimentos"
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=oscuro, font=("Arial", 20))
+        self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
+
+        # Entry "Buscar alimento"
+        self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
+                                         placeholder_text_color="black", border_width=0, fg_color="white", 
+                                         text_color="black") 
+        self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3) 
+        self.entry_buscar.bind('<KeyRelease>', self.obtener_busqueda)
+
+        # ListBox para coincidencias de búsqueda
+        self.coincidencias = Listbox(self.sub)
+        self.coincidencias.place(relx=0.1, relwidth=0.3, relheight=0.055, rely=0.4)
+        self.coincidencias.bind('<<ListboxSelect>>', self.rellenar)
+
 
     def add_widget_registro(self):
         self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=oscuro, font=("Arial", 20))

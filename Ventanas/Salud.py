@@ -1,13 +1,22 @@
 from Ventanas.Ventana_interfaz import New_ventana
 from util.colores import *
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox  # Importamos la librería para la messagebox
 
 class Salud(New_ventana):
-     def __init__(self, panel_principal, color):
+    def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
 
-     def add_widget_salud(self):
+    # Función para mostrar la CTkMessagebox
+    def mostrar_messagebox(self):
+        mensaje = ("Bienvenido a la sección Salud. Aquí podrás actualizar tu peso, medir pulsaciones, "
+                   "calcular tu IMC Y TMB, además de realizar un seguimiento de tu progreso diario. "
+                   "Usa los botones y la barra de progreso para monitorear tus metas.")
+        CTkMessagebox(title="Sección Salud", message=mensaje, icon="info", option_1="OK")
+
+    def add_widget_salud(self):
          # Botón "Actualizar Peso"
          self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray")
          self.btn_actualizar_peso.place(x=50, y=50)  # Colocar en la posición exacta
@@ -53,7 +62,7 @@ class Salud(New_ventana):
          self.label_vasos_agua.place(x=600, y=420)
 
      # Nueva función para alternar el color y estado de los botones
-     def toggle_color(self, indice):
+    def toggle_color(self, indice):
          # Cambia el estado del botón (True = verde, False = gris)
          if self.estado_botones[indice]:  # Si el botón está activo (verde)
              self.botones[indice].configure(fg_color="gray")  # Cambiar a gris
