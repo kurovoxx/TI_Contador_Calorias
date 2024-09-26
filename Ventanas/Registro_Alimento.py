@@ -6,6 +6,7 @@ from CTkMessagebox import CTkMessagebox
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
+import os
 
 # Aquí añadir la llave de la IA de disc
 
@@ -16,6 +17,33 @@ class Registro_Alimento(New_ventana):
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
+
+        # Verificar si es la primera vez que el usuario ingresa a esta sección
+        if self.es_primer_acceso():
+            self.mostrar_resumen_inicial()
+        
+        self.add_widget_registro()
+        self.cargar_alimentos()
+        self.update_coincidencias()
+
+    def es_primer_acceso(self):
+        # Creamos un archivo 'config' para rastrear si es la primera vez que el usuario accede
+        config_path = f"./users/{self.usuario}/config.txt"
+        if not os.path.exists(config_path):
+            # Si no existe el archivo, lo creamos y es la primera vez
+            with open(config_path, 'w') as config_file:
+                config_file.write('primer_acceso=False')
+            return True
+        return False
+
+    def mostrar_resumen_inicial(self):
+        # Mostrar un mensaje al usuario con un resumen de la funcionalidad
+        CTkMessagebox(
+            title="Bienvenido",
+            message="Esta sección te permite registrar alimentos, calcular calorías y ver el consumo total del día.",
+            icon="info",
+            option_1="Entendido"
+        )
 
     def add_widget_registro(self):
         self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=oscuro, font=("Arial", 20))
