@@ -241,6 +241,17 @@ class Log_in(ctk.CTkToplevel):
                     edad INTEGER
                 )
                 ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS mensajes (
+                    registrar_alimento INTEGER DEFAULT 0,
+                    agregar_alimento INTEGER DEFAULT 0,
+                    graficos INTEGER DEFAULT 0,
+                    configuracion INTEGER DEFAULT 0,
+                    salud INTEGER DEFAULT 0,
+                    admin_alimentos INTEGER DEFAULT 0
+                )
+                ''')
 
         conn.commit()
         conn.close()
@@ -355,3 +366,19 @@ class Log_in(ctk.CTkToplevel):
         with open('usuario_actual.txt', 'w') as users:
             users.write(self.users_combobox.get())
             
+    '''
+    def temp(self):
+        try:
+            conn = sqlite3.connect('usuarios.db')
+            cursor = conn.cursor()
+
+            query = "DELETE FROM users;"
+            cursor.execute(query)
+
+            conn.commit()
+
+        except sqlite3.IntegrityError:
+           pass
+        finally:
+            conn.close()
+    '''
