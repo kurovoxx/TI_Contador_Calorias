@@ -7,7 +7,7 @@ from CTkMessagebox import CTkMessagebox  # Importamos la librería para la messa
 class Salud(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
+        # self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
   
     def add_widget_salud(self):

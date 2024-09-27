@@ -214,13 +214,12 @@ class Registro_Alimento(New_ventana):
         cursor = conn.cursor()
         fecha_actual = datetime.now().strftime('%d-%m-%Y')
         query = '''
-        SELECT SUM(cantidad) FROM consumo_diario WHERE fecha = ?
+        SELECT SUM(total_cal) FROM consumo_diario WHERE fecha = ?
         '''
         cursor.execute(query, (fecha_actual,))
         resultado = cursor.fetchone()[0]
         conn.close()
         return resultado if resultado else 0
-
 
     def insert_alimento(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -280,18 +279,6 @@ class Registro_Alimento(New_ventana):
         
         conn.close()
         
-    def actualizar_calorias_totales(self):
-        total_calorias = self.calcular_calorias_totales()
-        self.label_total_calorias.configure(text=f"Total calorías del día: {total_calorias}")
 
-    def calcular_calorias_totales(self):
-        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
-        cursor = conn.cursor()
-        fecha_actual = datetime.now().strftime('%d-%m-%Y')
-        query = '''
-        SELECT SUM(cantidad) FROM consumo_diario WHERE fecha = ?
-        '''
-        cursor.execute(query, (fecha_actual,))
-        resultado = cursor.fetchone()[0]
-        conn.close()
-        return resultado if resultado else 0
+
+
