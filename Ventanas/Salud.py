@@ -1,4 +1,5 @@
 from Ventanas.Ventana_interfaz import New_ventana
+from Ventanas.update_peso import Peso
 from util.colores import *
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox  # Importamos la librería para la messagebox
@@ -70,4 +71,7 @@ class Salud(New_ventana):
          else:  # Si el botón está inactivo (gris)
              self.botones[indice].configure(fg_color="green")  # Cambiar a verde
              self.estado_botones[indice] = True  # Cambiar estado a activo
+    
+    def actualizar_peso(self):
+        Peso(self, self.usuario)
 
