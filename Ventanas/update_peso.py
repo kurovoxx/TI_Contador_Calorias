@@ -18,7 +18,7 @@ class Peso(ctk.CTkToplevel):
         self.add_widget()
 
     def add_widget(self):
-        self.peso_actual_label = ctk.CTkLabel(self.main_frame, text="Get peso actual", font=('Arial', 24, 'bold'))
+        self.peso_actual_label = ctk.CTkLabel(self.main_frame, text=self.get_peso(), font=('Arial', 20, 'bold'))
         self.peso_actual_label.pack(padx=3, pady=(40, 30))
 
         self.peso_label = ctk.CTkLabel(self.main_frame, text="Ingrese su peso actual:")
@@ -50,14 +50,19 @@ class Peso(ctk.CTkToplevel):
                     conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
                     cursor = conn.cursor()
 
-                    query = "INSERT INTO peso (fecha, peso) VALUES (?, ?)"
-                    cursor.execute(query, (datetime.now().strftime('%d-%m-%Y'), peso))
+                    if datetime.now().strftime('%d-%m-%Y') == self.get_fecha():
+                        CTkMessagebox(title="Advertencia", message="Solo puedes registrar tu peso una ves al día.",
+                                icon='warning', option_1="Ok")
+                    
+                    else:
+                        query = "INSERT INTO peso (fecha, peso) VALUES (?, ?)"
+                        cursor.execute(query, (datetime.now().strftime('%d-%m-%Y'), peso))
 
-                    conn.commit()
+                        conn.commit()
 
-                    CTkMessagebox(title="Exito", message="Peso actualizado",
-                                icon='check',
-                                option_1="Ok")
+                        CTkMessagebox(title="Exito", message="Peso actualizado",
+                                    icon='check',
+                                    option_1="Ok")
 
                 except sqlite3.IntegrityError:
                     CTkMessagebox(title="Advertencia", message="Solo puedes registrar tu peso una ves al día.",
@@ -70,3 +75,40 @@ class Peso(ctk.CTkToplevel):
             except ValueError:
                 CTkMessagebox(title="Advertencia", message="Ingrese un peso válido.",
                             icon='warning', option_1="Ok")
+    
+    def get_peso(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+
+        query = "SELECT peso FROM peso ORDER BY num DESC LIMIT 1;"
+        cursor.execute(query)
+        resultado = cursor.fetchone()
+
+        if resultado:
+            peso_str = resultado[0]  # Esto te dará la fecha como un string
+            conn.commit()
+            conn.close()
+            return f'Su último peso registrado fue: {peso_str}'
+        else:
+            peso_str = None  # Si no hay registros en la tabla
+            conn.commit()
+            conn.close()
+            return 'Aún no has registrado tu peso!'
+    
+    def get_fecha(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+
+        query = "SELECT fecha FROM peso ORDER BY num DESC LIMIT 1;"
+        cursor.execute(query)
+        resultado = cursor.fetchone()
+
+        if resultado:
+            fecha_str = resultado[0]  # Esto te dará la fecha como un string
+            conn.commit()
+            conn.close()
+            return fecha_str
+        else:
+            conn.commit()
+            conn.close()
+            return
