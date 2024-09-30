@@ -17,6 +17,11 @@ class Registro_Alimento(New_ventana):
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
+        
+        ultimo_alimento = self.get_ultimo_insertado() # Se inicia en el constructor para que siempre se muestre :)
+        self.label_segundo_registro.configure(text=ultimo_alimento)
+        total_calorias = self.calcular_calorias_totales() # lo mismo que el anterior pero para el total de calorías
+        self.label_total_c_mostrar.configure(text=total_calorias)
 
     def mostrar_ventana_alerta(self):
         # Texto introductorio para la sección "Registrar alimento"
@@ -120,8 +125,16 @@ class Registro_Alimento(New_ventana):
         # Etiqueta para mostrar el total de calorías consumidas en el día
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: 0", text_color="white", 
                                                  bg_color=azul_medio_oscuro, font=("Arial", 20))
+
+        self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: ", text_color="white", 
+                                                 bg_color="#183549", font=("Arial", 20))
+
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
 
+        # Segundo label, muestra el total de calorias
+        self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color="white",
+                                                  bg_color="#1f2329", font=("Arial", 20))
+        self.label_total_c_mostrar.place(relx=0.5, rely=0.40, relwidth=0.4, relheight=0.055)
 
 
     def cargar_alimentos(self):
@@ -153,8 +166,15 @@ class Registro_Alimento(New_ventana):
             self.coincidencias.insert(ctk.END, alimento)
 
     def rellenar(self, e):
+        # Obtener el alimento seleccionado de la lista de coincidencias
+        alimento_seleccionado = self.coincidencias.get(ctk.ACTIVE)
+    
+        # Actualizar el campo de entrada con el alimento seleccionado
         self.entry_buscar.delete(0, ctk.END)
-        self.entry_buscar.insert(0, self.coincidencias.get(ctk.ACTIVE))
+        self.entry_buscar.insert(0, alimento_seleccionado)
+    
+        # Llamar a la lógica de selección de alimento (como lo haces con el ComboBox)
+        self.on_alimento_select(alimento_seleccionado)
 
     def obtener_busqueda(self, e):
         typeado = self.entry_buscar.get()
@@ -175,6 +195,8 @@ class Registro_Alimento(New_ventana):
         alimento_seleccionado = self.combo_box.get()
         alimento_entry = self.entry_buscar.get().strip()
         calorias_ingresadas = self.entry.get().strip()
+        
+        print(f"Alimento seleccionado del ComboBox: {alimento_seleccionado}")  # Depuracion waza
 
         if alimento_seleccionado != "Seleccionar alimento":
             alimento = alimento_seleccionado
@@ -207,7 +229,7 @@ class Registro_Alimento(New_ventana):
 
     def actualizar_calorias_totales(self):
         total_calorias = self.calcular_calorias_totales()
-        self.label_total_calorias.configure(text=f"Total calorías del día: {total_calorias}")
+        self.label_total_c_mostrar.configure(text=total_calorias)
 
     def calcular_calorias_totales(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -225,7 +247,6 @@ class Registro_Alimento(New_ventana):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
 
-        # Query to insert or update food entry
         insert_query = '''
         INSERT INTO consumo_diario (nombre, fecha, hora, cantidad, total_cal) 
         VALUES (?, ?, ?, ?, ?);
