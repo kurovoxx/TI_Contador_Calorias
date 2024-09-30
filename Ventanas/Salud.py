@@ -3,42 +3,40 @@ from Ventanas.update_peso import Peso
 from util.colores import *
 import customtkinter as ctk
 import sqlite3
-from CTkMessagebox import CTkMessagebox  # Importamos la librería para la messagebox
+from CTkMessagebox import CTkMessagebox
 
 class Salud(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        # self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
-  
+
     def add_widget_salud(self):
-<<<<<<< HEAD
         # Botón "Actualizar Peso"
         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray")
         self.btn_actualizar_peso.place(x=50, y=50)
-=======
-         # Botón "Actualizar Peso"
-         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray", command=self.actualizar_peso)
-         self.btn_actualizar_peso.place(x=50, y=50)  # Colocar en la posición exacta
->>>>>>> 7fe0ebbda12bbbca7254d3e1fc0602a199187ae0
 
         # Botón "Medir pulsaciones"
         self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="gray")
         self.btn_medir_pulsaciones.place(x=50, y=150)
 
-        # Botón "IMC" y "*IMC"
-        self.label_imc = ctk.CTkLabel(self.sub, text="IMC: ", fg_color=None, text_color="black", font=("Arial", 15))
-        self.label_imc.place(x=600, y=250)
+        # IMC Label and Result
+        self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color=oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
+        self.label_imc.configure(corner_radius=5)
+        self.label_imc.place(x=500, y=50)
 
-        self.btn_imc_rojo = ctk.CTkButton(self.sub, text="Calcular IMC", width=100, height=50, fg_color="red", command=self.calcular_imc)
-        self.btn_imc_rojo.place(x=600, y=50)
+        self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color=None, text_color="black", font=("Arial", 15))
+        self.result_imc.place(x=610, y=50)
 
-        # Botón "IBR" y "*IBR"
-        self.btn_ibr = ctk.CTkButton(self.sub, text="IBR", width=100, height=50, fg_color="gray")
-        self.btn_ibr.place(x=500, y=150)
+        # TMB Label and Result
+        self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color=oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
+        self.label_tmb.configure(corner_radius=5)
+        self.label_tmb.place(x=500, y=150)
 
-        self.btn_ibr_rojo = ctk.CTkButton(self.sub, text="*IBR", width=100, height=50, fg_color="red")
-        self.btn_ibr_rojo.place(x=600, y=150)
+        self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color=None, text_color="black", font=("Arial", 15))
+        self.result_tmb.place(x=610, y=150)
+
+        # Calculate and display IMC and TMB
+        self.update_health_metrics()
 
         # Crear los 8 botones redondeados debajo de la barra
         self.botones = []
@@ -59,6 +57,20 @@ class Salud(New_ventana):
         self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
         self.label_vasos_agua.place(x=600, y=420)
 
+    def update_health_metrics(self):
+        imc = self.calcular_imc()
+        tmb = self.calcular_TMB()
+
+        if imc is not None:
+            self.result_imc.configure(text=f"{imc:.2f}")
+        else:
+            self.result_imc.configure(text="Error")
+
+        if tmb is not None:
+            self.result_tmb.configure(text=f"{tmb:.2f}")
+        else:
+            self.result_tmb.configure(text="Error")
+
     def calcular_imc(self):
         try:
             conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -68,43 +80,20 @@ class Salud(New_ventana):
             resultado_estatura = cursor.fetchone()
             if resultado_estatura is None:
                 raise ValueError("No se encontró la estatura para el usuario")
-            estatura = resultado_estatura[0]
-            estatura = float(estatura / 100)
+            estatura = resultado_estatura[0] / 100  # Convert to meters
 
-<<<<<<< HEAD
             cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
             resultado_peso = cursor.fetchone()
             if resultado_peso is None:
                 raise ValueError("No se encontró el peso para el usuario")
             peso = resultado_peso[0]
-=======
-     # Nueva función para alternar el color y estado de los botones
-    def toggle_color(self, indice):
-         # Cambia el estado del botón (True = verde, False = gris)
-         if self.estado_botones[indice]:  # Si el botón está activo (verde)
-             self.botones[indice].configure(fg_color="gray")  # Cambiar a gris
-             self.estado_botones[indice] = False  # Cambiar estado a inactivo
-         else:  # Si el botón está inactivo (gris)
-             self.botones[indice].configure(fg_color="green")  # Cambiar a verde
-             self.estado_botones[indice] = True  # Cambiar estado a activo
-    
-    def actualizar_peso(self):
-        Peso(self.sub, self.usuario)
->>>>>>> 7fe0ebbda12bbbca7254d3e1fc0602a199187ae0
 
             imc = peso / (estatura ** 2)
-            self.label_imc.configure(text=f"IMC: {imc:.2f}")
             return imc
 
-        except sqlite3.Error as e:
-            print(f"Error de base de datos: {e}")
-            self.label_imc.configure(text="Error al calcular IMC")
-        except ValueError as e:
-            print(f"Error de valor: {e}")
-            self.label_imc.configure(text="Datos insuficientes para IMC")
-        except Exception as e:
-            print(f"Error inesperado: {e}")
-            self.label_imc.configure(text="Error al calcular IMC")
+        except (sqlite3.Error, ValueError) as e:
+            print(f"Error al calcular IMC: {e}")
+            return None
         finally:
             if conn:
                 conn.close()
@@ -114,12 +103,12 @@ class Salud(New_ventana):
             conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
             cursor = conn.cursor()
             
-            cursor.execute("SELECT estatura FROM datos")
-            resultado_estatura = cursor.fetchone()
-            if resultado_estatura is None:
-                raise ValueError("No se encontró la estatura para el usuario")
-            estatura = resultado_estatura[0]
-            estatura = float(estatura / 100)
+            cursor.execute("SELECT estatura, edad, genero FROM datos")
+            result = cursor.fetchone()
+            if result is None:
+                raise ValueError("No se encontraron datos del usuario")
+            estatura, edad, genero = result
+            estatura = estatura / 100  # Convert to meters
 
             cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
             resultado_peso = cursor.fetchone()
@@ -127,38 +116,18 @@ class Salud(New_ventana):
                 raise ValueError("No se encontró el peso para el usuario")
             peso = resultado_peso[0]
 
-            cursor.execute("SELECT edad FROM datos ORDER BY fecha DESC LIMIT 1")
-            resultado_edad = cursor.fetchone()
-            if resultado_edad is None:
-                raise ValueError("No se encontró el peso para el usuario")
-            edad = resultado_edad[0]
-
-            cursor.execute("SELECT genero FROM datos")
-            resultado_genero = cursor.fetchone()
-            if resultado_genero is None:
-                raise ValueError("No se encontró el sexo para el usuario")
-            genero = resultado_genero[0]
-            
-            if genero == "hombre" or "masculino":
+            if genero.lower() in ["hombre", "masculino"]:
                 tmb = 66 + (13.75 * peso) + (5 * estatura * 100) - (6.75 * edad)
-            elif genero == "femenino" or "mujer":
+            elif genero.lower() in ["mujer", "femenino"]:
                 tmb = 655 + (9.56 * peso) + (1.85 * estatura * 100) - (4.67 * edad)
             else:
-                raise ValueError("Sexo no válido")
+                raise ValueError("Género no válido")
             
-            self.label_imc.configure(text=f"TMB: {tmb:.2f}")
-
             return tmb
 
-        except sqlite3.Error as e:
-            print(f"Error de base de datos: {e}")
-            self.label_imc.configure(text="Error al calcular IMC")
-        except ValueError as e:
-            print(f"Error de valor: {e}")
-            self.label_imc.configure(text="Datos insuficientes para IMC")
-        except Exception as e:
-            print(f"Error inesperado: {e}")
-            self.label_imc.configure(text="Error al calcular IMC")
+        except (sqlite3.Error, ValueError) as e:
+            print(f"Error al calcular TMB: {e}")
+            return None
         finally:
             if conn:
                 conn.close()
