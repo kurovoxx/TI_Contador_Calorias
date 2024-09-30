@@ -1,13 +1,25 @@
 import customtkinter as ctk
 from tkinter import messagebox
+from CTkMessagebox import CTkMessagebox  # Importa CTkMessagebox
 from Ventanas.Ventana_interfaz import New_ventana
-
+from util.colores import *
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.mostrar_messagebox()  # Mostrar Messagebox al abrir la pestaña
         self.add_widget_config()
         self.contruirWidget()
+
+    def mostrar_messagebox(self):
+        """Muestra un Messagebox con información introductoria."""
+        CTkMessagebox(
+            title="Configuración",
+            message="En esta sección puedes actualizar tu información personal como nombre, edad, peso y objetivo de calorías. "
+                    "Recuerda guardar los cambios antes de salir.",
+            icon="info",  # Tipo de ícono que deseas mostrar (info, warning, error)
+            option_1="OK"  # Opción que ofrece el mensaje (puedes agregar más si es necesario)
+        )
 
     def add_widget_config(self):
         #Titulo para el modulo configuración :)

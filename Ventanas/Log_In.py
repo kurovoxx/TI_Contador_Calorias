@@ -2,6 +2,12 @@ import customtkinter as ctk
 import os
 from CTkMessagebox import CTkMessagebox
 import sqlite3
+from util.colores import *
+
+
+import customtkinter as ctk
+import os
+import sqlite3
 
 
 class Log_in(ctk.CTkToplevel):
@@ -21,15 +27,19 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame = ctk.CTkFrame(self.main_frame, fg_color='red', corner_radius=0)
+        self.frame = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame.pack(fill='both', expand=True)
 
         self.btn_iniciar = ctk.CTkButton(
-            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0)
+            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0, 
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_iniciar.place(x=170, y=100)
 
         self.btn_registrarse = ctk.CTkButton(
-            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0)
+            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0, 
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_registrarse.place(x=170, y=180)
 
     def win_iniciar(self):
@@ -37,7 +47,7 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='blue', corner_radius=0)
+        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame_iniciar.pack(fill='both', expand=True)
 
         self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
@@ -48,7 +58,9 @@ class Log_in(ctk.CTkToplevel):
         self.users_combobox.pack(padx=3, pady=(0, 2))
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
+            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_volver.place(x=180, y=300)
 
     def win_registrar(self):
@@ -56,7 +68,7 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x600')
 
-        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='yellow', corner_radius=0)
+        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
         self.frame_registrar.pack(fill='both', expand=True)
 
         self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre:")
@@ -103,6 +115,14 @@ class Log_in(ctk.CTkToplevel):
             self.frame_registrar, placeholder_text="Introduce tu altura", width=250, corner_radius=0)
         self.altura_entry.pack(padx=3, pady=(0, 2))
 
+        self.meta_label = ctk.CTkLabel(
+            self.frame_registrar, text="Meta de calorías diaria:")
+        self.meta_label.pack(anchor="w", padx=3, pady=(2, 0))
+
+        self.meta_entry = ctk.CTkEntry(
+            self.frame_registrar, width=250, corner_radius=0)
+        self.meta_entry.pack(padx=3, pady=(0, 2))
+
         self.lvl_actividad_label = ctk.CTkLabel(
             self.frame_registrar, text="Nivel de Actividad:")
         self.lvl_actividad_label.pack(anchor="w", padx=3, pady=(2, 0))
@@ -112,11 +132,15 @@ class Log_in(ctk.CTkToplevel):
         self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0)
+            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.guardar_button.pack(pady=10)
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0)
+            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.btn_volver.pack(pady=10)
 
     def guardar(self):
@@ -130,21 +154,27 @@ class Log_in(ctk.CTkToplevel):
         self.insertar_usuario(self.nombre_entry.get(), self.contra_entry.get())
 
         try:
-            with open(f"./users/{self.nombre_entry.get()}/datos_usuario.txt", "a") as archivo_n:
-                nombre = self.nombre_entry.get()
-                archivo_n.write(f'{nombre}\n')
+            conn = sqlite3.connect(f"./users/{self.nombre_entry.get()}/alimentos.db")
+            cursor = conn.cursor()
 
-                edad = self.edad_entry.get()
-                archivo_n.write(f'{edad}\n')
+            nombre = self.nombre_entry.get()
+            estatura = self.altura_entry.get()
+            nivel_actividad = self.lvl_actividad_combobox.get()
+            genero = self.gen_combobox.get()
+            meta_cal = self.meta_entry.get()
+            edad = self.edad_entry.get()
 
-                sexo = self.gen_combobox.get()
-                archivo_n.write(f'{sexo}\n')
+            # Consulta SQL para insertar los datos
+            sql = """
+            INSERT INTO datos (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """
+            valores = (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
 
-                altura = self.altura_entry.get()
-                archivo_n.write(f'{altura}\n')
+            # Ejecutar la consulta en la base de datos
+            cursor.execute(sql, valores)
+            conn.commit()
 
-                nivel_actividad = self.lvl_actividad_combobox.get()
-                archivo_n.write(f'{nivel_actividad}\n')
 
             with open('usuario_actual.txt', 'w') as users:
                 nombre = self.nombre_entry.get()
@@ -182,14 +212,46 @@ class Log_in(ctk.CTkToplevel):
                     nombre TEXT NOT NULL,
                     fecha TEXT NOT NULL,
                     hora TEXT NOT NULL,
-                    cantidad INTEGER NOT NULL
+                    cantidad INTEGER NOT NULL,
+                    total_cal REAL NOT NULL
                 )
                 ''')
 
         cursor.execute('''
                 CREATE TABLE IF NOT EXISTS peso (
-                    fecha TEXT PRIMARY KEY,
+                    num INTEGER PRIMARY KEY AUTOINCREMENT,
+                    fecha TEXT,
                     peso REAL
+                )
+                ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS agua (
+                    num INTEGER PRIMARY KEY AUTOINCREMENT,
+                    fecha TEXT,
+                    cant INTEGER
+                )
+                ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS datos (
+                    nombre TEXT PRIMARY KEY,
+                    estatura INTEGER,
+                    nivel_actividad TEXT,
+                    genero TEXT,
+                    meta_cal INTEGER,
+                    edad INTEGER
+                )
+                ''')
+        
+        cursor.execute('''
+                CREATE TABLE IF NOT EXISTS mensajes (
+                    registrar_alimento INTEGER DEFAULT 0,
+                    agregar_alimento INTEGER DEFAULT 0,
+                    graficos INTEGER DEFAULT 0,
+                    configuracion INTEGER DEFAULT 0,
+                    salud INTEGER DEFAULT 0,
+                    admin_alimentos INTEGER DEFAULT 0
                 )
                 ''')
 
@@ -233,7 +295,9 @@ class Log_in(ctk.CTkToplevel):
         self.contra_ingreso_entry.pack(padx=3, pady=(0, 2))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0)
+            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0,
+            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+        )
         self.guardar_button.pack(pady=30)
 
     def obtener_usuarios(self):
@@ -303,3 +367,20 @@ class Log_in(ctk.CTkToplevel):
     def escribir_usuario_actual(self):
         with open('usuario_actual.txt', 'w') as users:
             users.write(self.users_combobox.get())
+            
+    '''
+    def temp(self):
+        try:
+            conn = sqlite3.connect('usuarios.db')
+            cursor = conn.cursor()
+
+            query = "DELETE FROM users;"
+            cursor.execute(query)
+
+            conn.commit()
+
+        except sqlite3.IntegrityError:
+           pass
+        finally:
+            conn.close()
+    '''
