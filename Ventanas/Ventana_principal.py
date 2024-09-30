@@ -223,7 +223,7 @@ class Main(ctk.CTk):
 
     def abrir_salud(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Salud(self.cuerpo_principal, '#01e5e9')   
+        Salud(self.cuerpo_principal, '#484c4c')   
 
     def log_in(self):
         Log_in(self)
