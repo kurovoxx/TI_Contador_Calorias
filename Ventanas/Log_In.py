@@ -219,14 +219,16 @@ class Log_in(ctk.CTkToplevel):
 
         cursor.execute('''
                 CREATE TABLE IF NOT EXISTS peso (
-                    fecha TEXT PRIMARY KEY,
+                    num INTEGER PRIMARY KEY AUTOINCREMENT,
+                    fecha TEXT,
                     peso REAL
                 )
                 ''')
         
         cursor.execute('''
                 CREATE TABLE IF NOT EXISTS agua (
-                    fecha TEXT PRIMARY KEY,
+                    num INTEGER PRIMARY KEY AUTOINCREMENT,
+                    fecha TEXT,
                     cant INTEGER
                 )
                 ''')

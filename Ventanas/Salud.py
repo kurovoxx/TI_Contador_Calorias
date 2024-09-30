@@ -1,4 +1,5 @@
 from Ventanas.Ventana_interfaz import New_ventana
+from Ventanas.update_peso import Peso
 from util.colores import *
 import customtkinter as ctk
 import sqlite3
@@ -11,9 +12,15 @@ class Salud(New_ventana):
         self.add_widget_salud()
   
     def add_widget_salud(self):
+<<<<<<< HEAD
         # Botón "Actualizar Peso"
         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray")
         self.btn_actualizar_peso.place(x=50, y=50)
+=======
+         # Botón "Actualizar Peso"
+         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="gray", command=self.actualizar_peso)
+         self.btn_actualizar_peso.place(x=50, y=50)  # Colocar en la posición exacta
+>>>>>>> 7fe0ebbda12bbbca7254d3e1fc0602a199187ae0
 
         # Botón "Medir pulsaciones"
         self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="gray")
@@ -64,11 +71,26 @@ class Salud(New_ventana):
             estatura = resultado_estatura[0]
             estatura = float(estatura / 100)
 
+<<<<<<< HEAD
             cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
             resultado_peso = cursor.fetchone()
             if resultado_peso is None:
                 raise ValueError("No se encontró el peso para el usuario")
             peso = resultado_peso[0]
+=======
+     # Nueva función para alternar el color y estado de los botones
+    def toggle_color(self, indice):
+         # Cambia el estado del botón (True = verde, False = gris)
+         if self.estado_botones[indice]:  # Si el botón está activo (verde)
+             self.botones[indice].configure(fg_color="gray")  # Cambiar a gris
+             self.estado_botones[indice] = False  # Cambiar estado a inactivo
+         else:  # Si el botón está inactivo (gris)
+             self.botones[indice].configure(fg_color="green")  # Cambiar a verde
+             self.estado_botones[indice] = True  # Cambiar estado a activo
+    
+    def actualizar_peso(self):
+        Peso(self.sub, self.usuario)
+>>>>>>> 7fe0ebbda12bbbca7254d3e1fc0602a199187ae0
 
             imc = peso / (estatura ** 2)
             self.label_imc.configure(text=f"IMC: {imc:.2f}")
