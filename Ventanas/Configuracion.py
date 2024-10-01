@@ -2,14 +2,14 @@ import customtkinter as ctk
 from tkinter import messagebox
 from CTkMessagebox import CTkMessagebox  # Importa CTkMessagebox
 from Ventanas.Ventana_interfaz import New_ventana
-from util.colores import *
+import sqlite3
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.panel_principal = panel_principal 
         self.mostrar_messagebox()  # Mostrar Messagebox al abrir la pestaña
         self.add_widget_config()
-        self.contruirWidget()
 
     def mostrar_messagebox(self):
         """Muestra un Messagebox con información introductoria."""
@@ -22,42 +22,18 @@ class Configuracion(New_ventana):
         )
 
     def add_widget_config(self):
-        #Titulo para el modulo configuración :)
-        self.title_label = ctk.CTkLabel(self.sub, text="Actualizar informacion Usuario",text_color="white",font=("Arial", 27))
+        # Título para el módulo configuración
+        self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
         self.title_label.pack(padx=20, pady=5, anchor="w")
         
         self.perfil_frame = ctk.CTkFrame(self.sub, width=300)
         self.perfil_frame.pack(padx=20, pady=10, anchor="w")
-
-        self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
-        self.nombre_label.pack(anchor="w", padx=3, pady=3)
-        
-        self.nombre_entry = ctk.CTkEntry(self.perfil_frame, placeholder_text="Introduce tu nombre", width=250)
-        self.nombre_entry.pack(padx=3, pady=(0, 2))
 
         self.edad_label = ctk.CTkLabel(self.perfil_frame, text="Edad:")
         self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
         
         self.edad_entry = ctk.CTkEntry(self.perfil_frame, placeholder_text="Introduce tu edad", width=250)
         self.edad_entry.pack(padx=3, pady=(0, 2))
-
-        self.gen_label = ctk.CTkLabel(self.perfil_frame, text="Sexo:")
-        self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
-        
-        self.gen_combobox = ctk.CTkComboBox(self.perfil_frame, values=["Masculino", "Femenino", "Otro"], width=250)
-        self.gen_combobox.pack(padx=3, pady=(0, 2))
-
-        self.peso_label = ctk.CTkLabel(self.perfil_frame, text="Peso (kg):")
-        self.peso_label.pack(anchor="w", padx=3, pady=(2, 0))
-        
-        self.peso_entry = ctk.CTkEntry(self.perfil_frame, placeholder_text="Introduce tu peso", width=250)
-        self.peso_entry.pack(padx=3, pady=(0, 2))
-
-        self.altura_label = ctk.CTkLabel(self.perfil_frame, text="Altura (cm):")
-        self.altura_label.pack(anchor="w", padx=3, pady=(2, 0))
-        
-        self.altura_entry = ctk.CTkEntry(self.perfil_frame, placeholder_text="Introduce tu altura", width=250)
-        self.altura_entry.pack(padx=3, pady=(0, 2))
 
         self.obj_calorias_label = ctk.CTkLabel(self.perfil_frame, text="Objetivo de Calorías:")
         self.obj_calorias_label.pack(anchor="w", padx=3, pady=(2, 0))
@@ -73,24 +49,37 @@ class Configuracion(New_ventana):
 
         self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Actualizar información", command=self.guardar, width=250)
         self.guardar_button.pack(pady=5)
-        
+
+        # Boton actualizar contra
+        self.mostrar_contra_button = ctk.CTkButton(self.perfil_frame, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena, width=250)
+        self.mostrar_contra_button.pack(pady=10)
+
+    def mostrar_formulario_contrasena(self):
+        # Crea ventana contra
+        self.nueva_ventana = ctk.CTkToplevel(self.panel_principal)
+        self.nueva_ventana.title("Actualizar Contraseña")
+        self.nueva_ventana.geometry("400x300")  
+
+        self.nombre_label = ctk.CTkLabel(self.nueva_ventana, text="Nombre de Usuario:")
+        self.nombre_label.pack(anchor="w", padx=3, pady=(5, 0))
+
+        self.nombre_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce tu nombre de usuario", width=250)
+        self.nombre_entry.pack(padx=3, pady=(0, 5))
+
+        self.nueva_contra_label = ctk.CTkLabel(self.nueva_ventana, text="Nueva Contraseña:")
+        self.nueva_contra_label.pack(anchor="w", padx=3, pady=(5, 0))
+
+        self.nueva_contra_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce la nueva contraseña", width=250, show='*')
+        self.nueva_contra_entry.pack(padx=3, pady=(0, 5))
+
+        self.actualizar_contra_button = ctk.CTkButton(self.nueva_ventana, text="Actualizar Contraseña", command=self.actualizar_contrasena, width=250)
+        self.actualizar_contra_button.pack(pady=5)
+
     def guardar(self):
         try:
             with open("users/holi/datos_usuario.txt", "w") as archivo_n:
-                nombre = self.nombre_entry.get()
-                archivo_n.write(f'Nombre: {nombre}\n')
-
                 edad = self.edad_entry.get()
                 archivo_n.write(f'Edad: {edad}\n')
-
-                sexo = self.gen_combobox.get()
-                archivo_n.write(f'Genero: {sexo}\n')
-
-                peso = self.peso_entry.get()
-                archivo_n.write(f'Peso: {peso}\n')
-
-                altura = self.altura_entry.get()
-                archivo_n.write(f'Altura: {altura}\n')
 
                 objetivo_calorias = self.obj_calorias_combobox.get()
                 archivo_n.write(f'Objetivo: {objetivo_calorias}\n')
@@ -103,12 +92,30 @@ class Configuracion(New_ventana):
         except FileNotFoundError:
             messagebox.showerror("Error", "Hubo un problema al guardar los datos.")
 
-    def contruirWidget(self):
-        self.info_frame = ctk.CTkFrame(self.sub, width=250)
-        self.info_frame.pack(padx=20, pady=5, anchor="w")
-        
-        self.labelVersion = ctk.CTkLabel(self.info_frame, text="Version : 1.0", width=250)
-        self.labelVersion.pack(pady=3)
+    def actualizar_contrasena(self):
+        """Actualiza la contraseña en la base de datos."""
+        nombre_usuario = self.nombre_entry.get()
+        nueva_contra = self.nueva_contra_entry.get()
 
-        self.labelAutor = ctk.CTkLabel(self.info_frame, text="Autor : Los insanos 2.0", width=250)
-        self.labelAutor.pack(pady=3)
+        if not nombre_usuario or not nueva_contra:
+            messagebox.showwarning("Advertencia", "Por favor, completa todos los campos.")
+            return
+
+        try:
+            conn = sqlite3.connect("./usuarios.db") 
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT nombre FROM users WHERE nombre = ?", (nombre_usuario,))
+            user = cursor.fetchone()
+
+            if user:
+                # Actualiza la contraseña del usuario :)
+                cursor.execute("UPDATE users SET contra = ? WHERE nombre = ?", (nueva_contra, nombre_usuario))
+                conn.commit()
+                messagebox.showinfo("Confirmación", "La contraseña ha sido actualizada correctamente.")
+            else:
+                messagebox.showerror("Error", "El usuario no existe.")
+
+            conn.close()
+        except sqlite3.Error as e:
+            messagebox.showerror("Error", f"Error en la base de datos: {e}")
