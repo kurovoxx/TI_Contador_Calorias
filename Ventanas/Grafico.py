@@ -12,32 +12,23 @@ class Grafico(New_ventana):
         self.add_widget_graficos()
 
     def add_widget_graficos(self):
-        grafico_frame = ctk.CTkScrollableFrame(self.panel_principal, width=800, height=550, fg_color='#404B4C', bg_color='#404B4C')
-        grafico_frame.place(relx=0.5, y=0.5, anchor='n')
-        self.crear_graficos(grafico_frame)
-
-    def crear_graficos(self, frame):
-        fig = Figure(figsize=(8, 10), dpi=100, facecolor='#404B4C')  
-        fig.subplots_adjust(hspace=0.4)
-    
-        # Config. Gráficos
-        ax1 = fig.add_subplot(211) 
+        tabview = ctk.CTkTabview(self.panel_principal, width=800, height=550, fg_color='#404B4C', bg_color='#404B4C')
+        tabview.place(relx=0.01, rely=0.005, relwidth=1, relheight=1)
+        tab1 = tabview.add("Calorías vs Tiempo")
+        tab2 = tabview.add("Peso vs Tiempo")
+        self.crear_grafico_calorias(tab1)
+        self.crear_grafico_peso(tab2)
+        
+    def crear_grafico_calorias(self, frame):
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        ax1 = fig.add_subplot(111)
         fecha, cantidad = self.datos_calorias()
-        ax2 = fig.add_subplot(212)  
-        fecha2, peso = self.datos_peso()
         ax1.set_facecolor(oscuro)
         ax1.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
         ax1.set_title('Calorías vs Tiempo', color='white', fontsize=12)
         ax1.set_ylabel('Calorías', color='white', fontsize=10)
         ax1.set_xlabel('Fecha', color='white', fontsize=10)
-        ax2.set_facecolor(oscuro)
-        ax2.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
-        ax2.set_title('Peso vs Tiempo', color='white', fontsize=12)
-        ax2.set_ylabel('Peso (kg)', color='white', fontsize=10)
-        ax2.set_xlabel('Fecha', color='white', fontsize=10)
-        
-        
-        # Ocultar datos eje Y en caso de no haber datos
+
         if len(cantidad) > 0:
             bars = ax1.bar(fecha, cantidad, color=azul_mas_clarito, edgecolor='black', linewidth=1.5)
             for bar in bars:
@@ -47,39 +38,41 @@ class Grafico(New_ventana):
             ax1.set_yticks(ax1.get_yticks())
         else:
             ax1.set_yticks([])
+
+        # Ajuste de ticks y etiquetas
+        ax1.set_xticks(range(len(fecha)))  
+        ax1.set_xticklabels(fecha, rotation=45, ha='right', fontsize=8, color='white')
+
+        # Canvas
+        canvas = FigureCanvasTkAgg(fig, master=frame)
+        canvas.draw()
+        widget_canvas = canvas.get_tk_widget()
+        widget_canvas.pack(fill='both', expand=True)
+
+    def crear_grafico_peso(self, frame):
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        ax2 = fig.add_subplot(111)
+        fecha2, peso = self.datos_peso()
+        ax2.set_facecolor(oscuro)
+        ax2.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
+        ax2.set_title('Peso vs Tiempo', color='white', fontsize=12)
+        ax2.set_ylabel('Peso (kg)', color='white', fontsize=10)
+        ax2.set_xlabel('Fecha', color='white', fontsize=10)
+
         if len(peso) > 0:
             ax2.plot(fecha2, peso, color=celeste_pero_oscuro, marker='o', markersize=6, markerfacecolor='white', linestyle='-', linewidth=2.5)
         else:
             ax2.set_yticks([])
 
-        # Desplazamiento de etiquetas
-        x_locs_barras = [bar.get_x() + bar.get_width() / 2 for bar in bars] if len(cantidad) > 0 else []
-        desplazamiento_barras = 0.2
-        x_locs_adjusted_barras = [x + desplazamiento_barras for x in x_locs_barras]
-        ax1.set_xticks(x_locs_adjusted_barras)
-        ax1.set_xticklabels(fecha, rotation=45, ha='right', fontsize=8, color='white')
-        x_locs_lineas = range(len(fecha2))
-        desplazamiento_lineas = 0.1
-        x_locs_adjusted_lineas = [x + desplazamiento_lineas for x in x_locs_lineas]
-        ax2.set_xticks(x_locs_adjusted_lineas)
+        # Ajuste de ticks y etiquetas
+        ax2.set_xticks(range(len(fecha2)))  
         ax2.set_xticklabels(fecha2, rotation=45, ha='right', fontsize=8, color='white')
-        
-        # Ocultar titulo de Eje X cuando hayan datos
-        if len(cantidad) == 0:
-            ax1.set_xlabel('Fecha', color='white', fontsize=10)
-        else:
-            ax1.set_xlabel('')
 
-        if len(peso) == 0:
-            ax2.set_xlabel('Fecha', color='white', fontsize=10)
-        else:
-            ax2.set_xlabel('')
-
-        # Canvas 
+        # Canvas
         canvas = FigureCanvasTkAgg(fig, master=frame)
         canvas.draw()
         widget_canvas = canvas.get_tk_widget()
-        widget_canvas.pack(fill='both', expand=True)  
+        widget_canvas.pack(fill='both', expand=True)
 
     def datos_calorias(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
