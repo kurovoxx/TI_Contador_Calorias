@@ -94,7 +94,7 @@ class Registro_Alimento(New_ventana):
         self.barra_progreso_calorias.set(0)  # Inicialmente vacío
 
         # Añadir un campo de entrada para la hora de registro
-        self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM:SS):", text_color="white", bg_color='black', font=("Arial", 14))
+        self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color='black', font=("Arial", 14))
         self.label_hora.place(relx=0.1, rely=0.65, relwidth=0.3, relheight=0.04)
 
         self.entry_hora = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese hora (opcional)", 
