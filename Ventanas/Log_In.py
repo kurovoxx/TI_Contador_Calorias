@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import os
+import re
 from CTkMessagebox import CTkMessagebox
 import sqlite3
 from util.colores import *
@@ -146,6 +147,59 @@ class Log_in(ctk.CTkToplevel):
 
     def guardar(self):
 
+        nombre = self.nombre_entry.get()
+        contra = self.contra_entry.get()
+        peso = self.peso_entry.get()
+        estatura = self.altura_entry.get()
+        nivel_actividad = self.lvl_actividad_combobox.get()
+        genero = self.gen_combobox.get()
+        meta_cal = self.meta_entry.get()
+        edad = self.edad_entry.get()
+
+        nombre_regex = r'^[\w\-.]{1,14}$'
+        contra_regex = r'^[A-Za-z0-9]{4,15}$'
+
+        if nombre == '' or nombre == None:
+            CTkMessagebox(title="Advertencia", message="Por favor ingrese un nombre.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif nombre in self.obtener_usuarios():
+            CTkMessagebox(title="Advertencia", message="Este nombre de usuario no está disponible.",
+                        icon='warning', option_1="Ok")
+            return
+            
+        elif not re.match(nombre_regex, nombre):
+            CTkMessagebox(title="Advertencia", message="Su nombre de usuario es muy largo o contiene caracteres inválidos.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif contra == '' or contra == None:
+            CTkMessagebox(title="Advertencia", message="Ingrese una contraseña.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif not re.match(contra_regex, contra):
+            CTkMessagebox(title="Advertencia", message="Su contraseña debe contener entre 4 y 15 números o letras.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif edad == '' or edad == None or not isinstance(edad, int):
+            CTkMessagebox(title="Advertencia", message="Por favor ingrese su fecha de nacimiento.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif estatura == '' or estatura == None:
+            CTkMessagebox(title="Advertencia", message="Ingrese su estatura.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif not isinstance(estatura, int):
+            CTkMessagebox(title="Advertencia", message="Ingrese una estatura válida.",
+                        icon='warning', option_1="Ok")
+            return
+
+
         directorio = f'./users/{self.nombre_entry.get()}'
 
         os.makedirs(directorio, exist_ok=True)
@@ -158,22 +212,12 @@ class Log_in(ctk.CTkToplevel):
             conn = sqlite3.connect(f"./users/{self.nombre_entry.get()}/alimentos.db")
             cursor = conn.cursor()
 
-            nombre = self.nombre_entry.get()
-            peso = self.peso_entry.get()
-            estatura = self.altura_entry.get()
-            nivel_actividad = self.lvl_actividad_combobox.get()
-            genero = self.gen_combobox.get()
-            meta_cal = self.meta_entry.get()
-            edad = self.edad_entry.get()
-
-            # Consulta SQL para insertar los datos
             sql = """
             INSERT INTO datos (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
             VALUES (?, ?, ?, ?, ?, ?)
             """
             valores = (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
 
-            # Ejecutar la consulta en la base de datos
             cursor.execute(sql, valores)
 
             query_peso = '''
