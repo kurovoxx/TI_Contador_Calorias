@@ -10,7 +10,7 @@ class Salud(New_ventana):
         super().__init__(panel_principal, color)
         self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
-        self.update_health_metrics()
+        self.imc_tbm()
 
     # Función para mostrar la CTkMessagebox
     def mostrar_messagebox(self):
@@ -101,7 +101,7 @@ class Salud(New_ventana):
          self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
          self.label_vasos_agua.place(x=600, y=420)
 
-    def update_health_metrics(self):
+    def imc_tbm(self):
         imc = self.calcular_imc()
         tmb = self.calcular_TMB()
 
@@ -116,7 +116,7 @@ class Salud(New_ventana):
             self.result_tmb.configure(text="Error")
         
         self.sub.update()
-
+    
 
     def calcular_imc(self):
         try:
@@ -156,8 +156,8 @@ class Salud(New_ventana):
                 raise ValueError("No se encontraron datos del usuario")
             estatura, edad, genero = result
             estatura = estatura / 100  # Convertir a metros
-            
-            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
+
+            cursor.execute("SELECT peso FROM peso WHERE num = (SELECT MAX(num) FROM peso)")
             resultado_peso = cursor.fetchone()
             if resultado_peso is None:
                 raise ValueError("No se encontró ningún registro de peso")
