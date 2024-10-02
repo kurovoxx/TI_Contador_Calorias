@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import os
+import re
 from CTkMessagebox import CTkMessagebox
 import sqlite3
 from util.colores import *
@@ -8,6 +9,7 @@ from util.colores import *
 import customtkinter as ctk
 import os
 import sqlite3
+from datetime import datetime
 
 
 class Log_in(ctk.CTkToplevel):
@@ -120,7 +122,7 @@ class Log_in(ctk.CTkToplevel):
         self.meta_label.pack(anchor="w", padx=3, pady=(2, 0))
 
         self.meta_entry = ctk.CTkEntry(
-            self.frame_registrar, width=250, corner_radius=0)
+            self.frame_registrar, width=250, corner_radius=0, placeholder_text="Introduce tu meta de calorías")
         self.meta_entry.pack(padx=3, pady=(0, 2))
 
         self.lvl_actividad_label = ctk.CTkLabel(
@@ -145,6 +147,80 @@ class Log_in(ctk.CTkToplevel):
 
     def guardar(self):
 
+        nombre = self.nombre_entry.get()
+
+        contra = self.contra_entry.get()
+
+        try:
+            edad = int(self.edad_entry.get())
+        except:
+            CTkMessagebox(title="Advertencia", message="Ingrese una edad válida.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        peso = self.peso_entry.get()
+        try:
+            if peso == '' or peso == None:
+                pass
+            else:
+                peso = int(self.peso_entry.get())
+        except:
+            CTkMessagebox(title="Advertencia", message="Ingrese un peso válido.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        try:
+            estatura = int(self.altura_entry.get())
+        except:
+            CTkMessagebox(title="Advertencia", message="Ingrese una estatura válida.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        nivel_actividad = self.lvl_actividad_combobox.get()
+
+        genero = self.gen_combobox.get()
+
+        meta_cal = self.meta_entry.get()
+        try:
+            if meta_cal == '' or meta_cal == None:
+                pass
+            else:
+                meta_cal = int(self.meta_entry.get())
+        except:
+            CTkMessagebox(title="Advertencia", message="Ingrese una meta de calorías válida.",
+                        icon='warning', option_1="Ok")
+            return
+
+
+        nombre_regex = r'^[\w\-. ]{1,15}$'
+        contra_regex = r'^[A-Za-z0-9]{4,15}$'
+
+        if nombre == '' or nombre == None:
+            CTkMessagebox(title="Advertencia", message="Por favor ingrese un nombre.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif nombre in self.obtener_usuarios():
+            CTkMessagebox(title="Advertencia", message="Este nombre de usuario no está disponible.",
+                        icon='warning', option_1="Ok")
+            return
+            
+        elif not re.match(nombre_regex, nombre):
+            CTkMessagebox(title="Advertencia", message="Su nombre de usuario es muy largo o contiene caracteres inválidos.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif contra == '' or contra == None:
+            CTkMessagebox(title="Advertencia", message="Ingrese una contraseña.",
+                        icon='warning', option_1="Ok")
+            return
+        
+        elif not re.match(contra_regex, contra):
+            CTkMessagebox(title="Advertencia", message="Su contraseña debe tener entre 4 y 15 números o letras.",
+                        icon='warning', option_1="Ok")
+            return
+
+
         directorio = f'./users/{self.nombre_entry.get()}'
 
         os.makedirs(directorio, exist_ok=True)
@@ -157,22 +233,19 @@ class Log_in(ctk.CTkToplevel):
             conn = sqlite3.connect(f"./users/{self.nombre_entry.get()}/alimentos.db")
             cursor = conn.cursor()
 
-            nombre = self.nombre_entry.get()
-            estatura = self.altura_entry.get()
-            nivel_actividad = self.lvl_actividad_combobox.get()
-            genero = self.gen_combobox.get()
-            meta_cal = self.meta_entry.get()
-            edad = self.edad_entry.get()
-
-            # Consulta SQL para insertar los datos
             sql = """
             INSERT INTO datos (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
             VALUES (?, ?, ?, ?, ?, ?)
             """
             valores = (nombre, estatura, nivel_actividad, genero, meta_cal, edad)
 
-            # Ejecutar la consulta en la base de datos
             cursor.execute(sql, valores)
+
+            query_peso = '''
+            INSERT INTO peso (fecha, peso)
+            VALUES (?, ?)
+            '''
+            cursor.execute(query_peso,(datetime.now().strftime('%d-%m-%Y'), peso))
             conn.commit()
 
 

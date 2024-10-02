@@ -5,7 +5,7 @@ from datetime import datetime
 from util.colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
-from PIL import Image, ImageDraw, ImageTk
+from PIL import Image, ImageDraw
 import json
 import os
 import shutil
@@ -143,6 +143,12 @@ class Main(ctk.CTk):
     def controles_barra_lateral(self):
         self.labelPerfil = ctk.CTkLabel(self.menu_lateral, image=self.perfil, text='')
         self.labelPerfil.pack(side=tk.TOP, pady=10)
+        ruta_usuarios = './users/'
+        nombre_usuario = os.listdir(ruta_usuarios)[0]
+        
+        self.labelNombre = tk.Label(self.menu_lateral, text=nombre_usuario, font=("Arial", 12, "bold"), bg=azul_medio_oscuro, fg="white")
+        self.labelNombre.pack(side=tk.TOP, pady=5)
+        
         self.btn_mas = tk.Button(self.menu_lateral, 
                          text="+", 
                          font=("Arial", 15), 
@@ -151,7 +157,7 @@ class Main(ctk.CTk):
                          relief="flat", 
                          borderwidth=0,
                          command=self.seleccionar_archivo)
-        self.btn_mas.place(x=180, y=100, width=25, height=25)
+        self.btn_mas.place(x=175, y=100, width=25, height=25)
   
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
@@ -184,7 +190,7 @@ class Main(ctk.CTk):
                                          width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                          command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
-
+        
     def controles_cuerpo(self):
         label = ctk.CTkLabel(self.cuerpo_principal, image=self.logo, text='')
         label.place(x=0, y=0, relwidth=1, relheight=1)
