@@ -5,10 +5,11 @@ import sqlite3
 
 
 class Peso(ctk.CTkToplevel):
-    def __init__(self, parent, user):
+    def __init__(self, parent, user, callback= None):
         super().__init__(parent)
         self.parent = parent
         self.usuario = user
+        self.callback = callback
         self.geometry('400x270')
         self.title('Actualizar peso')
         self.attributes('-topmost', True)
@@ -83,6 +84,9 @@ class Peso(ctk.CTkToplevel):
         query = "SELECT peso FROM peso ORDER BY num DESC LIMIT 1;"
         cursor.execute(query)
         resultado = cursor.fetchone()
+
+        if self.callback:
+            self.callback()
 
         if resultado:
             peso_str = resultado[0]  # Esto te dará la fecha como un string
