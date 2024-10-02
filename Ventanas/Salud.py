@@ -10,6 +10,7 @@ class Salud(New_ventana):
         super().__init__(panel_principal, color)
         self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
+        self.update_health_metrics()
 
     # Función para mostrar la CTkMessagebox
     def mostrar_messagebox(self):
@@ -35,13 +36,13 @@ class Salud(New_ventana):
          self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
          self.result_imc.place(x=610, y=50)
 
+        # TMB Label y Result
          self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
          self.label_tmb.configure(corner_radius=5)
          self.label_tmb.place(x=500, y=150)
         
          self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
          self.result_tmb.place(x=610, y=150)
-
 
          # Crear los 8 botones redondeados debajo de la barra
          self.botones = []
@@ -99,25 +100,6 @@ class Salud(New_ventana):
 
          self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
          self.label_vasos_agua.place(x=600, y=420)
-    
-    def get_latest_weight(self):
-        try:
-            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
-            cursor = conn.cursor()
-            
-            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
-            result = cursor.fetchone()
-            
-            if result is None:
-                raise ValueError("No se encontró ningún registro de peso")
-            
-            return result[0]
-        except (sqlite3.Error, ValueError) as e:
-            print(f"Error al obtener el peso más reciente: {e}")
-            return None
-        finally:
-            if conn:
-                conn.close()
 
     def update_health_metrics(self):
         imc = self.calcular_imc()
@@ -134,6 +116,7 @@ class Salud(New_ventana):
             self.result_tmb.configure(text="Error")
         
         self.sub.update()
+
 
     def calcular_imc(self):
         try:
@@ -195,7 +178,6 @@ class Salud(New_ventana):
         finally:
             if conn:
                 conn.close()
-
      # Nueva función para alternar el color y estado de los botones
     def toggle_color(self, indice):
          # Cambia el estado del botón (True = verde, False = gris)
