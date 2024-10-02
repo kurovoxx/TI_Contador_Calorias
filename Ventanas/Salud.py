@@ -10,6 +10,7 @@ class Salud(New_ventana):
         super().__init__(panel_principal, color)
         self.mostrar_messagebox()  # Llamamos a la función que muestra el mensaje al abrir la pestaña
         self.add_widget_salud()
+        self.update_health_metrics()
 
     # Función para mostrar la CTkMessagebox
     def mostrar_messagebox(self):
@@ -28,18 +29,20 @@ class Salud(New_ventana):
          self.btn_medir_pulsaciones.place(x=50, y=150)
 
          # Botón "IMC" y "*IMC"
-         self.btn_imc = ctk.CTkButton(self.sub, text="IMC", width=100, height=50, fg_color="gray")
-         self.btn_imc.place(x=500, y=50)
+         self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+         self.label_imc.configure(corner_radius=5)
+         self.label_imc.place(x=500, y=50)
 
-         self.btn_imc_rojo = ctk.CTkButton(self.sub, text="*IMC", width=100, height=50, fg_color="red")
-         self.btn_imc_rojo.place(x=600, y=50)
+         self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+         self.result_imc.place(x=610, y=50)
 
-         # Botón "IBR" y "*IBR"
-         self.btn_ibr = ctk.CTkButton(self.sub, text="IBR", width=100, height=50, fg_color="gray")
-         self.btn_ibr.place(x=500, y=150)
-
-         self.btn_ibr_rojo = ctk.CTkButton(self.sub, text="*IBR", width=100, height=50, fg_color="red")
-         self.btn_ibr_rojo.place(x=600, y=150)
+        # TMB Label y Result
+         self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+         self.label_tmb.configure(corner_radius=5)
+         self.label_tmb.place(x=500, y=150)
+        
+         self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+         self.result_tmb.place(x=610, y=150)
 
          # Crear los 8 botones redondeados debajo de la barra
          self.botones = []
@@ -98,6 +101,83 @@ class Salud(New_ventana):
          self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
          self.label_vasos_agua.place(x=600, y=420)
 
+    def update_health_metrics(self):
+        imc = self.calcular_imc()
+        tmb = self.calcular_TMB()
+
+        if imc is not None:
+            self.result_imc.configure(text=f"{imc:.2f}")
+        else:
+            self.result_imc.configure(text="Error")
+
+        if tmb is not None:
+            self.result_tmb.configure(text=f"{tmb:.2f}")
+        else:
+            self.result_tmb.configure(text="Error")
+        
+        self.sub.update()
+
+
+    def calcular_imc(self):
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT estatura FROM datos")
+            resultado_estatura = cursor.fetchone()
+            if resultado_estatura is None:
+                raise ValueError("No se encontró la estatura para el usuario")
+            estatura = resultado_estatura[0] / 100  # Convertir a metros
+
+            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
+            resultado_peso = cursor.fetchone()
+            if resultado_peso is None:
+                raise ValueError("No se encontró ningún registro de peso")
+            peso = resultado_peso[0]
+
+            imc = peso / (estatura ** 2)
+            return imc
+
+        except (sqlite3.Error, ValueError) as e:
+            print(f"Error al calcular IMC: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
+
+    def calcular_TMB(self):
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+            
+            cursor.execute("SELECT estatura, edad, genero FROM datos")
+            result = cursor.fetchone()
+            if result is None:
+                raise ValueError("No se encontraron datos del usuario")
+            estatura, edad, genero = result
+            estatura = estatura / 100  # Convertir a metros
+
+            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
+            resultado_peso = cursor.fetchone()
+            if resultado_peso is None:
+                raise ValueError("No se encontró ningún registro de peso")
+            peso = resultado_peso[0]
+
+            if genero.lower() in ["hombre", "masculino"]:
+                tmb = 66 + (13.75 * peso) + (5 * estatura * 100) - (6.75 * edad)
+            elif genero.lower() in ["mujer", "femenino"]:
+                tmb = 655 + (9.56 * peso) + (1.85 * estatura * 100) - (4.67 * edad)
+            else:
+                raise ValueError("Género no válido")
+            
+            return tmb
+
+        except (sqlite3.Error, ValueError) as e:
+            print(f"Error al calcular TMB: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
      # Nueva función para alternar el color y estado de los botones
     def toggle_color(self, indice):
          # Cambia el estado del botón (True = verde, False = gris)
