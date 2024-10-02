@@ -129,7 +129,7 @@ class Salud(New_ventana):
                 raise ValueError("No se encontró la estatura para el usuario")
             estatura = resultado_estatura[0] / 100  # Convertir a metros
 
-            cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
+            cursor.execute("SELECT peso FROM peso WHERE num = (SELECT MAX(num) FROM peso)")
             resultado_peso = cursor.fetchone()
             if resultado_peso is None:
                 raise ValueError("No se encontró ningún registro de peso")
@@ -156,7 +156,7 @@ class Salud(New_ventana):
                 raise ValueError("No se encontraron datos del usuario")
             estatura, edad, genero = result
             estatura = estatura / 100  # Convertir a metros
-
+            
             cursor.execute("SELECT peso FROM peso ORDER BY fecha DESC LIMIT 1")
             resultado_peso = cursor.fetchone()
             if resultado_peso is None:
