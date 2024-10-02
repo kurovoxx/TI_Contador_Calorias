@@ -8,6 +8,7 @@ from util.colores import *
 import customtkinter as ctk
 import os
 import sqlite3
+from datetime import datetime
 
 
 class Log_in(ctk.CTkToplevel):
@@ -158,6 +159,7 @@ class Log_in(ctk.CTkToplevel):
             cursor = conn.cursor()
 
             nombre = self.nombre_entry.get()
+            peso = self.peso_entry.get()
             estatura = self.altura_entry.get()
             nivel_actividad = self.lvl_actividad_combobox.get()
             genero = self.gen_combobox.get()
@@ -173,6 +175,12 @@ class Log_in(ctk.CTkToplevel):
 
             # Ejecutar la consulta en la base de datos
             cursor.execute(sql, valores)
+
+            query_peso = '''
+            INSERT INTO peso (fecha, peso)
+            VALUES (?, ?)
+            '''
+            cursor.execute(query_peso,(datetime.now().strftime('%d-%m-%Y'), peso))
             conn.commit()
 
 
