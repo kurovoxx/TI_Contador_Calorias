@@ -18,7 +18,7 @@ class Grafico(New_ventana):
         tab2 = tabview.add("Peso vs Tiempo")
         self.crear_grafico_calorias(tab1)
         self.crear_grafico_peso(tab2)
-        
+        # hola
     def crear_grafico_calorias(self, frame):
         fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
         ax1 = fig.add_subplot(111)
