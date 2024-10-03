@@ -10,6 +10,7 @@ import json
 import os
 import shutil
 
+from Ventanas.Alimentos import Alimentos
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
@@ -190,6 +191,12 @@ class Main(ctk.CTk):
                                          width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                          command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
+
+        self.btn_alimentos = ctk.CTkButton(self.menu_lateral, text="Alimentos", image=self.iconos[4], compound='left',
+                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                         command=self.abrir_alimentos)
+        self.btn_alimentos.pack(side=ctk.TOP)
+        
         
     def controles_cuerpo(self):
         label = ctk.CTkLabel(self.cuerpo_principal, image=self.logo, text='')
@@ -231,6 +238,9 @@ class Main(ctk.CTk):
         self.limpiar_panel(self.cuerpo_principal)
         Salud(self.cuerpo_principal, '#484c4c')   
 
+    def abrir_alimentos(self):
+        self.limpiar_panel(self.cuerpo_principal)
+        Alimentos(self.cuerpo_principal, '#404B4C')
     def log_in(self):
         Log_in(self)
 
