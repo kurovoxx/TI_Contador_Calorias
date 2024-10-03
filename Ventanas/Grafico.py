@@ -4,7 +4,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import sqlite3
 from util.colores import *
-# hola
+
 class Grafico(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
