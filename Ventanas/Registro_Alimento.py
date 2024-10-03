@@ -97,6 +97,8 @@ class Registro_Alimento(New_ventana):
                                                   bg_color="#1f2329", font=("Arial", 20))
         self.label_total_c_mostrar.place(relx=0.5, rely=0.40, relwidth=0.4, relheight=0.055)
 
+
+
     def on_alimento_select(self, selected_alimento):
         alimento_info = self.buscar_alimento_en_db(selected_alimento)
 
@@ -113,6 +115,12 @@ class Registro_Alimento(New_ventana):
             self.label_calorias.place(relx=0.1, rely=0.50, relwidth=0.3, relheight=0.05)
             self.entry.place(relx=0.1, rely=0.55, relwidth=0.3)
             self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
+            self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color='black', font=("Arial", 14))
+            self.label_hora.place(relx=0.5, rely=0.50, relwidth=0.4, relheight=0.05)
+            self.entry_hora = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese hora (opcional)", 
+                                       placeholder_text_color="gray", border_width=0, fg_color="white", 
+                                       text_color="black")
+            self.entry_hora.place(relx=0.5, rely=0.55, relwidth=0.4, relheight=0.05)
 
     def cargar_alimentos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -248,7 +256,8 @@ class Registro_Alimento(New_ventana):
         WHERE nombre = ? AND fecha = ?;
         '''
 
-        hora_actual = datetime.now().strftime('%H:%M:%S')
+        hora_ingresada = self.entry_hora.get().strip()
+        hora_actual = hora_ingresada if hora_ingresada else datetime.now().strftime('%H:%M:%S')
         fecha_actual = datetime.now().strftime('%d-%m-%Y')
 
         # Obtener el alimento seleccionado del combobox o ingresado manualmente
