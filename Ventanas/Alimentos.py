@@ -13,10 +13,11 @@ class Alimentos(New_ventana):
 
     def widget_alimentos(self):
         self.treeview_alimentos = ctk.CTkFrame(self.sub, width=500)
-        self.treeview_alimentos.pack(pady=10, padx=20, anchor="center")
+        self.treeview_alimentos.pack(pady=60, padx=20, anchor="center")
         
         self.label_food = ctk.CTkLabel(self.treeview_alimentos, text="Alimentos")
-        self.tree = ttk.Treeview(self.treeview_alimentos, columns=("Nombre", "Calorias por porcion", "calorias 100gr"))
+        self.label_food.pack(anchor="center")
+        self.tree = ttk.Treeview(self.treeview_alimentos, columns=("Nombre", "Calorias por porcion", "calorias 100gr"), show="headings")
         self.tree.heading("Nombre", text="Nombre")
         self.tree.heading("Calorias por porcion", text="Calorias por porcion")
         self.tree.heading("calorias 100gr", text="Calorias 100gr")
