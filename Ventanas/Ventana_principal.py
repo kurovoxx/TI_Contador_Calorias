@@ -10,6 +10,7 @@ import json
 import os
 import shutil
 
+from Ventanas.Alimentos import Alimentos
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
@@ -143,42 +144,43 @@ class Main(ctk.CTk):
     def controles_barra_lateral(self):
         self.labelPerfil = ctk.CTkLabel(self.menu_lateral, image=self.perfil, text='')
         self.labelPerfil.pack(side=tk.TOP, pady=10)
-        ruta_usuarios = './users/'
-        nombre_usuario = os.listdir(ruta_usuarios)[0]
+
+        with open('usuario_actual.txt', 'r') as users:
+            nombre_usuario = users.readline().strip()  # Leer y eliminar posibles saltos de línea
         
         self.labelNombre = tk.Label(self.menu_lateral, text=nombre_usuario, font=("Arial", 12, "bold"), bg=azul_medio_oscuro, fg="white")
         self.labelNombre.pack(side=tk.TOP, pady=5)
-        
+
         self.btn_mas = tk.Button(self.menu_lateral, 
-                         text="+", 
-                         font=("Arial", 15), 
-                         bg="#34A85A", 
-                         fg="white", 
-                         relief="flat", 
-                         borderwidth=0,
-                         command=self.seleccionar_archivo)
+                        text="+", 
+                        font=("Arial", 15), 
+                        bg="#34A85A", 
+                        fg="white", 
+                        relief="flat", 
+                        borderwidth=0,
+                        command=self.seleccionar_archivo)
         self.btn_mas.place(x=175, y=100, width=25, height=25)
-  
+
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
         self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
-                                          width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                          command=self.abrir_registro_alimento)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_registro_alimento)
         self.btn_registro.pack(side=ctk.TOP)
 
         self.btn_agregar = ctk.CTkButton(self.menu_lateral, text="Agregar Alimento", image=self.iconos[0], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_agregar_alimento)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_agregar_alimento)
         self.btn_agregar.pack(side=ctk.TOP)
 
         self.btn_grafico = ctk.CTkButton(self.menu_lateral, text="Gráfico", image=self.iconos[1], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_grafico)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_grafico)
         self.btn_grafico.pack(side=ctk.TOP)
 
         self.btn_historial = ctk.CTkButton(self.menu_lateral, text="Historial", image=self.iconos[2], compound='left',
-                                           width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                           command=self.abrir_historial)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_historial)
         self.btn_historial.pack(side=ctk.TOP)
 
         self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[5], compound='left',
@@ -187,9 +189,15 @@ class Main(ctk.CTk):
         self.btn_en_contruccion.pack(side=ctk.TOP)
 
         self.btn_salud = ctk.CTkButton(self.menu_lateral, text="Salud", image=self.iconos[4], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_salud)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
+
+        self.btn_alimentos = ctk.CTkButton(self.menu_lateral, text="Alimentos", image=self.iconos[4], compound='left',
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        command=self.abrir_alimentos)
+        self.btn_alimentos.pack(side=ctk.TOP)
+        
         
     def controles_cuerpo(self):
         label = ctk.CTkLabel(self.cuerpo_principal, image=self.logo, text='')
@@ -231,6 +239,9 @@ class Main(ctk.CTk):
         self.limpiar_panel(self.cuerpo_principal)
         Salud(self.cuerpo_principal, '#484c4c')   
 
+    def abrir_alimentos(self):
+        self.limpiar_panel(self.cuerpo_principal)
+        Alimentos(self.cuerpo_principal, '#404B4C')
     def log_in(self):
         Log_in(self)
 
