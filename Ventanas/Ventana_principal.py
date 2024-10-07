@@ -193,7 +193,7 @@ class Main(ctk.CTk):
                                         command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
 
-        self.btn_alimentos = ctk.CTkButton(self.menu_lateral, text="Alimentos", image=self.iconos[4], compound='left',
+        self.btn_alimentos = ctk.CTkButton(self.menu_lateral, text="Admin-Alimentos", image=self.iconos[6], compound='left',
                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
                                         command=self.abrir_alimentos)
         self.btn_alimentos.pack(side=ctk.TOP)
