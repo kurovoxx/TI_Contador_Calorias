@@ -115,7 +115,7 @@ class Grafico(New_ventana):
     def datos_calorias(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT SUM(total_cal), fecha FROM consumo_diario GROUP BY fecha")
+        cursor.execute("SELECT SUM(total_cal), fecha FROM consumo_diario GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
         resultados = cursor.fetchall()
         conn.close()
         cantidad = [fila[0] for fila in resultados]
@@ -125,17 +125,17 @@ class Grafico(New_ventana):
     def datos_peso(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT fecha, peso FROM peso GROUP BY fecha")
+        cursor.execute("SELECT fecha, peso FROM peso GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
         resultados = cursor.fetchall()
         conn.close()
         fecha2 = [fila[0] for fila in resultados]
         peso = [fila[1] for fila in resultados]
         return fecha2, peso
-
+    
     def datos_agua(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         cursor = conn.cursor()
-        cursor.execute("SELECT fecha, cant FROM agua GROUP BY fecha")
+        cursor.execute("SELECT fecha, cant FROM agua GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
         resultados = cursor.fetchall()
         conn.close()
         fecha3 = [fila[0] for fila in resultados]
