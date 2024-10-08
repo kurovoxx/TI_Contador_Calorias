@@ -30,7 +30,9 @@ class Agregar_Alimento(New_ventana):
         self.label_agregar.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         # entry agregar alimento
-        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black", border_width=0, fg_color=azul_mas_clarito, text_color="black")
+        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="white", 
+                                    placeholder_text="Ingrese el alimento",
+                                    border_width=0, fg_color=azul_mas_clarito, text_color="white")
         self.agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)
 
         # Label "Seleccione Cantidad Calorías"
@@ -48,8 +50,9 @@ class Agregar_Alimento(New_ventana):
         self.label_agregar.place(relx=0.1, rely=0.383, relwidth=0.3, relheight=0.05)
 
         # Entry calorias
-        self.entry_calorias = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black",
-                                        border_width=0, fg_color=azul_mas_clarito, text_color="black")
+        self.entry_calorias = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="white",
+                                           placeholder_text="Ingrese las calorías",
+                                        border_width=0, fg_color=azul_mas_clarito, text_color="white")
         self.entry_calorias.place(relx=0.1, rely=0.434, relwidth=0.3, relheight=0.05)
 
         # Botón "Añadir Alimento"
