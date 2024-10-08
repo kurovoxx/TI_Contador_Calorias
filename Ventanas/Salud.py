@@ -1,5 +1,6 @@
 from Ventanas.Ventana_interfaz import New_ventana
 from Ventanas.update_peso import Peso
+from Ventanas.pulsaciones import Pulsaciones
 from util.colores import *
 import customtkinter as ctk
 import sqlite3
@@ -27,7 +28,7 @@ class Salud(New_ventana):
         self.btn_actualizar_peso.place(x=50, y=50)
 
         # Botón "Medir pulsaciones"
-        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="#28242c")
+        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="#28242c", command=self.pulsaciones)
         self.btn_medir_pulsaciones.place(x=50, y=150)
 
         self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
@@ -229,3 +230,6 @@ class Salud(New_ventana):
             self.result_tmb.configure(text="Error")
         
         self.sub.update()
+    
+    def pulsaciones(self):
+        Pulsaciones(self.sub)
