@@ -217,31 +217,31 @@ class Main(ctk.CTk):
 
     def abrir_registro_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Registro_Alimento(self.cuerpo_principal, '#404B4C')
+        Registro_Alimento(self.cuerpo_principal, gris)
         
     def abrir_agregar_alimento(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Agregar_Alimento(self.cuerpo_principal, '#404B4C')
+        Agregar_Alimento(self.cuerpo_principal, gris)
 
     def abrir_grafico(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Grafico(self.cuerpo_principal, '#404B4C')
+        Grafico(self.cuerpo_principal, gris)
 
     def abrir_historial(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Historial(self.cuerpo_principal, '#404B4C')
+        Historial(self.cuerpo_principal, gris)
 
     def abrir_configuracion(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Configuracion(self.cuerpo_principal, '#404B4C')
+        Configuracion(self.cuerpo_principal, gris)
 
     def abrir_salud(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Salud(self.cuerpo_principal, '#484c4c')   
+        Salud(self.cuerpo_principal, gris)   
 
     def abrir_alimentos(self):
         self.limpiar_panel(self.cuerpo_principal)
-        Alimentos(self.cuerpo_principal, '#404B4C')
+        Alimentos(self.cuerpo_principal, gris)
     def log_in(self):
         Log_in(self)
 
@@ -250,7 +250,7 @@ class Main(ctk.CTk):
             widget.destroy()
 
     def esperando_login(self):
-        self.frame_tapar = ctk.CTkFrame(self, fg_color='black', corner_radius=0)
+        self.frame_tapar = ctk.CTkFrame(self, fg_color='red', corner_radius=0)
         self.frame_tapar.pack(expand=True, fill='both')
         image_path = "./img/banner_l.png"
         image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
