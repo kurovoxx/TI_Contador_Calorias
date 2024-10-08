@@ -4,12 +4,15 @@ from util.colores import *
 import customtkinter as ctk
 import sqlite3
 from CTkMessagebox import CTkMessagebox
+from datetime import datetime
+
 
 class Salud(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
         self.mostrar_messagebox()
         self.add_widget_salud()
+        self.vasitos_mostrados()
         self.update_health_metrics()
 
     def mostrar_messagebox(self):
@@ -43,13 +46,40 @@ class Salud(New_ventana):
 
         # Crear los 8 botones redondeados debajo de la barra
         self.botones = []
-        self.estado_botones = [False] * 8
-
-        for i in range(8):
-            boton = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="#28242c", 
-                                  command=lambda b=i: self.toggle_color(b))
-            boton.place(x=50 + i * 60, y=400)
-            self.botones.append(boton)
+        self.estado_botones = [False] * 8  # Lista para almacenar el estado de cada botón (False = gris, True = verde)
+        # botones vaso de agua
+        boton_v_1 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(0))
+        boton_v_1.place(x=50, y=400)
+        self.botones.append(boton_v_1)
+        boton_v_2 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda:  self.toggle_color(1) if self.estado_botones[0] else None)
+        boton_v_2.place(x=110, y=400)
+        self.botones.append(boton_v_2)
+        boton_v_3 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(2) if self.estado_botones[1] else None)
+        boton_v_3.place(x=170, y=400)
+        self.botones.append(boton_v_3)
+        boton_v_4 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(3) if self.estado_botones[2] else None)
+        boton_v_4.place(x=230, y=400)
+        self.botones.append(boton_v_4)
+        boton_v_5 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(4) if self.estado_botones[3] else None)
+        boton_v_5.place(x=290, y=400)
+        self.botones.append(boton_v_5)
+        boton_v_6 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(5) if self.estado_botones[4] else None)
+        boton_v_6.place(x=350, y=400)
+        self.botones.append(boton_v_6)
+        boton_v_7 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(6) if self.estado_botones[5] else None)
+        boton_v_7.place(x=410, y=400)
+        self.botones.append(boton_v_7)
+        boton_v_8 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+                                  command=lambda: self.toggle_color(7) if self.estado_botones[6] else None)
+        boton_v_8.place(x=470, y=400)
+        self.botones.append(boton_v_8)
 
         # Barra inferior
         self.barra_inferior = ctk.CTkProgressBar(self.sub, width=550, height=40, fg_color="#417156", progress_color="#ade28a")
@@ -64,12 +94,42 @@ class Salud(New_ventana):
         self.label_vasos_agua.place(x=600, y=420)
 
     def toggle_color(self, indice):
-        if self.estado_botones[indice]:
-            self.botones[indice].configure(fg_color="#28242c")
-            self.estado_botones[indice] = False
-        else:
+        if not self.estado_botones[indice]:  
             self.botones[indice].configure(fg_color="green")
             self.estado_botones[indice] = True
+            self.Insertar_vasitos()
+            
+    def Insertar_vasitos(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+    
+        fecha_actual = datetime.now().strftime("%d-%m-%Y")    
+    
+        cursor.execute("SELECT cant FROM agua WHERE fecha = ?", (fecha_actual,))
+        resultado = cursor.fetchone()
+    
+        if resultado:  
+            nueva_cantidad = resultado[0] + 1
+            cursor.execute("UPDATE agua SET cant = ? WHERE fecha = ?", (nueva_cantidad, fecha_actual))
+        else:  
+            cursor.execute("INSERT INTO agua (fecha, cant) VALUES (?, 1)", (fecha_actual,))
+        conn.commit()
+        conn.close()
+        
+    def vasitos_mostrados(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+        fecha_actual = datetime.now().strftime("%d-%m-%Y")    
+        cursor.execute("SELECT cant FROM agua WHERE fecha = ?", (fecha_actual,))
+        resultado = cursor.fetchone()
+        cantidad_vasos = resultado[0] if resultado else 0
+    
+        #cambiar el color de los botones a verde si se tomaron los vasitos
+        for i in range(cantidad_vasos):
+            self.botones[i].configure(fg_color="green")
+            self.estado_botones[i] = True
+    
+        conn.close()
     
     def actualizar_peso(self):
         Peso(self.sub, self.usuario, callback=self.update_health_metrics)
