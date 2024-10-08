@@ -167,4 +167,3 @@ class Configuracion(New_ventana):
             conn.close()
         except sqlite3.Error as e:
             CTkMessagebox(title="Error", message=f"Error en la base de datos: {e}", icon="warning", option_1="Ok")
-
