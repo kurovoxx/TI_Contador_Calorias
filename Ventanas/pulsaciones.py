@@ -3,7 +3,7 @@ from CTkMessagebox import CTkMessagebox
 import time
 
 
-class MedidorPulso(ctk.CTkToplevel):
+class Pulsaciones(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
@@ -12,19 +12,16 @@ class MedidorPulso(ctk.CTkToplevel):
         self.attributes('-topmost', True)
         self.resizable(False, False)
 
+        self.counter = 10
+        self.click_times = []
+        self.timeout = 2.0  # 2 segundos de timeout para resetear las pulsaciones
+
         self.main_frame = ctk.CTkFrame(self)
         self.main_frame.pack(fill='both', expand=True)
 
         self.add_widget()
 
-        # Variables para la lógica de pulsaciones
-        self.counter = 10
-        self.click_times = []
-        self.timeout = 2.0  # 2 segundos de timeout para resetear las pulsaciones
-
     def add_widget(self):
-        """Agrega los widgets a la ventana."""
-        # Texto de instrucción arriba del todo con fuente Arial
         self.instruction_label = ctk.CTkLabel(self.main_frame, text="Haga click para medir su pulso", font=("Arial", 12))
         self.instruction_label.pack(pady=10)
 
@@ -101,4 +98,4 @@ class MedidorPulso(ctk.CTkToplevel):
                 self.destroy()
 
                 # Mostrar el resultado en un CTkMessagebox
-                CTkMessagebox(message=message, option_1="Ok")
+                CTkMessagebox(title="Resultado del Entrenamiento", message=message, icon="check", option_1="Ok")

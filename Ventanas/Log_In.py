@@ -18,6 +18,7 @@ class Log_in(ctk.CTkToplevel):
         self.parent = parent
         self.geometry('500x600')
         self.title('Log In')
+        self.attributes('-topmost', True)
         self.resizable(False, False)
         self.main_frame = ctk.CTkFrame(self)
         self.main_frame.pack(fill='both', expand=True)
