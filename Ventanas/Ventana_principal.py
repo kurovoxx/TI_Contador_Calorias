@@ -159,7 +159,7 @@ class Main(ctk.CTk):
                         relief="flat", 
                         borderwidth=0,
                         command=self.seleccionar_archivo)
-        self.btn_mas.place(x=180, y=110, width=25, height=25)
+        self.btn_mas.place(x=175, y=100, width=25, height=25)
 
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
@@ -250,7 +250,7 @@ class Main(ctk.CTk):
             widget.destroy()
 
     def esperando_login(self):
-        self.frame_tapar = ctk.CTkFrame(self, fg_color='red', corner_radius=0)
+        self.frame_tapar = ctk.CTkFrame(self, fg_color='black', corner_radius=0)
         self.frame_tapar.pack(expand=True, fill='both')
         image_path = "./img/banner_l.png"
         image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
