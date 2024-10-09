@@ -26,37 +26,37 @@ class Agregar_Alimento(New_ventana):
 
     def add_widget_agregar(self):
         # Label "agregar" de alimentos
-        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=oscuro)
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=azul_medio_oscuro)
         self.label_agregar.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         # entry agregar alimento
-        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="white", 
-                                    placeholder_text="Ingrese el alimento",
-                                    border_width=0, fg_color=azul_mas_clarito, text_color="white")
+        self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black", 
+                                    placeholder_text="Ingrese el nombre del alimento",
+                                    border_width=0, fg_color="white", text_color="black")
         self.agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)
 
         # Label "Seleccione Cantidad Calorías"
-        self.label_calorias = ctk.CTkLabel(self.sub,font=("Arial", 20), text="Porcion / 100gr", text_color="White", fg_color=oscuro)
+        self.label_calorias = ctk.CTkLabel(self.sub,font=("Arial", 20), text="Porcion / 100gr", text_color="White", fg_color=azul_medio_oscuro)
         self.label_calorias.place(relx=0.5, rely=0.15, relwidth=0.3, relheight=0.05)  # Ajustar rely
 
         # Combobox
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, values=["Por porción", "100gr"], border_width=0, button_hover_color="white",
-                                         command=self.actualizar_label, text_color="white", fg_color=azul_mas_clarito, button_color=azul_medio_oscuro)
+                                         command=self.actualizar_label, text_color="white", fg_color="#183549", button_color="#26656D")
         self.combo_box.place(relx=0.5, rely=0.2, relwidth=0.3, relheight=0.05)
 
     def actualizar_label(self, e):
         # Label "calorías"
-        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Calorias", text_color="white", bg_color=oscuro)
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Calorias", text_color="white", bg_color=azul_medio_oscuro)
         self.label_agregar.place(relx=0.1, rely=0.383, relwidth=0.3, relheight=0.05)
 
         # Entry calorias
-        self.entry_calorias = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="white",
+        self.entry_calorias = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black",
                                            placeholder_text="Ingrese las calorías",
-                                        border_width=0, fg_color=azul_mas_clarito, text_color="white")
+                                        border_width=0, fg_color="white", text_color="black")
         self.entry_calorias.place(relx=0.1, rely=0.434, relwidth=0.3, relheight=0.05)
 
         # Botón "Añadir Alimento"
-        self.boton_agregar = ctk.CTkButton(self.sub, text="Añadir Alimento", font=("Arial", 20), text_color="White", fg_color=oscuro, 
+        self.boton_agregar = ctk.CTkButton(self.sub, text="Añadir Alimento", font=("Arial", 20), text_color="White", fg_color="#28242c", 
                                         width=240, height=50, border_width=0, command=self.boton_agregar_click)
         self.boton_agregar.place(relx=0.5, rely=0.39)
 
