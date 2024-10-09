@@ -11,19 +11,11 @@ from util.colores import *
 class Historial(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        self.mostrar_messagebox()
+        self.nombre = 'historial'
         self.conectar_base_datos()
         self.add_widget_historial()
         self.agregar_treeview()
-
-    def mostrar_messagebox(self):
-        """Muestra un messagebox con una descripción de la funcionalidad de esta pestaña."""
-        CTkMessagebox(
-            title="Historial de Alimentos",
-            message="En esta sección puedes ver el historial de los alimentos consumidos, filtrarlos por fecha y visualizar el total de calorías por porción o por 100 gramos.",
-            icon="info",
-            option_1="Ok"
-        )
+        self.mensage("Esta es la pestaña de Historial, aqui podras ver que has comido en una fecha determinada", "Historial")
 
     def conectar_base_datos(self):
         """Conecta a la base de datos SQLite."""
