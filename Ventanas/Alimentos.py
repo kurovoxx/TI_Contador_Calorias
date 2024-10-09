@@ -8,7 +8,9 @@ from tkinter import ttk, Scrollbar
 class Alimentos(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.nombre = "admin_alimentos"
         self.widget_alimentos()
+        self.mensage("Esta es la pestaña Admin alimentos, aqui podras ver todos los alimentos que has registrado, al igual que podras gestionar las calorias que tienen", "Admin Alimentos")
 
     def widget_alimentos(self):
         self.treeview_alimentos = ctk.CTkFrame(self.sub, width=500)

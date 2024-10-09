@@ -11,16 +11,11 @@ from datetime import datetime
 class Salud(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        self.mostrar_messagebox()
+        self.nombre = 'salud'
         self.add_widget_salud()
         self.vasitos_mostrados()
         self.update_health_metrics()
-
-    def mostrar_messagebox(self):
-        mensaje = ("Bienvenido a la sección Salud. Aquí podrás actualizar tu peso, medir pulsaciones, "
-                   "calcular tu IMC Y TMB, además de realizar un seguimiento de tu progreso diario. "
-                   "Usa los botones y la barra de progreso para monitorear tus metas.")
-        CTkMessagebox(title="Sección Salud", message=mensaje, icon="info", option_1="OK")
+        self.mensage("Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", "Salud")
 
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
