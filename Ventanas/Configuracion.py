@@ -7,20 +7,11 @@ import sqlite3
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
+        self.nombre = 'configuracion'
         self.panel_principal = panel_principal 
-        self.mostrar_messagebox()  # Mostrar Messagebox al abrir la pestaña
         self.add_widget_config()
-
-    def mostrar_messagebox(self):
-        """Muestra un Messagebox con información introductoria."""
-        CTkMessagebox(
-            title="Configuración",
-            message="En esta sección puedes actualizar tu información personal como nombre, edad, peso y objetivo de calorías. "
-                    "Recuerda guardar los cambios antes de salir.",
-            icon="info",  # Tipo de ícono que deseas mostrar (info, warning, error)
-            option_1="OK"  # Opción que ofrece el mensaje (puedes agregar más si es necesario)
-        )
-
+        self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
+        
     def add_widget_config(self):
         # Título para el módulo configuración
         self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
