@@ -5,20 +5,18 @@ import sqlite3
 from util.colores import *
 
 
+
 class Agregar_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        
-        # Mostrar mensaje introductorio al entrar en la pestaña "Agregar Alimento"
-        CTkMessagebox(
-            title="Agregar Alimento",
-            message="En esta sección podrás agregar un nuevo alimento y registrar las calorías contenidas por porción o por 100 gramos.",
-            icon="info", 
-            option_1="Ok"
-        )
-        
+        self.nombre = 'agregar_alimento'
         self.conectar_base_datos()
         self.add_widget_agregar()
+        self.mensage("Esta es la pestaña de agregar alimento, para agregar un alimento debes insertar el nombre del alimento, las calorias por porcion o por 100 gramos", "Agregar Alimento")
+
+
+        
+
 
     def conectar_base_datos(self):
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
