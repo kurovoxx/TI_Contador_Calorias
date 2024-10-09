@@ -15,7 +15,14 @@ class Grafico(New_ventana):
         
 
     def add_widget_graficos(self):
-        tabview = ctk.CTkTabview(self.panel_principal, width=800, height=550, fg_color='#404B4C', bg_color='#404B4C')
+        tabview = ctk.CTkTabview(self.panel_principal, width=800, height=550, 
+                                 fg_color=gris, 
+                                 bg_color=gris,
+                                 segmented_button_fg_color=azul_medio_oscuro,
+                                 segmented_button_selected_color=azul_mas_clarito,
+                                 segmented_button_selected_hover_color=oscuro,
+                                 segmented_button_unselected_color=azul_medio_oscuro,
+                                 segmented_button_unselected_hover_color=azul_mas_clarito)
         tabview.place(relx=0.01, rely=0.005, relwidth=1, relheight=1)
         tab1 = tabview.add("Calorías vs Tiempo")
         tab2 = tabview.add("Peso vs Tiempo")
@@ -25,7 +32,7 @@ class Grafico(New_ventana):
         self.crear_grafico_agua(tab3)
         
     def crear_grafico_calorias(self, frame):
-        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax1 = fig.add_subplot(111)
         fecha, cantidad = self.datos_calorias()
         ax1.set_facecolor(oscuro)
@@ -58,7 +65,7 @@ class Grafico(New_ventana):
         widget_canvas.pack(fill='both', expand=True)
 
     def crear_grafico_peso(self, frame):
-        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax2 = fig.add_subplot(111)
         fecha2, peso = self.datos_peso()
         ax2.set_facecolor(oscuro)
@@ -86,7 +93,7 @@ class Grafico(New_ventana):
         widget_canvas.pack(fill='both', expand=True)
         
     def crear_grafico_agua(self, frame):
-        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax3 = fig.add_subplot(111)
         fecha3, agua = self.datos_agua()
         ax3.set_facecolor(oscuro)
