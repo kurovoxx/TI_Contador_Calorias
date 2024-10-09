@@ -7,29 +7,19 @@ from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
 
 class Registro_Alimento(New_ventana):
-    alerta_mostrada = False
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        if not Registro_Alimento.alerta_mostrada:
-            self.mostrar_ventana_alerta()
-            Registro_Alimento.alerta_mostrada = True
-                    
+        self.nombre = 'registrar_alimento'
+        
+        
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
+        self.mensage("En esta pestaña, puedes registrar los alimentos consumidos durante el día y las calorías totales. Primero, debes añadir el alimento en la pestaña Agregar Alimento. Luego, podrás buscarlo con un buscador o ver todos los alimentos registrados.", "Registrar Alimento")
         ultimo_alimento = self.get_ultimo_insertado() # Se inicia en el constructor para que siempre se muestre :)
         self.label_segundo_registro.configure(text=ultimo_alimento)
         total_calorias = self.calcular_calorias_totales() # lo mismo que el anterior pero para el total de calorías
         self.label_total_c_mostrar.configure(text=total_calorias)
-
-    def mostrar_ventana_alerta(self):
-        mensaje = (
-            "Bienvenido a la sección 'Registrar alimento'. Aquí puedes buscar y seleccionar "
-            "alimentos desde una base de datos, o ingresar uno nuevo manualmente. También "
-            "puedes registrar las calorías consumidas y llevar un control del total diario."
-        )
-        CTkMessagebox(title="Registrar alimento", message=mensaje, icon="info", option_1="Ok")
-
 
     def add_widget_registro(self):
         self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
