@@ -1,109 +1,147 @@
-from Ventanas.Ventana_interfaz import New_ventana
-from Ventanas.Agregar_Alimento import *
 import customtkinter as ctk
-from CTkMessagebox import CTkMessagebox
-import datetime as dt
+from Ventanas.Ventana_interfaz import New_ventana
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import sqlite3
-from tkcalendar import DateEntry
-from tkinter import ttk
 from util.colores import *
 
-class Historial(New_ventana):
+class Grafico(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
-        self.nombre = 'historial'
-        self.conectar_base_datos()
-        self.add_widget_historial()
-        self.agregar_treeview()
-        self.mensage("Esta es la pestaña de Historial, aqui podras ver que has comido en una fecha determinada", "Historial")
-
-    def conectar_base_datos(self):
-        """Conecta a la base de datos SQLite."""
-        self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
-        self.cursor = self.conn.cursor()
-
-    def add_widget_historial(self):
-        """Añade los widgets a la ventana"""
-        self.perfil_treeview = ctk.CTkFrame(self.sub, width=300)
-        self.perfil_treeview.pack(padx=20, pady=10, anchor="center")
-
-        self.date_label = ctk.CTkLabel(self.perfil_treeview, text="Selecciona una fecha:")
-        self.date_label.pack(pady=5)
-
-        self.date_entry = DateEntry(self.perfil_treeview, width=12, background='darkblue', foreground='white', borderwidth=2, date_pattern='y-mm-dd')
-        self.date_entry.pack(pady=5)
-
-
-        self.filter_button = ctk.CTkButton(self.perfil_treeview, text="Filtrar por fecha", command=self.filtrar_por_fecha)
-        self.filter_button.pack(pady=10)
-
-        self.tree = ttk.Treeview(self.perfil_treeview, columns=("Alimento", "Cal/100gr/Porcion", "Cantidad","Total Calorias","Fecha","Hora"), show="headings")
-        self.tree.heading("Alimento", text="Alimento")
-        self.tree.heading("Cal/100gr/Porcion", text="Cal/100gr/Porcion")
-        self.tree.heading("Cantidad", text="Cantidad")
-        self.tree.heading("Total Calorias", text="Total Calorias")
-        self.tree.heading("Fecha", text="Fecha")
-        self.tree.heading("Hora", text="Hora")
-        self.tree.column("Alimento", width=150)
-        self.tree.column("Cal/100gr/Porcion", width=120)
-        self.tree.column("Cantidad", width=100)
-        self.tree.column("Total Calorias", width=100)
-        self.tree.column("Fecha", width=110)
-        self.tree.column("Hora", width=95)
-        self.tree.pack(anchor="w", padx=3, pady=3)
+        self.nombre = 'graficos'
+        self.panel_principal = panel_principal
+        self.add_widget_graficos()
+        self.mensage("Esta es la pestaña de Graficos, aqui podras ver graficamente el progreso que has tenido en los dias, podras ver graficos como Calorias vs Tiempo, Peso vs Tiempo, Aguas vs Tiempo", "Grafico")
         
-    def agregar_treeview(self):
-        self.cursor.execute("""
-            SELECT c.nombre,
-                CASE 
-                    WHEN a.calorias_porcion IS NOT NULL THEN 'Porción'
-                    ELSE '100gr'
-                END AS tipo_caloria,
-                c.cantidad,
-                c.total_cal,
-                c.fecha,
-                c.hora
-            FROM consumo_diario c
-            JOIN alimento a ON c.nombre = a.nombre
-        """)
 
-        registros = self.cursor.fetchall()
-
-        for registro in registros:
-            cantidad = f"{registro[2]} Gr" if registro[1] == '100gr' else str(registro[2])
-            self.tree.insert("", "end", values=(registro[0], registro[1], cantidad, registro[3], registro[4], registro[5]))
-
-    def filtrar_por_fecha(self):
-        """Filtra los alimentos por la fecha seleccionada."""
-        fecha_seleccionada = self.date_entry.get_date()
-        fecha_str = fecha_seleccionada.strftime('%Y-%m-%d') 
-
-        self.tree.delete(*self.tree.get_children())
-
-
-        self.cursor.execute("""
-            SELECT a.nombre,
-                CASE 
-                    WHEN a.calorias_porcion IS NOT NULL THEN 'Porción'
-                    ELSE '100gr'
-                END AS tipo_caloria,
-                CASE 
-                    WHEN a.calorias_porcion IS NOT NULL THEN a.calorias_porcion
-                    ELSE a.calorias_100gr
-                END AS total_calorias,
-                TIME(c.fecha) AS hora
-            FROM consumo_diario c
-            JOIN alimento a ON c.nombre = a.nombre
-            WHERE strftime('%Y-%m-%d', substr(c.fecha, 7, 4) || '-' || substr(c.fecha, 4, 2) || '-' || substr(c.fecha, 1, 2)) = ?
-        """, (fecha_str,))
+    def add_widget_graficos(self):
+        tabview = ctk.CTkTabview(self.panel_principal, width=800, height=550, fg_color='#404B4C', bg_color='#404B4C')
+        tabview.place(relx=0.01, rely=0.005, relwidth=1, relheight=1)
+        tab1 = tabview.add("Calorías vs Tiempo")
+        tab2 = tabview.add("Peso vs Tiempo")
+        tab3 = tabview.add("Agua vs Tiempo")
+        self.crear_grafico_calorias(tab1)
+        self.crear_grafico_peso(tab2)
+        self.crear_grafico_agua(tab3)
         
-        registros = self.cursor.fetchall()
+    def crear_grafico_calorias(self, frame):
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        ax1 = fig.add_subplot(111)
+        fecha, cantidad = self.datos_calorias()
+        ax1.set_facecolor(oscuro)
+        ax1.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
+        ax1.set_title('Calorías vs Tiempo', color='white', fontsize=12)
+        ax1.set_ylabel('Calorías', color='white', fontsize=10)
+        ax1.set_xlabel('Fecha', color='white', fontsize=10)
 
+        if len(cantidad) > 0:
+            bars = ax1.bar(fecha, cantidad, color=azul_mas_clarito, edgecolor='black', linewidth=1.5)
+            for bar in bars:
+                bar.set_linewidth(1.5)
+                bar.set_edgecolor('white')
+                bar.set_linestyle((0, (5, 1)))
+            ax1.set_yticks(ax1.get_yticks())
+        else:
+            
+            ax1.text(0.5, 0.5, 'No hay datos disponibles', horizontalalignment='center', 
+                     verticalalignment='center', transform=ax1.transAxes, color='white', fontsize=12)
+            ax1.set_yticks([])
 
-        print("Registros obtenidos:", registros)
-        for registro in registros:
-            self.tree.insert("", "end", values=registro)
-    def __del__(self):
-        """Cierra la conexión con la base de datos cuando se destruye la instancia."""
-        self.conn.close()
+        # Ajuste de ticks y etiquetas
+        ax1.set_xticks(range(len(fecha)))  
+        ax1.set_xticklabels(fecha, rotation=45, ha='right', fontsize=8, color='white')
 
+        # Canvas
+        canvas = FigureCanvasTkAgg(fig, master=frame)
+        canvas.draw()
+        widget_canvas = canvas.get_tk_widget()
+        widget_canvas.pack(fill='both', expand=True)
+
+    def crear_grafico_peso(self, frame):
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        ax2 = fig.add_subplot(111)
+        fecha2, peso = self.datos_peso()
+        ax2.set_facecolor(oscuro)
+        ax2.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
+        ax2.set_title('Peso vs Tiempo', color='white', fontsize=12)
+        ax2.set_ylabel('Peso (kg)', color='white', fontsize=10)
+        ax2.set_xlabel('Fecha', color='white', fontsize=10)
+
+        if len(peso) > 0:
+            ax2.plot(fecha2, peso, color=celeste_pero_oscuro, marker='o', markersize=6, markerfacecolor='white', linestyle='-', linewidth=2.5)
+        else:
+            
+            ax2.text(0.5, 0.5, 'No hay datos disponibles', horizontalalignment='center', 
+                     verticalalignment='center', transform=ax2.transAxes, color='white', fontsize=12)
+            ax2.set_yticks([])
+
+        # Ajuste de ticks y etiquetas
+        ax2.set_xticks(range(len(fecha2)))  
+        ax2.set_xticklabels(fecha2, rotation=45, ha='right', fontsize=8, color='white')
+
+        # Canvas
+        canvas = FigureCanvasTkAgg(fig, master=frame)
+        canvas.draw()
+        widget_canvas = canvas.get_tk_widget()
+        widget_canvas.pack(fill='both', expand=True)
+        
+    def crear_grafico_agua(self, frame):
+        fig = Figure(figsize=(8, 5), dpi=100, facecolor='#404B4C')
+        ax3 = fig.add_subplot(111)
+        fecha3, agua = self.datos_agua()
+        ax3.set_facecolor(oscuro)
+        ax3.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='lightgray')
+        ax3.set_title('Agua vs Tiempo', color='white', fontsize=12)
+        ax3.set_ylabel('Agua', color='white', fontsize=10)
+        ax3.set_xlabel('Fecha', color='white', fontsize=10)
+        
+        if len(agua) > 0:
+            ax3.fill_between(fecha3, agua, color='#00BFFF', alpha=0.6)  
+            ax3.plot(fecha3, agua, color='#00BFFF', linewidth=2)  
+        else:
+            
+            ax3.text(0.5, 0.5, 'No hay datos disponibles', horizontalalignment='center', 
+                     verticalalignment='center', transform=ax3.transAxes, color='white', fontsize=12)
+            ax3.set_yticks([])
+
+        # Ajuste de ticks y etiquetas
+        ax3.set_xticks(range(len(fecha3)))  
+        ax3.set_xticklabels(fecha3, rotation=45, ha='right', fontsize=8, color='white')
+
+        # Canvas
+        canvas = FigureCanvasTkAgg(fig, master=frame)
+        canvas.draw()
+        widget_canvas = canvas.get_tk_widget()
+        widget_canvas.pack(fill='both', expand=True)
+        
+        
+    def datos_calorias(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT SUM(total_cal), fecha FROM consumo_diario GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
+        resultados = cursor.fetchall()
+        conn.close()
+        cantidad = [fila[0] for fila in resultados]
+        fecha = [fila[1] for fila in resultados]
+        return fecha, cantidad
+
+    def datos_peso(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT fecha, peso FROM peso GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
+        resultados = cursor.fetchall()
+        conn.close()
+        fecha2 = [fila[0] for fila in resultados]
+        peso = [fila[1] for fila in resultados]
+        return fecha2, peso
+    
+    def datos_agua(self):
+        conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT fecha, cant FROM agua GROUP BY fecha ORDER BY strftime('%Y-%m-%d', substr(fecha, 7, 4) || '-' || substr(fecha, 4, 2) || '-' || substr(fecha, 1, 2))")
+        resultados = cursor.fetchall()
+        conn.close()
+        fecha3 = [fila[0] for fila in resultados]
+        agua = [fila[1] for fila in resultados]
+        return fecha3, agua
+    
