@@ -159,7 +159,7 @@ class Main(ctk.CTk):
                         relief="flat", 
                         borderwidth=0,
                         command=self.seleccionar_archivo)
-        self.btn_mas.place(x=175, y=100, width=25, height=25)
+        self.btn_mas.place(x=162, y=93, width=20, height=20)
 
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
