@@ -35,14 +35,14 @@ class Grafico(New_ventana):
         fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax1 = fig.add_subplot(111)
         fecha, cantidad = self.datos_calorias()
-        ax1.set_facecolor(oscuro)
+        ax1.set_facecolor("gray")
         ax1.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
         ax1.set_title('Calorías vs Tiempo', color='white', fontsize=12)
         ax1.set_ylabel('Calorías', color='white', fontsize=10)
         ax1.set_xlabel('Fecha', color='white', fontsize=10)
 
         if len(cantidad) > 0:
-            bars = ax1.bar(fecha, cantidad, color=azul_mas_clarito, edgecolor='black', linewidth=1.5)
+            bars = ax1.bar(fecha, cantidad, color="#00ef81", edgecolor='black', linewidth=1.5)
             for bar in bars:
                 bar.set_linewidth(1.5)
                 bar.set_edgecolor('white')
@@ -68,14 +68,19 @@ class Grafico(New_ventana):
         fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax2 = fig.add_subplot(111)
         fecha2, peso = self.datos_peso()
-        ax2.set_facecolor(oscuro)
+        ax2.set_facecolor("gray")
         ax2.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
         ax2.set_title('Peso vs Tiempo', color='white', fontsize=12)
-        ax2.set_ylabel('Peso (kg)', color='white', fontsize=10)
+        ax2.set_ylabel('Peso', color='white', fontsize=10)
         ax2.set_xlabel('Fecha', color='white', fontsize=10)
 
         if len(peso) > 0:
-            ax2.plot(fecha2, peso, color=celeste_pero_oscuro, marker='o', markersize=6, markerfacecolor='white', linestyle='-', linewidth=2.5)
+            bars = ax2.bar(fecha2, peso, color="#00ef81", edgecolor='black', linewidth=1.5)
+            for bar in bars:
+                bar.set_linewidth(1.5)
+                bar.set_edgecolor('white')
+                bar.set_linestyle((0, (5, 1)))
+            ax2.set_yticks(ax2.get_yticks())
         else:
             
             ax2.text(0.5, 0.5, 'No hay datos disponibles', horizontalalignment='center', 
@@ -96,15 +101,19 @@ class Grafico(New_ventana):
         fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
         ax3 = fig.add_subplot(111)
         fecha3, agua = self.datos_agua()
-        ax3.set_facecolor(oscuro)
-        ax3.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='lightgray')
+        ax3.set_facecolor("gray")
+        ax3.grid(True, which='both', axis='y', linestyle='--', linewidth=0.6, color='gray')
         ax3.set_title('Agua vs Tiempo', color='white', fontsize=12)
         ax3.set_ylabel('Agua', color='white', fontsize=10)
         ax3.set_xlabel('Fecha', color='white', fontsize=10)
-        
+
         if len(agua) > 0:
-            ax3.fill_between(fecha3, agua, color='#00BFFF', alpha=0.6)  
-            ax3.plot(fecha3, agua, color='#00BFFF', linewidth=2)  
+            bars = ax3.bar(fecha3, agua, color="#00ef81", edgecolor='black', linewidth=1.5)
+            for bar in bars:
+                bar.set_linewidth(1.5)
+                bar.set_edgecolor('white')
+                bar.set_linestyle((0, (5, 1)))
+            ax3.set_yticks(ax3.get_yticks())
         else:
             
             ax3.text(0.5, 0.5, 'No hay datos disponibles', horizontalalignment='center', 
