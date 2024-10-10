@@ -11,8 +11,19 @@ class Configuracion(New_ventana):
         self.panel_principal = panel_principal 
         self.add_widget_config()
         self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
-        
+
+    def mostrar_advertencia(self):
+        CTkMessagebox(title="Configuracion", message="Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad.", icon='info', option_1="Ok"),
+
     def add_widget_config(self):
+
+        self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
+                                         command=self.mostrar_advertencia,
+                                         corner_radius=15,
+                                         width=30, height=30,
+                                         font=("Times New Roman", 25, "italic"),
+                                         text_color="white")
+        self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
         # Título para el módulo configuración
         self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
         self.title_label.place(x=20, y=5)

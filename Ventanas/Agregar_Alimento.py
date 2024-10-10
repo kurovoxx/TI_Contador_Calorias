@@ -16,6 +16,8 @@ class Agregar_Alimento(New_ventana):
 
 
         
+    def mostrar_advertencia(self):
+        CTkMessagebox(title="Agregar Alimento", message="Esta es la pestaña de agregar alimento, para agregar un alimento debes insertar el nombre del alimento, las calorias por porcion o por 100 gramos.", icon='info', option_1="Ok"),
 
 
     def conectar_base_datos(self):
@@ -26,6 +28,14 @@ class Agregar_Alimento(New_ventana):
         # Label "agregar" de alimentos
         self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=azul_medio_oscuro)
         self.label_agregar.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
+
+        self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
+                                         command=self.mostrar_advertencia,
+                                         corner_radius=15,
+                                         width=30, height=30,
+                                         font=("Times New Roman", 25, "italic"),
+                                         text_color="white")
+        self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         # entry agregar alimento
         self.agregar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text_color="black", 
