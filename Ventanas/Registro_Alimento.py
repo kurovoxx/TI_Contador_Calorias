@@ -2,16 +2,21 @@ import customtkinter as ctk
 from tkinter import Listbox
 import sqlite3
 from CTkMessagebox import CTkMessagebox
+
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
+
+
+
+
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
         self.nombre = 'registrar_alimento'
-        
-        
+
+
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
@@ -33,6 +38,14 @@ class Registro_Alimento(New_ventana):
         self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         self.combo_box.set("Seleccionar alimento")
+
+        self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
+                                         command=self.mostrar_advertencia,
+                                         corner_radius=15,
+                                         width=30, height=30,
+                                         font=("Times New Roman", 25, "italic"),
+                                         text_color="white")
+        self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
         self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
@@ -122,6 +135,8 @@ class Registro_Alimento(New_ventana):
         conn.close()
         return lista_alimentos
 
+    def mostrar_advertencia(self):
+        CTkMessagebox(title="Registrar Alimento", message="En esta pestaña, puedes registrar los alimentos consumidos durante el día y las calorías totales. Primero, debes añadir el alimento en la pestaña Agregar Alimento. Luego, podrás buscarlo con un buscador o ver todos los alimentos registrados.", icon='info', option_1="Ok"),
 
     def update_coincidencias(self):
         self.coincidencias.delete(0, ctk.END)

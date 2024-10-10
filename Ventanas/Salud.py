@@ -17,10 +17,22 @@ class Salud(New_ventana):
         self.update_health_metrics()
         self.mensage("Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", "Salud")
 
+    def mostrar_advertencia(self):
+        CTkMessagebox(title="Salud", message="Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", icon='info', option_1="Ok"),
+
+
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
         self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="#28242c", command=self.actualizar_peso)
         self.btn_actualizar_peso.place(x=50, y=50)
+
+        self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
+                                         command=self.mostrar_advertencia,
+                                         corner_radius=15,
+                                         width=30, height=30,
+                                         font=("Times New Roman", 25, "italic"),
+                                         text_color="white")
+        self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         # Botón "Medir pulsaciones"
         self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="#28242c", command=self.pulsaciones)

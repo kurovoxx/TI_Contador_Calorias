@@ -22,6 +22,10 @@ class Historial(New_ventana):
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         self.cursor = self.conn.cursor()
 
+    def mostrar_advertencia(self):
+        CTkMessagebox(title="Historial", message="Esta es la pestaña de Historial, aqui podras ver que has comido en una fecha determinada.", icon='info', option_1="Ok"),
+
+
     def add_widget_historial(self):
         """Añade los widgets a la ventana"""
         self.perfil_treeview = ctk.CTkFrame(self.sub, width=300)
@@ -33,6 +37,13 @@ class Historial(New_ventana):
         self.date_entry = DateEntry(self.perfil_treeview, width=12, background='darkblue', foreground='white', borderwidth=2, date_pattern='y-mm-dd')
         self.date_entry.pack(pady=5)
 
+        self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
+                                         command=self.mostrar_advertencia,
+                                         corner_radius=15,
+                                         width=30, height=30,
+                                         font=("Times New Roman", 25, "italic"),
+                                         text_color="white")
+        self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         self.filter_button = ctk.CTkButton(self.perfil_treeview, text="Filtrar por fecha", command=self.filtrar_por_fecha)
         self.filter_button.pack(pady=10)

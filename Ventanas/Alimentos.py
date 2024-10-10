@@ -4,13 +4,22 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
 from tkinter import ttk, Scrollbar
+import sqlite3
+
 
 class Alimentos(New_ventana):
     def __init__(self, panel_principal, color):
         super().__init__(panel_principal, color)
         self.nombre = "admin_alimentos"
         self.widget_alimentos()
+        self.conexion()
+        self.datos()
         self.mensage("Esta es la pestaña Admin alimentos, aqui podras ver todos los alimentos que has registrado, al igual que podras gestionar las calorias que tienen", "Admin Alimentos")
+
+    def conexion(self):
+        """Conecta a la base de datos SQLite."""
+        self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        self.cursor = self.conn.cursor()
 
     def widget_alimentos(self):
         self.treeview_alimentos = ctk.CTkFrame(self.sub, width=500)
@@ -28,9 +37,9 @@ class Alimentos(New_ventana):
         self.tree.heading("Porcion", text="Por porcion o 100gr")
         self.tree.heading("Calorias", text="Calorias")
         
-        self.tree.column("Nombre", width=350)
-        self.tree.column("Porcion", width=350)
-        self.tree.column("Calorias", width=350)
+        self.tree.column("Nombre", width=300)
+        self.tree.column("Porcion", width=300)
+        self.tree.column("Calorias", width=300)
 
         scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -38,9 +47,37 @@ class Alimentos(New_ventana):
         self.tree.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color="#28242c", command=self.editar_alimentos, height=50)
-        self.boton_change.pack(pady=100,anchor="center")
+        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color="#28242c", command=self.editar_alimentos, height=60)
+        self.boton_change.pack(pady=80,anchor="center")
 
+
+    def datos(self):
+        self.cursor.execute("""
+            SELECT a.nombre,
+                CASE 
+                    WHEN a.calorias_porcion IS NOT NULL THEN 'Porción'
+                    ELSE '100gr'
+                END AS tipo_caloria,
+                CASE
+                    WHEN a.calorias_porcion IS NOT NULL THEN a.calorias_porcion
+                    ELSE a.calorias_100gr
+                END AS calorias
+            FROM alimento a
+        """)
+
+        registros = self.cursor.fetchall()
+
+        for registro in self.tree.get_children():
+            self.tree.delete(registro)
+
+        for registro in registros:
+            self.tree.insert("", "end", values=(registro[0], registro[1], registro[2]))
+            registros = self.cursor.fetchall()
+
+        for registro in registros:
+            cantidad = f"{registro[2]} Gr" if registro[1] == '100gr' else str(registro[2])
+            self.tree.insert("", "end", values=(registro[0], registro[1], cantidad, registro[3], registro[4], registro[5]))
+   
     def editar_alimentos(self):
         print("presionado")
         pass
