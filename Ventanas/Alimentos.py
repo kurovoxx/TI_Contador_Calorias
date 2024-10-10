@@ -12,11 +12,11 @@ class Alimentos(New_ventana):
         super().__init__(panel_principal, color)
         self.nombre = "admin_alimentos"
         self.widget_alimentos()
-        self.conectar_base_datos()
+        self.conexion()
         self.agregar_treeview()
         self.mensage("Esta es la pestaña Admin alimentos, aqui podras ver todos los alimentos que has registrado, al igual que podras gestionar las calorias que tienen", "Admin Alimentos")
 
-    def conectar_base_datos(self):
+    def conexion(self):
         """Conecta a la base de datos SQLite."""
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         self.cursor = self.conn.cursor()
