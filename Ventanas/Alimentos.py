@@ -28,9 +28,9 @@ class Alimentos(New_ventana):
         self.tree.heading("Porcion", text="Por porcion o 100gr")
         self.tree.heading("Calorias", text="Calorias")
         
-        self.tree.column("Nombre", width=350)
-        self.tree.column("Porcion", width=350)
-        self.tree.column("Calorias", width=350)
+        self.tree.column("Nombre", width=300)
+        self.tree.column("Porcion", width=300)
+        self.tree.column("Calorias", width=300)
 
         scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
@@ -38,8 +38,8 @@ class Alimentos(New_ventana):
         self.tree.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color="#28242c", command=self.editar_alimentos, height=50)
-        self.boton_change.pack(pady=100,anchor="center")
+        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color="#28242c", command=self.editar_alimentos, height=60)
+        self.boton_change.pack(pady=80,anchor="center")
 
     def editar_alimentos(self):
         print("presionado")
