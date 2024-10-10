@@ -13,7 +13,7 @@ class Alimentos(New_ventana):
         self.nombre = "admin_alimentos"
         self.widget_alimentos()
         self.conexion()
-        self.agregar_treeview()
+        self.datos()
         self.mensage("Esta es la pestaña Admin alimentos, aqui podras ver todos los alimentos que has registrado, al igual que podras gestionar las calorias que tienen", "Admin Alimentos")
 
     def conexion(self):
@@ -51,7 +51,7 @@ class Alimentos(New_ventana):
         self.boton_change.pack(pady=80,anchor="center")
 
 
-    def agregar_treeview(self):
+    def datos(self):
         self.cursor.execute("""
             SELECT a.nombre,
                 CASE 
