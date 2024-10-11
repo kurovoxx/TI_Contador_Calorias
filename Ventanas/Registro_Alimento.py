@@ -2,14 +2,9 @@ import customtkinter as ctk
 from tkinter import Listbox
 import sqlite3
 from CTkMessagebox import CTkMessagebox
-
 from util.colores import *
 from Ventanas.Ventana_interfaz import New_ventana
 from datetime import datetime
-
-
-
-
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
@@ -27,13 +22,13 @@ class Registro_Alimento(New_ventana):
         self.label_total_c_mostrar.configure(text=total_calorias)
 
     def add_widget_registro(self):
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Agregar alimento", text_color="white", bg_color=verde_claro, font=("Arial", 20))
         self.label_agregar.place(relx=0.1, rely=0.10, relwidth=0.3, relheight=0.05)
 
-        self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color="#183549",
+        self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, fg_color=gris_label,
                                          values=self.cargar_alimentos(),
                                          border_width=0, button_color="#26656D",
-                                         button_hover_color="white", text_color="white",
+                                         button_hover_color="white", text_color=negro_text,
                                          command=self.on_alimento_select)  # Añadimos el evento de selección
         self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
@@ -47,7 +42,7 @@ class Registro_Alimento(New_ventana):
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=verde_claro, font=("Arial", 20))
         self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
 
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
@@ -64,31 +59,29 @@ class Registro_Alimento(New_ventana):
         self.match = []
 
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
-                                           bg_color="#183549", font=("Arial", 20))
+                                           bg_color=verde_oscuro, font=("Arial", 20))
         self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
 
-        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color="white", bg_color="#1f2329", font=("Arial", 20))
+        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color=negro_text, bg_color=gris_label, font=("Arial", 20))
         self.label_segundo_registro.place(relx=0.5, rely=0.15, relwidth=0.4, relheight=0.055)
         
         self.label_calorias = ctk.CTkLabel(self.sub, text="Cantidad alimento", text_color="white", 
-                                           font=("Arial", 16), bg_color=azul_medio_oscuro)
+                                           font=("Arial", 16), bg_color=verde_claro)
 
         self.entry = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese cantidad consumida", 
                                   placeholder_text_color="black", border_width=0, fg_color="white", 
                                   text_color="black")
 
-        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=azul_medio_oscuro, 
+        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=verde_claro, 
                                              hover_color=celeste_pero_oscuro, command=self.boton_mensanjes_insert, font=("Arial", 20))
 
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: ", text_color="white", 
-                                                 bg_color="#183549", font=("Arial", 20))
+                                                 bg_color=verde_oscuro, font=("Arial", 20))
         self.label_total_calorias.place(relx=0.5, rely=0.35, relwidth=0.4, relheight=0.055)
 
-        self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color="white",
-                                                  bg_color="#1f2329", font=("Arial", 20))
+        self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color=negro_text,
+                                                  bg_color=gris_label, font=("Arial", 20))
         self.label_total_c_mostrar.place(relx=0.5, rely=0.40, relwidth=0.4, relheight=0.055)
-
-
 
     def on_alimento_select(self, selected_alimento):
         alimento_info = self.buscar_alimento_en_db(selected_alimento)
@@ -105,7 +98,7 @@ class Registro_Alimento(New_ventana):
             self.entry.place(relx=0.1, rely=0.55, relwidth=0.3)
             self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
-            self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 14))
+            self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=verde_claro, font=("Arial", 14))
             self.label_hora.place(relx=0.5, rely=0.50, relwidth=0.4, relheight=0.05)
 
             self.hour_var = ctk.IntVar(value=12)
@@ -210,8 +203,6 @@ class Registro_Alimento(New_ventana):
         self.minute_var.set(now.minute)
         self.update_time_label()
 
-
-
     # El codigo de Miguel adaptado bien pro
     def get_ultimo_insertado(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -250,7 +241,6 @@ class Registro_Alimento(New_ventana):
         resultado = cursor.fetchone()[0]
         conn.close()
         return resultado if resultado else 0
-
 
     def insert_alimento(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
