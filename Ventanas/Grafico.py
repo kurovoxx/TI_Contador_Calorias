@@ -31,10 +31,10 @@ class Grafico(New_ventana):
                                  fg_color=gris,
                                  bg_color=gris,
                                  segmented_button_fg_color=azul_medio_oscuro,
-                                 segmented_button_selected_color=azul_mas_clarito,
-                                 segmented_button_selected_hover_color=oscuro,
+                                 segmented_button_selected_color=verde_claro,
+                                 segmented_button_selected_hover_color=gris,
                                  segmented_button_unselected_color=azul_medio_oscuro,
-                                 segmented_button_unselected_hover_color=azul_mas_clarito)
+                                 segmented_button_unselected_hover_color=verde_claro)
         tabview.place(relx=0.01, rely=0.005, relwidth=1, relheight=1)
         tab1 = tabview.add("Calorías vs Tiempo")
         tab2 = tabview.add("Peso vs Tiempo")
@@ -42,11 +42,6 @@ class Grafico(New_ventana):
         self.crear_grafico_calorias(tab1)
         self.crear_grafico_peso(tab2)
         self.crear_grafico_agua(tab3)
-
-    # (Resto de las funciones...)
-
-
-
 
     def crear_grafico_calorias(self, frame):
         fig = Figure(figsize=(8, 5), dpi=100, facecolor=gris)
@@ -59,7 +54,7 @@ class Grafico(New_ventana):
         ax1.set_xlabel('Fecha', color='white', fontsize=10)
 
         if len(cantidad) > 0:
-            bars = ax1.bar(fecha, cantidad, color="#00ef81", edgecolor='black', linewidth=1.5)
+            bars = ax1.bar(fecha, cantidad, color=verde_alegre, edgecolor='black', linewidth=1.5)
             for bar in bars:
                 bar.set_linewidth(1.5)
                 bar.set_edgecolor('white')
@@ -92,7 +87,7 @@ class Grafico(New_ventana):
         ax2.set_xlabel('Fecha', color='white', fontsize=10)
 
         if len(peso) > 0:
-            bars = ax2.bar(fecha2, peso, color="#00ef81", edgecolor='black', linewidth=1.5)
+            bars = ax2.bar(fecha2, peso, color=verde_alegre, edgecolor='black', linewidth=1.5)
             for bar in bars:
                 bar.set_linewidth(1.5)
                 bar.set_edgecolor('white')
@@ -125,7 +120,7 @@ class Grafico(New_ventana):
         ax3.set_xlabel('Fecha', color='white', fontsize=10)
 
         if len(agua) > 0:
-            bars = ax3.bar(fecha3, agua, color="#00ef81", edgecolor='black', linewidth=1.5)
+            bars = ax3.bar(fecha3, agua, color=verde_alegre, edgecolor='black', linewidth=1.5)
             for bar in bars:
                 bar.set_linewidth(1.5)
                 bar.set_edgecolor('white')
@@ -146,7 +141,6 @@ class Grafico(New_ventana):
         canvas.draw()
         widget_canvas = canvas.get_tk_widget()
         widget_canvas.pack(fill='both', expand=True)
-
 
     def datos_calorias(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -177,4 +171,3 @@ class Grafico(New_ventana):
         fecha3 = [fila[0] for fila in resultados]
         agua = [fila[1] for fila in resultados]
         return fecha3, agua
-
