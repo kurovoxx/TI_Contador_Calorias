@@ -71,6 +71,9 @@ class Peso(ctk.CTkToplevel):
 
                 finally:
                     conn.close()
+                
+                if self.callback:
+                    self.callback()
 
                 self.destroy()
             except ValueError:
