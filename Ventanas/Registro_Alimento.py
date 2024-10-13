@@ -22,7 +22,6 @@ class Registro_Alimento(New_ventana):
         self.label_total_c_mostrar.configure(text=total_calorias)
 
     def add_widget_registro(self):
-        canv_agregar = ctk.CTkCanvas(self.sub, width=0, height=0)
 
         self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), bg_color=verde_claro, width=200)
         self.label_agregar.place(x=85, y=40) # 85x
@@ -84,14 +83,6 @@ class Registro_Alimento(New_ventana):
         self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color=negro_text,
                                                   bg_color=gris_label, font=("Arial", 20))
         self.label_total_c_mostrar.place(relx=0.5, rely=0.40, relwidth=0.4, relheight=0.055)
-
-    def rec_bg(self, canvas: ctk.CTkCanvas, x1, y1, x2, y2, radius, **kwargs):
-        # Dibujar un rectángulo con bordes redondeados
-        canvas.create_oval(x1, y1, x1 + radius * 2, y1 + radius * 2, **kwargs)  # Esquina superior izquierda
-        canvas.create_oval(x2 - radius * 2, y1, x2, y1 + radius * 2, **kwargs)  # Esquina superior derecha
-        canvas.create_oval(x1, y2 - radius * 2, x1 + radius * 2, y2, **kwargs)  # Esquina inferior izquierda
-        canvas.create_oval(x2 - radius * 2, y2 - radius * 2, x2, y2, **kwargs)  # Esquina inferior derecha
-        canvas.create_rectangle(x1 + radius, y1, x2 - radius, y2, **kwargs)  # Parte central
 
     def on_alimento_select(self, selected_alimento):
         alimento_info = self.buscar_alimento_en_db(selected_alimento)
