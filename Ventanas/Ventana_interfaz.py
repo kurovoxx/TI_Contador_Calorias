@@ -2,11 +2,13 @@ from abc import ABC
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox  
 import sqlite3
+from util.colores import *
+
 
 class New_ventana(ABC):
     def __init__(self, parent, color):
         self.parent = parent
-        self.sub = ctk.CTkFrame(parent, fg_color=color, corner_radius=0)
+        self.sub = ctk.CTkFrame(parent, fg_color=color, corner_radius=20, bg_color=azul_medio_oscuro)
         self.sub.pack(fill='both', expand=True)
         self.usuario = self.obtener_usuario()
 

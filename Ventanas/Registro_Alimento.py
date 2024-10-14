@@ -22,9 +22,11 @@ class Registro_Alimento(New_ventana):
         self.label_total_c_mostrar.configure(text=total_calorias)
 
     def add_widget_registro(self):
+        self.bg_btn_agregar = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+        self.bg_btn_agregar.place(x=85, y=38)
 
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), bg_color=verde_claro, width=200)
-        self.label_agregar.place(x=85, y=40) # 85x
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), bg_color=gris, width=200)
+        self.label_agregar.place(x=95, y=40) # 85x
 
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=20, fg_color=gris_label,
                                          values=self.cargar_alimentos(),
@@ -43,10 +45,13 @@ class Registro_Alimento(New_ventana):
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=verde_claro, font=("Arial", 20))
-        self.label_buscar.place(relx=0.1, rely=0.30, relwidth=0.3, relheight=0.055)
+        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+        self.bg_btn_buscador.place(x=85, y=145)
 
-        self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Buscar alimento", 
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=gris, font=("Arial", 20))
+        self.label_buscar.place(x=95, y=147)
+
+        self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Buscar alimento", 
                                          placeholder_text_color="black", border_width=0, fg_color="white", 
                                          text_color="black") 
         self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3) 
@@ -59,17 +64,19 @@ class Registro_Alimento(New_ventana):
         self.alimentos_buscar = self.cargar_alimentos()
         self.match = []
 
+
+
+        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=295, height=35, corner_radius=20)
+        self.bg_btn_buscador.place(x=410, y=38)
+
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
                                            bg_color=verde_oscuro, font=("Arial", 20))
         self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
 
         self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color=negro_text, bg_color=gris_label, font=("Arial", 20))
         self.label_segundo_registro.place(relx=0.5, rely=0.15, relwidth=0.4, relheight=0.055)
-        
-        self.label_calorias = ctk.CTkLabel(self.sub, text="Cantidad alimento", text_color="white", 
-                                           font=("Arial", 16), bg_color=verde_claro)
 
-        self.entry = ctk.CTkEntry(self.sub, corner_radius=0, placeholder_text="Ingrese cantidad consumida", 
+        self.entry = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Ingrese cantidad consumida", 
                                   placeholder_text_color="black", border_width=0, fg_color="white", 
                                   text_color="black")
 
@@ -90,13 +97,19 @@ class Registro_Alimento(New_ventana):
         if alimento_info:
             nombre, calorias_100g, calorias_porcion = alimento_info
 
-            if calorias_porcion is not None:
-                self.label_calorias.configure(text=f"Cantidad de alimento por porción")
-            else:
-                self.label_calorias.configure(text=f"Cantidad de alimento por gr")
+            self.bg_btn_cal = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+            self.bg_btn_cal.place(x=85, y=250)
 
-            self.label_calorias.place(relx=0.1, rely=0.50, relwidth=0.3, relheight=0.05)
-            self.entry.place(relx=0.1, rely=0.55, relwidth=0.3)
+            self.label_calorias = ctk.CTkLabel(self.sub, text="Cantidad alimento", text_color="white", 
+                                           font=("Arial", 16), bg_color=gris)
+
+            if calorias_porcion is not None:
+                self.label_calorias.configure(text=f"Cant. de porciones")
+            else:
+                self.label_calorias.configure(text=f"Cant. de alimento por gr")
+
+            self.label_calorias.place(x=95, y=252)
+            self.entry.place(relx=0.1, y=290, relwidth=0.3)
             self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
             self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=verde_claro, font=("Arial", 14))
@@ -130,7 +143,7 @@ class Registro_Alimento(New_ventana):
         return lista_alimentos
 
     def mostrar_advertencia(self):
-        CTkMessagebox(title="Registrar Alimento", message="En esta pestaña, puedes registrar los alimentos consumidos durante el día y las calorías totales. Primero, debes añadir el alimento en la pestaña Agregar Alimento. Luego, podrás buscarlo con un buscador o ver todos los alimentos registrados.", icon='info', option_1="Ok"),
+        CTkMessagebox(title="Registrar Alimento", message="En esta pestaña, puedes registrar los alimentos consumidos durante el día y las calorías totales. Primero, debes añadir el alimento en la pestaña Agregar Alimento. Luego, podrás buscarlo con un buscador o ver todos los alimentos registrados.", icon='info', option_1="Ok")
 
     def update_coincidencias(self):
         self.coincidencias.delete(0, ctk.END)
