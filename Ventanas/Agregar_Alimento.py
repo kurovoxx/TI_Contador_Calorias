@@ -23,7 +23,7 @@ class Agregar_Alimento(New_ventana):
 
     def add_widget_agregar(self):
         # Label "agregar" de alimentos
-        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=verde_claro)
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=azul_medio_oscuro)
         self.label_agregar.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
@@ -41,7 +41,7 @@ class Agregar_Alimento(New_ventana):
         self.agregar.place(relx=0.1, rely=0.2, relwidth=0.3, relheight=0.05)
 
         # Label "Seleccione Cantidad Calorías"
-        self.label_calorias = ctk.CTkLabel(self.sub,font=("Arial", 20), text="Porcion / 100gr", text_color="White", fg_color=verde_oscuro)
+        self.label_calorias = ctk.CTkLabel(self.sub,font=("Arial", 20), text="Porcion / 100gr", text_color="White", fg_color=azul_medio_oscuro)
         self.label_calorias.place(relx=0.5, rely=0.15, relwidth=0.3, relheight=0.05)  # Ajustar rely
 
         # Combobox
@@ -51,7 +51,7 @@ class Agregar_Alimento(New_ventana):
 
     def actualizar_label(self, e):
         # Label "calorías"
-        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Calorias", text_color="white", bg_color=verde_claro)
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Calorias", text_color="white", bg_color=azul_medio_oscuro)
         self.label_agregar.place(relx=0.1, rely=0.383, relwidth=0.3, relheight=0.05)
 
         # Entry calorias

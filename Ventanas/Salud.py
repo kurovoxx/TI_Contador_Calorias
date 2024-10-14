@@ -23,7 +23,7 @@ class Salud(New_ventana):
 
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
-        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="#28242c", command=self.actualizar_peso)
+        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color=azul_medio_oscuro, command=self.actualizar_peso)
         self.btn_actualizar_peso.place(x=50, y=50)
 
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
@@ -35,21 +35,21 @@ class Salud(New_ventana):
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         # Botón "Medir pulsaciones"
-        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="#28242c", command=self.pulsaciones)
+        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color=azul_medio_oscuro, command=self.pulsaciones)
         self.btn_medir_pulsaciones.place(x=50, y=150)
 
-        self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color=azul_medio_oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
         self.label_imc.configure(corner_radius=5)
         self.label_imc.place(x=500, y=50)
 
-        self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color=azul_medio_oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_imc.place(x=610, y=50)
 
-        self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color=azul_medio_oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
         self.label_tmb.configure(corner_radius=5)
         self.label_tmb.place(x=500, y=150)
         
-        self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color=azul_medio_oscuro, text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_tmb.place(x=610, y=150)
 
         # Crear los 8 botones redondeados debajo de la barra
