@@ -5,11 +5,12 @@ from datetime import datetime
 from util.colores import *
 import util.util_ventana as util_ventana
 import util.util_imagenes as util_img
-from PIL import Image, ImageDraw, ImageTk
+from PIL import Image, ImageDraw
 import json
 import os
 import shutil
 
+from Ventanas.Alimentos import Alimentos
 from Ventanas.Registro_Alimento import Registro_Alimento
 from Ventanas.Agregar_Alimento import Agregar_Alimento
 from Ventanas.Grafico import Grafico
@@ -27,6 +28,8 @@ class Main(ctk.CTk):
         self.config_window()
         self.esperando_login()
         self.log_in()
+        
+        self.botones_menu = []
     
     def load_image(self, path, size):
         #return ImageTk.PhotoImage(Image.open(path).resize(size, Image.Resampling.LANCZOS))
@@ -143,48 +146,72 @@ class Main(ctk.CTk):
     def controles_barra_lateral(self):
         self.labelPerfil = ctk.CTkLabel(self.menu_lateral, image=self.perfil, text='')
         self.labelPerfil.pack(side=tk.TOP, pady=10)
+
+        with open('usuario_actual.txt', 'r') as users:
+            nombre_usuario = users.readline().strip()  # Leer y eliminar posibles saltos de línea
+        
+        self.labelNombre = tk.Label(self.menu_lateral, text=nombre_usuario, font=("Arial", 12, "bold"), bg=azul_medio_oscuro, fg="white")
+        self.labelNombre.pack(side=tk.TOP, pady=5)
+
         self.btn_mas = tk.Button(self.menu_lateral, 
-                         text="+", 
-                         font=("Arial", 15), 
-                         bg="#34A85A", 
-                         fg="white", 
-                         relief="flat", 
-                         borderwidth=0,
-                         command=self.seleccionar_archivo)
-        self.btn_mas.place(x=180, y=100, width=25, height=25)
-  
+                        text="+", 
+                        font=("Arial", 15), 
+                        bg="#34A85A", 
+                        fg="white", 
+                        relief="flat", 
+                        borderwidth=0,
+                        command=self.seleccionar_archivo)
+        self.btn_mas.place(x=175, y=100, width=25, height=25)
+
         self.iconos = util_img.cargar_imagenes(carpeta='./img/icon_img')
 
         self.btn_registro = ctk.CTkButton(self.menu_lateral, text='Registrar Alimento', image=self.iconos[3], compound='left',
-                                          width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                          command=self.abrir_registro_alimento)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_registro_alimento)
         self.btn_registro.pack(side=ctk.TOP)
 
         self.btn_agregar = ctk.CTkButton(self.menu_lateral, text="Agregar Alimento", image=self.iconos[0], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_agregar_alimento)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_agregar_alimento)
         self.btn_agregar.pack(side=ctk.TOP)
 
         self.btn_grafico = ctk.CTkButton(self.menu_lateral, text="Gráfico", image=self.iconos[1], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_grafico)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_grafico)
         self.btn_grafico.pack(side=ctk.TOP)
 
         self.btn_historial = ctk.CTkButton(self.menu_lateral, text="Historial", image=self.iconos[2], compound='left',
-                                           width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                           command=self.abrir_historial)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_historial)
         self.btn_historial.pack(side=ctk.TOP)
 
         self.btn_en_contruccion = ctk.CTkButton(self.menu_lateral, text="Settings", image=self.iconos[5], compound='left',
                                             width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                            hover_color=verde_claro,
                                             command=self.abrir_configuracion)
         self.btn_en_contruccion.pack(side=ctk.TOP)
 
         self.btn_salud = ctk.CTkButton(self.menu_lateral, text="Salud", image=self.iconos[4], compound='left',
-                                         width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
-                                         command=self.abrir_salud)
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_salud)
         self.btn_salud.pack(side=ctk.TOP)
 
+        self.btn_alimentos = ctk.CTkButton(self.menu_lateral, text="Admin-Alimentos", image=self.iconos[6], compound='left',
+                                        width=200, height=50, corner_radius=0, fg_color=azul_medio_oscuro,
+                                        hover_color=verde_claro,
+                                        command=self.abrir_alimentos)
+        self.btn_alimentos.pack(side=ctk.TOP)
+        
+         # Agregar todos los botones a la lista
+        self.botones_menu = [self.btn_registro, self.btn_agregar, self.btn_grafico, self.btn_historial,
+                             self.btn_en_contruccion, self.btn_salud, self.btn_alimentos]
+        
+        
     def controles_cuerpo(self):
         label = ctk.CTkLabel(self.cuerpo_principal, image=self.logo, text='')
         label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -201,30 +228,64 @@ class Main(ctk.CTk):
         # Restaurar el estilo al salir el raton
         button.config(bg=azul_medio_oscuro, fg='white')
 
+        self.botones_menu = [self.btn_registro, self.btn_agregar, self.btn_grafico, self.btn_historial,
+                             self.btn_en_contruccion, self.btn_salud, self.btn_alimentos]
+
+    
+    def resetear_colores_botones(self):
+        for boton in self.botones_menu:
+            boton.configure(fg_color=azul_medio_oscuro)
+            boton.configure(hover_color=verde_claro)
+
     def abrir_registro_alimento(self):
+        self.resetear_colores_botones()  
+        self.btn_registro.configure(fg_color=negro_text)  
+        self.btn_registro.configure(hover_color=negro_text)  
         self.limpiar_panel(self.cuerpo_principal)
-        Registro_Alimento(self.cuerpo_principal, '#404B4C')
-        
+        Registro_Alimento(self.cuerpo_principal, gris)
+
     def abrir_agregar_alimento(self):
+        self.resetear_colores_botones()  
+        self.btn_agregar.configure(fg_color=negro_text)
+        self.btn_agregar.configure(hover_color=negro_text)
         self.limpiar_panel(self.cuerpo_principal)
-        Agregar_Alimento(self.cuerpo_principal, '#404B4C')
+        Agregar_Alimento(self.cuerpo_principal, gris)
 
     def abrir_grafico(self):
+        self.resetear_colores_botones()  
+        self.btn_grafico.configure(fg_color=negro_text)
+        self.btn_grafico.configure(hover_color=negro_text)
         self.limpiar_panel(self.cuerpo_principal)
-        Grafico(self.cuerpo_principal, '#404B4C')
+        Grafico(self.cuerpo_principal, gris)
 
     def abrir_historial(self):
+        self.resetear_colores_botones()  
+        self.btn_historial.configure(fg_color=negro_text)
+        self.btn_historial.configure(hover_color=negro_text)
         self.limpiar_panel(self.cuerpo_principal)
-        Historial(self.cuerpo_principal, '#404B4C')
+        Historial(self.cuerpo_principal, gris)
 
     def abrir_configuracion(self):
+        self.resetear_colores_botones()  
+        self.btn_en_contruccion.configure(fg_color=negro_text)
+        self.btn_en_contruccion.configure(hover_color=negro_text)        
         self.limpiar_panel(self.cuerpo_principal)
-        Configuracion(self.cuerpo_principal, '#404B4C')
+        Configuracion(self.cuerpo_principal, gris)
 
     def abrir_salud(self):
+        self.resetear_colores_botones()  
+        self.btn_salud.configure(fg_color=negro_text)
+        self.btn_salud.configure(hover_color=negro_text)
         self.limpiar_panel(self.cuerpo_principal)
-        Salud(self.cuerpo_principal, '#01e5e9')   
+        Salud(self.cuerpo_principal, gris)   
 
+    def abrir_alimentos(self):
+        self.resetear_colores_botones()  
+        self.btn_alimentos.configure(fg_color=negro_text)
+        self.btn_alimentos.configure(hover_color="negro_text")
+        self.limpiar_panel(self.cuerpo_principal)
+        Alimentos(self.cuerpo_principal, gris)
+        
     def log_in(self):
         Log_in(self)
 
