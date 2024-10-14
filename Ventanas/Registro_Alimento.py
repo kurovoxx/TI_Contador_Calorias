@@ -124,11 +124,14 @@ class Registro_Alimento(New_ventana):
             self.minute_slider = ctk.CTkSlider(self.sub, from_=0, to=59, variable=self.minute_var, command=self.update_time_label)
             self.minute_slider.place(relx=0.72, rely=0.55, relwidth=0.18)
 
-            self.time_label = ctk.CTkLabel(self.sub, text="12:30", text_color="white", font=("Arial", 16))
+            self.time_label = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 16))
             self.time_label.place(relx=0.5, rely=0.60, relwidth=0.4, relheight=0.05)
 
             self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time)
             self.boton_hora_actual.place(relx=0.5, rely=0.65, relwidth=0.4, relheight=0.05)
+
+            self.update_time()
+
 
     def cargar_alimentos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -216,6 +219,16 @@ class Registro_Alimento(New_ventana):
         self.hour_var.set(now.hour)
         self.minute_var.set(now.minute)
         self.update_time_label()
+        
+    def update_time(self):
+        # Obtener la hora actual
+        current_time = datetime.now().strftime("%H:%M")
+        
+        # Actualizar el texto de la etiqueta
+        self.time_label.configure(text=current_time)
+        
+        self.sub.after(1000, self.update_time)
+
 
     # El codigo de Miguel adaptado bien pro
     def get_ultimo_insertado(self):
@@ -271,7 +284,9 @@ class Registro_Alimento(New_ventana):
         WHERE nombre = ? AND fecha = ?;
         '''
 
-        hora_actual = f"{self.hour_var.get():02}:{self.minute_var.get():02}"
+        hora_actual = datetime.now().strftime('%H:%M')
+
+
 
         fecha_actual = datetime.now().strftime('%d-%m-%Y')
 
