@@ -87,33 +87,36 @@ class Historial(New_ventana):
     def filtrar_por_fecha(self):
         """Filtra los alimentos por la fecha seleccionada."""
         fecha_seleccionada = self.date_entry.get_date()
-        fecha_str = fecha_seleccionada.strftime('%Y-%m-%d') 
+        fecha_str = fecha_seleccionada.strftime('%Y-%m-%d')
 
         self.tree.delete(*self.tree.get_children())
 
-
         self.cursor.execute("""
-            SELECT a.nombre,
+            SELECT 
+                a.nombre,
                 CASE 
                     WHEN a.calorias_porcion IS NOT NULL THEN 'Porción'
                     ELSE '100gr'
                 END AS tipo_caloria,
-                CASE 
-                    WHEN a.calorias_porcion IS NOT NULL THEN a.calorias_porcion
-                    ELSE a.calorias_100gr
-                END AS total_calorias,
-                TIME(c.fecha) AS hora
+                c.cantidad,
+                c.total_cal,
+                c.fecha,
+                c.hora
             FROM consumo_diario c
             JOIN alimento a ON c.nombre = a.nombre
             WHERE strftime('%Y-%m-%d', substr(c.fecha, 7, 4) || '-' || substr(c.fecha, 4, 2) || '-' || substr(c.fecha, 1, 2)) = ?
         """, (fecha_str,))
-        
+
         registros = self.cursor.fetchall()
 
+        
 
         print("Registros obtenidos:", registros)
+
         for registro in registros:
-            self.tree.insert("", "end", values=registro)
+            cantidad = f"{registro[2]} Gr" if registro[1] == '100gr' else str(registro[2])
+            self.tree.insert("", "end", values=(registro[0], registro[1], cantidad, registro[3], registro[4], registro[5]))
+
     def __del__(self):
         """Cierra la conexión con la base de datos cuando se destruye la instancia."""
         self.conn.close()
