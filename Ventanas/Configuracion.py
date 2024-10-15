@@ -3,6 +3,7 @@ from tkinter import messagebox
 from CTkMessagebox import CTkMessagebox  # Importa CTkMessagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3
+from datetime import datetime
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
@@ -10,13 +11,13 @@ class Configuracion(New_ventana):
         self.nombre = 'configuracion'
         self.panel_principal = panel_principal 
         self.add_widget_config()
+        self.recordar_actualizar_peso()
         self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
-
+        
     def mostrar_advertencia(self):
         CTkMessagebox(title="Configuracion", message="Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad.", icon='info', option_1="Ok"),
 
     def add_widget_config(self):
-
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
                                          command=self.mostrar_advertencia,
                                          corner_radius=15,
@@ -24,6 +25,8 @@ class Configuracion(New_ventana):
                                          font=("Times New Roman", 25, "italic"),
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
+        
+        edad, genero = self.cargar_datos_usuario()
         # Título para el módulo configuración
         self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
         self.title_label.place(x=20, y=5)
@@ -35,10 +38,10 @@ class Configuracion(New_ventana):
         self.nombre_label.place(x=10, y=10)
         self.cargar_nombre_usuario()
 
-        self.edad_label = ctk.CTkLabel(self.perfil_frame, text="Edad: 57")
+        self.edad_label = ctk.CTkLabel(self.perfil_frame, text=f"Edad: {edad}")
         self.edad_label.place(x=10, y=50)
 
-        self.genero_label = ctk.CTkLabel(self.perfil_frame, text="Genero:")
+        self.genero_label = ctk.CTkLabel(self.perfil_frame, text=f"Género: {genero}")
         self.genero_label.place(x=10, y=90)
 
         self.obj_calorias_label = ctk.CTkLabel(self.perfil_frame, text="Objetivo de Calorías:")
@@ -66,6 +69,9 @@ class Configuracion(New_ventana):
 
         self.mostrar_contra_button = ctk.CTkButton(self.perfil_frame, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena, width=200)
         self.mostrar_contra_button.place(x=10, y=260)
+        
+        self.config_peso_button = ctk.CTkButton(self.perfil_frame, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, width=200)
+        self.config_peso_button.place(x=10, y=300)
 
     def Cambiar_a_combobox(self):
         if self.obj_check_var.get() == "on":
@@ -84,11 +90,105 @@ class Configuracion(New_ventana):
             self.lvl_actividad_label.place(x=10, y=180) 
             
     def cargar_nombre_usuario(self):
-        # obtiene el nombre del usuario actual, despues se muestra en el label de arribita
         nombre_usuario = self.usuario  
         self.nombre_label.configure(text=f"Nombre: {nombre_usuario}")
+        
+    def cargar_datos_usuario(self):
+        """Obtiene la edad, el género, la meta de calorías y el nivel de actividad del usuario desde la base de datos."""
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
 
-         
+            cursor.execute("SELECT edad, genero, meta_cal, nivel_actividad FROM datos WHERE nombre = ?", (self.usuario,))
+            user_data = cursor.fetchone()
+
+            conn.close()
+
+            if user_data:
+                edad, genero, meta_cal, nivel_actividad = user_data
+                self.obj_calorias_original = meta_cal
+                self.lvl_actividad_original = nivel_actividad
+                return edad, genero
+            else:
+                return "N/A", "N/A"
+
+        except sqlite3.Error as e:
+            messagebox.showerror("Error", f"Error al acceder a la base de datos: {e}")
+            return "N/A", "N/A"
+        
+    def mostrar_formulario_recordatorio(self):
+        self.ventana_recordatorio = ctk.CTkToplevel(self.panel_principal)
+        self.ventana_recordatorio.title("Configurar Recordatorio de Peso")
+        self.ventana_recordatorio.geometry("400x350")
+        self.ventana_recordatorio.attributes('-topmost', True)
+
+        ctk.CTkLabel(self.ventana_recordatorio, text="Frecuencia de Recordatorio:").pack(anchor="w", padx=3, pady=10)
+
+        # ComboBox para seleccionar la frecuencia
+        self.tiempo_recordatorio_combobox = ctk.CTkComboBox(
+            self.ventana_recordatorio,
+            values=["1 día", "3 días", "5 días", "1 semana", "1 mes"],
+            width=200
+        )
+        self.tiempo_recordatorio_combobox.pack(padx=3, pady=5)
+
+        # CheckBox para activar o desactivar el recordatorio
+        self.activar_recordatorio_var = ctk.StringVar(value="on")
+        self.activar_recordatorio_checkbox = ctk.CTkCheckBox(
+            self.ventana_recordatorio, text="Activar Recordatorio", 
+            variable=self.activar_recordatorio_var, onvalue="on", offvalue="off"
+        )
+        self.activar_recordatorio_checkbox.pack(anchor="w", padx=3, pady=5)
+
+        # Botón para guardar la configuración
+        ctk.CTkButton(
+            self.ventana_recordatorio, text="Guardar Configuración", 
+            command=self.guardar_configuracion_recordatorio
+        ).pack(pady=10)
+
+        self.cargar_configuracion_recordatorio()
+            
+    def cargar_configuracion_recordatorio(self):
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT recordatorio, cantidad_dias FROM datos WHERE nombre = ?", (self.usuario,))
+            config = cursor.fetchone()
+            conn.close()
+
+            if config:
+                estado, frecuencia = config
+                self.activar_recordatorio_var.set(estado)
+                self.tiempo_recordatorio_combobox.set(frecuencia)
+            else:
+                self.activar_recordatorio_var.set("off")
+                self.tiempo_recordatorio_combobox.set("1 día")
+        except sqlite3.Error as e:
+            CTkMessagebox(title="Error", message=f"Error al cargar configuración: {e}", icon="error", option_1="OK")
+
+    def guardar_configuracion_recordatorio(self):
+        estado = self.activar_recordatorio_var.get()
+        frecuencia = self.tiempo_recordatorio_combobox.get()
+
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                UPDATE datos 
+                SET recordatorio = ?, cantidad_dias = ? 
+                WHERE nombre = ?
+            """, (estado, frecuencia, self.usuario))
+
+            conn.commit()
+            conn.close()
+
+            CTkMessagebox(title="Confirmación", message="Configuración guardada correctamente.", icon="info", option_1="OK")
+            self.ventana_recordatorio.destroy()
+        except sqlite3.Error as e:
+            CTkMessagebox(title="Error", message=f"Error al guardar configuración: {e}", icon="error", option_1="OK")
+
     def mostrar_formulario_contrasena(self):
         # Crea ventana contra
         self.nueva_ventana = ctk.CTkToplevel(self.panel_principal)
@@ -119,23 +219,59 @@ class Configuracion(New_ventana):
         self.actualizar_contra_button.pack(pady=5)
 
     def guardar(self):
+        """Actualiza los datos de la base de datos con la nueva meta de calorías y nivel de actividad."""
         try:
-            with open("users/holi/datos_usuario.txt", "w") as archivo_n:
-                edad = self.edad_entry.get()
-                archivo_n.write(f'Edad: {edad}\n')
-
+            # Obtener los valores seleccionados
+            if self.obj_check_var.get() == "on":
                 objetivo_calorias = self.obj_calorias_combobox.get()
-                archivo_n.write(f'Objetivo: {objetivo_calorias}\n')
-
+            else:
+                objetivo_calorias = self.obj_calorias_original
+        
+            if self.lvl_check_var.get() == "on":
                 nivel_actividad = self.lvl_actividad_combobox.get()
-                archivo_n.write(f'Nivel de actividad: {nivel_actividad}\n')
+            else:
+                nivel_actividad = self.lvl_actividad_original
 
-            messagebox.showinfo("Confirmación", "Los datos se actualizaron correctamente.")
-            
-        except FileNotFoundError:
-            messagebox.showerror("Error", "Hubo un problema al guardar los datos.")
-            
-    
+            # Comparar con los valores originales
+            if objetivo_calorias == self.obj_calorias_original and nivel_actividad == self.lvl_actividad_original:
+                CTkMessagebox(
+                    title="Sin Cambios",
+                    message="No se han realizado cambios en la información.",
+                    icon="info",
+                    option_1="OK"
+                )
+            else:
+                # Conexión a la base de datos
+                conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+                cursor = conn.cursor()
+
+                # Actualizar solo si hay cambios
+                cursor.execute("""
+                    UPDATE datos
+                    SET meta_cal = ?, nivel_actividad = ?
+                    WHERE nombre = ?
+                """, (objetivo_calorias, nivel_actividad, self.usuario))
+
+                # Confirmar los cambios
+                conn.commit()
+
+                # Mostrar mensaje de confirmación
+                CTkMessagebox(
+                    title="Confirmación",
+                    message="Los datos se actualizaron correctamente.",
+                    icon="info",
+                    option_1="OK"
+                )
+                conn.close()
+
+        except sqlite3.Error as e:
+            CTkMessagebox(
+                title="Error",
+                message=f"Hubo un problema al guardar los datos en la base de datos: {e}",
+                icon="warning",
+                option_1="OK"
+            )
+
     def actualizar_contrasena(self):
         nombre_usuario = self.usuario 
         contra_anterior = self.contra_anterior_entry.get()
@@ -169,4 +305,44 @@ class Configuracion(New_ventana):
             conn.close()
         except sqlite3.Error as e:
             CTkMessagebox(title="Error", message=f"Error en la base de datos: {e}", icon="warning", option_1="Ok")
+            
+    def mostrar_mensaje_recordatorio(self):
+        CTkMessagebox(
+            title="Recordatorio", 
+            message="No has registrado tu peso según la frecuencia establecida. Por favor, actualiza tu peso.", 
+            icon="warning", option_1="OK"
+        )
+            
+    def recordar_actualizar_peso(self):
+        try:
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
 
+            cursor.execute("SELECT recordatorio, cantidad_dias FROM datos WHERE nombre = ?", (self.usuario,))
+            config = cursor.fetchone()
+
+            if config:
+                estado, frecuencia = config
+                if estado == "on":  
+                    frecuencia_dias = int(frecuencia.split()[0])  
+
+                    cursor.execute("SELECT fecha FROM peso ORDER BY fecha DESC LIMIT 1")
+                    ultimo_registro = cursor.fetchone()
+
+                    fecha_actual = datetime.now().strftime('%Y-%m-%d')
+
+                    if ultimo_registro is not None and ultimo_registro[0]:
+                        ultima_fecha = datetime.strptime(ultimo_registro[0], '%Y-%m-%d')
+                        dias_diferencia = (datetime.now() - ultima_fecha).days
+
+                        if dias_diferencia >= frecuencia_dias:
+                            self.mostrar_mensaje_recordatorio()
+                    else:
+                        self.mostrar_mensaje_recordatorio()
+
+            conn.close()
+
+        except sqlite3.Error as e:
+            CTkMessagebox(title="Error", message=f"Error al acceder a la base de datos: {e}", icon="info", option_1="OK")
+        except Exception as e:
+            CTkMessagebox(title="Error", message=f"Error inesperado: {e}", icon="info", option_1="OK")
