@@ -7,6 +7,9 @@ from util.colores import *
 
 
 import customtkinter as ctk
+from tkinter import ttk
+from tkcalendar import DateEntry
+
 import os
 import sqlite3
 from datetime import datetime
@@ -89,12 +92,13 @@ class Log_in(ctk.CTkToplevel):
             self.frame_registrar, width=250, show="*", corner_radius=0)
         self.contra_entry.pack(padx=3, pady=(0, 2))
 
-        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Edad:")
+        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Fecha de Nacimiento:")
         self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
 
-        self.edad_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu edad", width=250, corner_radius=0)
-        self.edad_entry.pack(padx=3, pady=(0, 2))
+        self.fecha_nacimiento_entry = DateEntry(
+            self.frame_registrar, date_pattern="dd-mm-yyyy", width=18, background="darkblue",
+            foreground="white", borderwidth=2)
+        self.fecha_nacimiento_entry.pack(padx=3, pady=(0, 2))
 
         self.gen_label = ctk.CTkLabel(self.frame_registrar, text="Sexo:")
         self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
@@ -147,17 +151,18 @@ class Log_in(ctk.CTkToplevel):
         self.btn_volver.pack(pady=10)
 
     def guardar(self):
-
         nombre = self.nombre_entry.get()
         contra = self.contra_entry.get()
 
         try:
-            edad = int(self.edad_entry.get())
-        except:
-            CTkMessagebox(title="Advertencia", message="Ingrese una edad válida.",
-                        icon='warning', option_1="Ok")
+            fecha_nacimiento = datetime.strptime(self.fecha_nacimiento_entry.get(), '%d-%m-%Y')
+            edad = datetime.now().year - fecha_nacimiento.year
+            if (datetime.now().month, datetime.now().day) < (fecha_nacimiento.month, fecha_nacimiento.day):
+                edad -= 1
+        except ValueError:
+            CTkMessagebox(title="Advertencia", message="Seleccione una fecha válida.",
+                          icon='warning', option_1="Ok")
             return
-
         peso = self.peso_entry.get()
         try:
             if peso == '' or peso == None:
