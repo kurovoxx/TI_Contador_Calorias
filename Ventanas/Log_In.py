@@ -317,7 +317,9 @@ class Log_in(ctk.CTkToplevel):
                     nivel_actividad TEXT,
                     genero TEXT,
                     meta_cal INTEGER,
-                    edad INTEGER
+                    edad INTEGER,
+                    recordatorio TEXT,
+                    cantidad_dias VARCHAR
                 )
                 ''')
         
