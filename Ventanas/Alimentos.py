@@ -1,4 +1,5 @@
 from Ventanas.Ventana_interfaz import New_ventana
+from Ventanas.Editar_alimento import Editar
 from util.colores import *
 import customtkinter as ctk
 import tkinter as tk
@@ -79,5 +80,4 @@ class Alimentos(New_ventana):
             self.tree.insert("", "end", values=(registro[0], registro[1], cantidad, registro[3], registro[4], registro[5]))
    
     def editar_alimentos(self):
-        print("presionado")
-        pass
+        Editar(self.sub, self.usuario)

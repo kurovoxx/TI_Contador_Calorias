@@ -32,8 +32,8 @@ class Main(ctk.CTk):
         self.botones_menu = []
     
     def load_image(self, path, size):
-        #return ImageTk.PhotoImage(Image.open(path).resize(size, Image.Resampling.LANCZOS))
         return ctk.CTkImage(Image.open(path), size=size)
+    
     def obtener_usuario(self):
         with open('usuario_actual.txt', 'r') as users:
                 return users.readline()
