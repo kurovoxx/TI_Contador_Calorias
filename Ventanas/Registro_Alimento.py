@@ -133,7 +133,7 @@ class Registro_Alimento(New_ventana):
             self.time_label = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 16))
             self.time_label.place(relx=0.5, rely=0.60, relwidth=0.4, relheight=0.05)
 
-            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time)
+            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time, corner_radius=20)
             self.boton_hora_actual.place(relx=0.5, rely=0.65, relwidth=0.4, relheight=0.05)
 
             self.update_time()
