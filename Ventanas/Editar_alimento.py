@@ -4,7 +4,7 @@ from datetime import datetime
 import sqlite3
 
 class Editar(ctk.CTkToplevel):
-    def __init__(self, parent, user):
+    def __init__(self, parent, user, nombre,tipo_caloria, calorias):
         super().__init__(parent)
         self.parent = parent
         self.usuario = user
@@ -14,7 +14,12 @@ class Editar(ctk.CTkToplevel):
         self.resizable(False,False)
         self.main_frame = ctk.CTkFrame(self)
         self.main_frame.pack(fill="both", expand=True)
+        self.originalN = nombre
         self.widget()
+
+        self.name_entry.insert(0, nombre)
+        self.calorias_combobox.set(tipo_caloria)
+        self.calorias_entry.insert(0, calorias)
         
     def widget(self):
         name_frame = ctk.CTkFrame(self.main_frame)
@@ -40,10 +45,30 @@ class Editar(ctk.CTkToplevel):
         self.calorias_entry = ctk.CTkEntry(calorias_frame)
         self.calorias_entry.pack(side="left", expand=True, fill="x")
 
-        self.button_save = ctk.CTkButton(self.main_frame,text="Guardar", command=self.guardar())
+        self.button_save = ctk.CTkButton(self.main_frame,text="Guardar", command=self.guardar)
         self.button_save.place(y=120, x=160)
     
+    def conexion(self):
+        """Conecta a la base de datos SQLite."""
+        self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+        self.cursor = self.conn.cursor()
+
     def guardar(self):
-        print("guardo")
-        pass
+        self.conexion()
+        Nnuevo = self.name_entry.get()
+        Ntipo_cal = self.calorias_combobox.get()
+        Ncalorias = self.calorias_entry.get()
+
+        self.cursor.execute("""
+            UPDATE alimento
+            SET nombre = ?, 
+                calorias_100gr = CASE WHEN ? = '100gr' THEN ? ELSE calorias_100gr END,
+                calorias_porcion = CASE WHEN ? = 'Porcion' THEN ? ELSE calorias_porcion END
+            WHERE nombre = ?""", (Nnuevo, Ntipo_cal, Ncalorias,Ntipo_cal, Nnuevo, self.originalN))
+        
+        self.conn.commit()
+        self.conn.close()
+
+
+        
         

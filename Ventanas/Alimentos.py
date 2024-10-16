@@ -80,4 +80,11 @@ class Alimentos(New_ventana):
             self.tree.insert("", "end", values=(registro[0], registro[1], cantidad, registro[3], registro[4], registro[5]))
    
     def editar_alimentos(self):
-        Editar(self.sub, self.usuario)
+        seleccion = self.tree.focus()
+        if seleccion:
+            valor = self.tree.item(seleccion, "values")
+            if valor:
+                nombre = valor[0]
+                tipo_caloria = valor[1]
+                calorias = valor[2]
+                Editar(self.sub, self.usuario, nombre, tipo_caloria, calorias)
