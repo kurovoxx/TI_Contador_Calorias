@@ -45,7 +45,7 @@ class Registro_Alimento(New_ventana):
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
-        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', fg_color=oscuro, state='disable', width=245, height=35, corner_radius=20)
         self.bg_btn_buscador.place(x=85, y=145)
 
         self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=gris, font=("Arial", 20))
