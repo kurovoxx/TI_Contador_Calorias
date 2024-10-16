@@ -71,10 +71,10 @@ class Registro_Alimento(New_ventana):
 
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
                                            bg_color=verde_oscuro, font=("Arial", 20))
-        self.label_registro.place(relx=0.5, rely=0.1, relwidth=0.4, relheight=0.055)
+        self.label_registro.place(relx=0.5, rely=0.1)
 
         self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color=negro_text, bg_color=gris_label, font=("Arial", 20))
-        self.label_segundo_registro.place(relx=0.5, rely=0.15, relwidth=0.4, relheight=0.055)
+        self.label_segundo_registro.place(relx=0.5, rely=0.15)
 
         self.entry = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Ingrese cantidad consumida", 
                                   placeholder_text_color="black", border_width=0, fg_color="white", 
