@@ -4,10 +4,11 @@ from datetime import datetime
 import sqlite3
 
 class Editar(ctk.CTkToplevel):
-    def __init__(self, parent, user, nombre,tipo_caloria, calorias):
+    def __init__(self, parent, user, nombre,tipo_caloria, calorias, callbac= None):
         super().__init__(parent)
         self.parent = parent
         self.usuario = user
+        self.callbac = callbac
         self.geometry('450x160')
         self.title('Editar Alimento')
         self.attributes('-topmost', True)

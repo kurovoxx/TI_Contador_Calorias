@@ -234,7 +234,7 @@ class Salud(New_ventana):
             if result is None:
                 raise ValueError("No se encontraron datos del usuario")
             estatura, edad, genero = result
-            estatura = estatura / 100  # Convertir a metros
+            estatura = estatura[0] / 100  # Convertir a metros
 
             cursor.execute("SELECT peso FROM peso WHERE num = (SELECT MAX(num) FROM peso)")
             resultado_peso = cursor.fetchone()
