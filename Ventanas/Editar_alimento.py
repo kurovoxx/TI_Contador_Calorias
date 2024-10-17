@@ -61,10 +61,17 @@ class Editar(ctk.CTkToplevel):
 
         self.cursor.execute("""
             UPDATE alimento
-            SET nombre = ?, 
-                calorias_100gr = CASE WHEN ? = '100gr' THEN ? ELSE calorias_100gr END,
-                calorias_porcion = CASE WHEN ? = 'Porcion' THEN ? ELSE calorias_porcion END
-            WHERE nombre = ?""", (Nnuevo, Ntipo_cal, Ncalorias,Ntipo_cal, Nnuevo, self.originalN))
+            SET nombre = ?,
+                calorias_100gr = CASE 
+                    WHEN ? = '100gr' THEN ?
+                    ELSE NULL
+                END,
+                calorias_porcion = CASE 
+                    WHEN ? = 'Porción' THEN ?
+                    ELSE NULL
+                END
+            WHERE nombre = ?
+        """, (Nnuevo, Ntipo_cal, Ncalorias, Ntipo_cal, Ncalorias, self.originalN))
         
         self.conn.commit()
         self.conn.close()
