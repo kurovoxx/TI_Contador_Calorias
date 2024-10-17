@@ -88,9 +88,6 @@ class Peso(ctk.CTkToplevel):
         cursor.execute(query)
         resultado = cursor.fetchone()
 
-        if self.callback:
-            self.callback()
-
         if resultado:
             peso_str = resultado[0]  # Esto te dará la fecha como un string
             conn.commit()
