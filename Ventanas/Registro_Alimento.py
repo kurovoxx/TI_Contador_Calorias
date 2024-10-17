@@ -22,10 +22,12 @@ class Registro_Alimento(New_ventana):
         self.label_total_c_mostrar.configure(text=total_calorias)
 
     def add_widget_registro(self):
-        self.bg_btn_agregar = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+        self.bg_btn_agregar = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, 
+                                            height=35, corner_radius=20, fg_color=azul_medio_oscuro)
         self.bg_btn_agregar.place(x=85, y=38)
 
-        self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), bg_color=gris, width=200)
+        self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), 
+                                          bg_color=azul_medio_oscuro, width=200)
         self.label_agregar.place(x=95, y=40) # 85x
 
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=20, fg_color=gris_label,
@@ -45,10 +47,11 @@ class Registro_Alimento(New_ventana):
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
-        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+        self.bg_btn_buscador = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20,
+                                             fg_color=azul_medio_oscuro)
         self.bg_btn_buscador.place(x=85, y=145)
 
-        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=gris, font=("Arial", 20))
+        self.label_buscar = ctk.CTkLabel(self.sub, text="Buscador de alimentos", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
         self.label_buscar.place(x=95, y=147)
 
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Buscar alimento", 
@@ -66,14 +69,19 @@ class Registro_Alimento(New_ventana):
 
 
 
-        self.bg_btn_ultimo = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, fg_color=oscuro)
+        self.bg_btn_ultimo = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
+                                           fg_color="#183549")
         self.bg_btn_ultimo.place(x=410, y=38)
 
         self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
-                                           bg_color=gris, font=("Arial", 20))
+                                           bg_color="#183549", font=("Arial", 20))
         self.label_registro.place(x=420, y=40)
-
-        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color='white', bg_color=gris, font=("Arial", 20, 'bold'))
+       
+        self.bg_btn_snd_registro = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
+                                           fg_color="#1f2329")
+        self.bg_btn_snd_registro.place(x=410, y=78)
+        
+        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color='white', bg_color="#1f2329", font=("Arial", 20, 'bold'))
         self.label_segundo_registro.place(x=420, y=80)
 
         self.entry = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Ingrese cantidad consumida", 
@@ -83,15 +91,20 @@ class Registro_Alimento(New_ventana):
         self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=verde_claro, corner_radius=20,
                                              hover_color=celeste_pero_oscuro, command=self.boton_mensanjes_insert, font=("Arial", 20))
 
-        self.bg_btn_total = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, fg_color=oscuro)
+        self.bg_btn_total = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
+                                          fg_color="#183549")
         self.bg_btn_total.place(x=410, y=145)
 
         self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: ", text_color="white", 
-                                                 bg_color=verde_oscuro, font=("Arial", 20))
+                                                 bg_color="#183549", font=("Arial", 20))
         self.label_total_calorias.place(x=420, y=147)
-
+        
+        self.bg_btn_total_cal = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
+                                           fg_color="#1f2329")
+        self.bg_btn_total_cal.place(x=410, y=185)
+                
         self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color='white',
-                                                  bg_color=gris, font=("Arial", 20, 'bold'))
+                                                  bg_color="#1f2329", font=("Arial", 20, 'bold'))
         self.label_total_c_mostrar.place(x=420, y=187)
 
     def on_alimento_select(self, selected_alimento):
@@ -100,11 +113,12 @@ class Registro_Alimento(New_ventana):
         if alimento_info:
             nombre, calorias_100g, calorias_porcion = alimento_info
 
-            self.bg_btn_cal = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20)
+            self.bg_btn_cal = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=245, height=35, corner_radius=20,
+                                            fg_color=azul_medio_oscuro)
             self.bg_btn_cal.place(x=85, y=250)
 
             self.label_calorias = ctk.CTkLabel(self.sub, text="Cantidad alimento", text_color="white", 
-                                           font=("Arial", 20), bg_color=gris)
+                                           font=("Arial", 20), bg_color=azul_medio_oscuro)
 
             if calorias_porcion is not None:
                 self.label_calorias.configure(text=f"Cant. de porciones")
@@ -115,10 +129,11 @@ class Registro_Alimento(New_ventana):
             self.entry.place(relx=0.1, y=290, relwidth=0.3)
             self.boton_registrar.place(relx=0.1, rely=0.73, relwidth=0.3, relheight=0.085)
 
-            self.bg_btn_hora = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, fg_color=oscuro)
+            self.bg_btn_hora = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
+                                             fg_color=azul_medio_oscuro)
             self.bg_btn_hora.place(x=410, y=250)
 
-            self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=verde_claro, font=("Arial", 20))
+            self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
             self.label_hora.place(x=420, y=252)
 
             self.hour_var = ctk.IntVar(value=12)
@@ -133,7 +148,7 @@ class Registro_Alimento(New_ventana):
             self.time_label = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 16))
             self.time_label.place(relx=0.5, rely=0.60, relwidth=0.4, relheight=0.05)
 
-            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time, corner_radius=20)
+            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time, corner_radius=20,fg_color=verde_claro)
             self.boton_hora_actual.place(relx=0.5, rely=0.65, relwidth=0.4, relheight=0.05)
 
             self.update_time()
