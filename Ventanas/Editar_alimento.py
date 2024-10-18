@@ -1,10 +1,11 @@
 import customtkinter as ctk
-from CTkMessagebox import ctkmessagebox
+from CTkMessagebox import CTkMessagebox 
 from datetime import datetime
 import sqlite3
+import re
 
 class Editar(ctk.CTkToplevel):
-    def __init__(self, parent, user, nombre,tipo_caloria, calorias, callbac= None):
+    def __init__(self, parent, user, nombre,tipo_caloria, calorias, callbac=None):
         super().__init__(parent)
         self.parent = parent
         self.usuario = user
@@ -54,28 +55,57 @@ class Editar(ctk.CTkToplevel):
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         self.cursor = self.conn.cursor()
 
-    def guardar(self):
-        self.conexion()
-        Nnuevo = self.name_entry.get()
-        Ntipo_cal = self.calorias_combobox.get()
-        Ncalorias = self.calorias_entry.get()
 
-        self.cursor.execute("""
-            UPDATE alimento
-            SET nombre = ?,
-                calorias_100gr = CASE 
-                    WHEN ? = '100gr' THEN ?
-                    ELSE NULL
-                END,
-                calorias_porcion = CASE 
-                    WHEN ? = 'Porción' THEN ?
-                    ELSE NULL
-                END
-            WHERE nombre = ?
-        """, (Nnuevo, Ntipo_cal, Ncalorias, Ntipo_cal, Ncalorias, self.originalN))
-        
-        self.conn.commit()
-        self.conn.close()
+    def guardar(self):
+        Nnuevo = self.name_entry.get().strip()
+        Ntipo_cal = self.calorias_combobox.get()
+        Ncalorias = self.calorias_entry.get().strip()
+
+        if not Nnuevo or not Ntipo_cal or not Ncalorias:
+            CTkMessagebox(title="Advertencia", message="No puede dejar ningún campo vacío",
+                        icon='warning', option_1="Ok")
+            return
+
+        if not re.match(r"^[a-zA-Z\s]+$", Nnuevo):
+            CTkMessagebox(title="Error", message="El nombre del alimento solo debe contener letras",
+                        icon='error', option_1="Ok")
+            return
+
+        try:
+            Ncalorias = float(Ncalorias)
+        except ValueError:
+            CTkMessagebox(title="Error", message="Las calorías deben ser un número válido",
+                        icon='error', option_1="Ok")
+            return
+
+        self.conexion()
+        try:
+            self.cursor.execute("""
+                UPDATE alimento
+                SET nombre = ?,
+                    calorias_100gr = CASE 
+                        WHEN ? = '100gr' THEN ?
+                        ELSE NULL
+                    END,
+                    calorias_porcion = CASE 
+                        WHEN ? = 'Porción' THEN ?
+                        ELSE NULL
+                    END
+                WHERE nombre = ?
+            """, (Nnuevo, Ntipo_cal, Ncalorias, Ntipo_cal, Ncalorias, self.originalN))
+
+            self.conn.commit()
+            
+            if self.callbac:
+                self.callbac()
+            self.destroy()
+            CTkMessagebox(title="Éxito", message="Alimento Actualizado", icon="check", option_1="Ok")
+
+        except sqlite3.Error as e:
+            CTkMessagebox(title="Error", message=f"Error en la base de datos: {str(e)}",
+                        icon='error', option_1="Ok")
+        finally:
+            self.conn.close()
 
 
         

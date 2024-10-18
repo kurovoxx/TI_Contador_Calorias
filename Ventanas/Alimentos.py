@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import ttk, Scrollbar
 import sqlite3
-
+from CTkMessagebox import CTkMessagebox  
 
 class Alimentos(New_ventana):
     def __init__(self, panel_principal, color):
@@ -15,6 +15,7 @@ class Alimentos(New_ventana):
         self.widget_alimentos()
         self.conexion()
         self.datos()
+        self.actualizar_treeview()
         self.mensage("Esta es la pestaña Admin alimentos, aqui podras ver todos los alimentos que has registrado, al igual que podras gestionar las calorias que tienen", "Admin Alimentos")
 
     def conexion(self):
@@ -87,4 +88,10 @@ class Alimentos(New_ventana):
                 nombre = valor[0]
                 tipo_caloria = valor[1]
                 calorias = valor[2]
-                Editar(self.sub, self.usuario, nombre, tipo_caloria, calorias)
+                Editar(self.sub, self.usuario, nombre, tipo_caloria, calorias, callbac=self.actualizar_treeview)
+        else:
+            CTkMessagebox(title="Advertencia", message="Seleccione el alimento a editar",
+                        icon='warning', option_1="Ok")
+            
+    def actualizar_treeview(self):
+        self.datos()
