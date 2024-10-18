@@ -18,6 +18,7 @@ from Ventanas.Historial import Historial
 from Ventanas.Configuracion import Configuracion
 from Ventanas.Log_In import Log_in
 from Ventanas.Salud import Salud
+from Ventanas.Recordatorio import Recordatorio
 
 class Main(ctk.CTk):
     def __init__(self):
@@ -50,6 +51,9 @@ class Main(ctk.CTk):
         self.controles_barra_superior()
         self.controles_barra_lateral()
         self.controles_cuerpo()
+        
+        recordatorio = Recordatorio(self.usuario)
+        recordatorio.recordar_actualizar_peso()
 
     def paneles(self):
         self.frame_tapar.destroy()
