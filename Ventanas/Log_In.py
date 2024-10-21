@@ -92,14 +92,9 @@ class Log_in(ctk.CTkToplevel):
             self.frame_registrar, width=250, show="*", corner_radius=0)
         self.contra_entry.pack(padx=3, pady=(0, 2))
 
-        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Fecha de Nacimiento:")
-        self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
+        
 
-        self.fecha_nacimiento_entry = DateEntry(
-            self.frame_registrar, date_pattern="dd-mm-yyyy", width=18, background="darkblue",
-            foreground="white", borderwidth=2)
-        self.fecha_nacimiento_entry.pack(padx=3, pady=(0, 2))
-
+        
         self.gen_label = ctk.CTkLabel(self.frame_registrar, text="Sexo:")
         self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
 
@@ -137,6 +132,14 @@ class Log_in(ctk.CTkToplevel):
         self.lvl_actividad_combobox = ctk.CTkComboBox(self.frame_registrar, values=[
                                                       "Sedentario", "Ligero", "Moderado", "Intenso"], width=250, corner_radius=0)
         self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
+        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Fecha de Nacimiento:")
+        self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
+
+        self.fecha_nacimiento_entry = DateEntry(
+            self.frame_registrar, date_pattern="dd-mm-yyyy", width=18, background="darkblue",
+            foreground="white", borderwidth=2)
+        self.fecha_nacimiento_entry.pack(padx=3, pady=(0, 2))
+
 
         self.guardar_button = ctk.CTkButton(
             self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0,
