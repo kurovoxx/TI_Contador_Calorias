@@ -136,22 +136,27 @@ class Registro_Alimento(New_ventana):
             self.label_hora = ctk.CTkLabel(self.sub, text="Hora (HH:MM):", text_color="white", bg_color=azul_medio_oscuro, font=("Arial", 20))
             self.label_hora.place(x=420, y=252)
 
-            self.hour_var = ctk.IntVar(value=12)
-            self.minute_var = ctk.IntVar(value=30)
+            now = datetime.now()
+            self.hour_var = ctk.IntVar(value=now.hour)
+            self.minute_var = ctk.IntVar(value=now.minute)
 
-            self.hour_slider = ctk.CTkSlider(self.sub, from_=0, to=23, variable=self.hour_var, command=self.update_time_label)
+            self.hour_slider = ctk.CTkSlider(self.sub, from_=0, to=23, variable=self.hour_var,
+                                            command=self.update_time_label)
             self.hour_slider.place(relx=0.5, rely=0.55, relwidth=0.18)
 
-            self.minute_slider = ctk.CTkSlider(self.sub, from_=0, to=59, variable=self.minute_var, command=self.update_time_label)
+            self.minute_slider = ctk.CTkSlider(self.sub, from_=0, to=59, variable=self.minute_var,
+                                            command=self.update_time_label)
             self.minute_slider.place(relx=0.72, rely=0.55, relwidth=0.18)
 
             self.time_label = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 16))
             self.time_label.place(relx=0.5, rely=0.60, relwidth=0.4, relheight=0.05)
 
-            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time, corner_radius=20,fg_color=verde_claro)
+            self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time,
+                                                corner_radius=20, fg_color=verde_claro)
             self.boton_hora_actual.place(relx=0.5, rely=0.65, relwidth=0.4, relheight=0.05)
 
-            self.update_time()
+            # Actualizar la etiqueta con la hora actual
+        self.update_time_label()
 
 
     def cargar_alimentos(self):
@@ -236,19 +241,23 @@ class Registro_Alimento(New_ventana):
         self.time_label.configure(text=f"{hour:02}:{minute:02}")
 
     def set_current_time(self):
+
+        self.update_time_label()
         now = datetime.now()
         self.hour_var.set(now.hour)
         self.minute_var.set(now.minute)
-        self.update_time_label()
         
     def update_time(self):
-        # Obtener la hora actual
-        current_time = datetime.now().strftime("%H:%M")
+        # Obtener los valores de los sliders
+        hour = self.hour_var.get()
+        minute = self.minute_var.get()
         
-        # Actualizar el texto de la etiqueta
-        self.time_label.configure(text=current_time)
+        # Formatear la hora como "HH:MM"
+        formatted_time = f"{hour:02}:{minute:02}"
         
-        self.sub.after(1000, self.update_time)
+        # Actualizar el texto de la etiqueta con la hora seleccionada
+        self.time_label.configure(text=formatted_time)
+
 
 
     # El codigo de Miguel adaptado bien pro
@@ -305,7 +314,7 @@ class Registro_Alimento(New_ventana):
         WHERE nombre = ? AND fecha = ?;
         '''
 
-        hora_actual = datetime.now().strftime('%H:%M')
+        hora_actual = f"{self.hour_var.get():02}:{self.minute_var.get():02}"
 
 
 
