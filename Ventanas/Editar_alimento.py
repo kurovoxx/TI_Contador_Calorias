@@ -1,11 +1,10 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox 
-from datetime import datetime
 import sqlite3
 import re
 
 class Editar(ctk.CTkToplevel):
-    def __init__(self, parent, user, nombre,tipo_caloria, calorias, callbac=None):
+    def __init__(self, parent, user, nombre, tipo_caloria, calorias, callbac=None):
         super().__init__(parent)
         self.parent = parent
         self.usuario = user
@@ -21,7 +20,7 @@ class Editar(ctk.CTkToplevel):
 
         self.name_entry.insert(0, nombre)
         self.calorias_combobox.set(tipo_caloria)
-        self.calorias_entry.insert(0, calorias)
+        self.calorias_entry.insert(0, calorias.split()[0] if isinstance(calorias, str) else calorias)
         
     def widget(self):
         name_frame = ctk.CTkFrame(self.main_frame)
@@ -36,7 +35,7 @@ class Editar(ctk.CTkToplevel):
         
         self.tipo_calorias_label = ctk.CTkLabel(tipo_calorias_frame, text="Tipo de calorías:", anchor="e", width=100)
         self.tipo_calorias_label.pack(side="left", padx=(0, 10))
-        Tcalorias = ["Porcion", "100gr"]
+        Tcalorias = ["Porción", "100gr"]
         self.calorias_combobox = ctk.CTkComboBox(tipo_calorias_frame, values=Tcalorias, state="readonly")
         self.calorias_combobox.pack(side="left", expand=True, fill="x")
 
@@ -54,7 +53,6 @@ class Editar(ctk.CTkToplevel):
         """Conecta a la base de datos SQLite."""
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
         self.cursor = self.conn.cursor()
-
 
     def guardar(self):
         Nnuevo = self.name_entry.get().strip()
@@ -106,7 +104,3 @@ class Editar(ctk.CTkToplevel):
                         icon='error', option_1="Ok")
         finally:
             self.conn.close()
-
-
-        
-        
