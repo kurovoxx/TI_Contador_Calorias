@@ -243,50 +243,50 @@ class Main(ctk.CTk):
 
     def abrir_registro_alimento(self):
         self.resetear_colores_botones()  
-        self.btn_registro.configure(fg_color=negro_text)  
-        self.btn_registro.configure(hover_color=negro_text)  
+        self.btn_registro.configure(fg_color=negro_texto)  
+        self.btn_registro.configure(hover_color=negro_texto)  
         self.limpiar_panel(self.cuerpo_principal)
         Registro_Alimento(self.cuerpo_principal, gris)
 
     def abrir_agregar_alimento(self):
         self.resetear_colores_botones()  
-        self.btn_agregar.configure(fg_color=negro_text)
-        self.btn_agregar.configure(hover_color=negro_text)
+        self.btn_agregar.configure(fg_color=negro_texto)
+        self.btn_agregar.configure(hover_color=negro_texto)
         self.limpiar_panel(self.cuerpo_principal)
         Agregar_Alimento(self.cuerpo_principal, gris)
 
     def abrir_grafico(self):
         self.resetear_colores_botones()  
-        self.btn_grafico.configure(fg_color=negro_text)
-        self.btn_grafico.configure(hover_color=negro_text)
+        self.btn_grafico.configure(fg_color=negro_texto)
+        self.btn_grafico.configure(hover_color=negro_texto)
         self.limpiar_panel(self.cuerpo_principal)
         Grafico(self.cuerpo_principal, gris)
 
     def abrir_historial(self):
         self.resetear_colores_botones()  
-        self.btn_historial.configure(fg_color=negro_text)
-        self.btn_historial.configure(hover_color=negro_text)
+        self.btn_historial.configure(fg_color=negro_texto)
+        self.btn_historial.configure(hover_color=negro_texto)
         self.limpiar_panel(self.cuerpo_principal)
         Historial(self.cuerpo_principal, gris)
 
     def abrir_configuracion(self):
         self.resetear_colores_botones()  
-        self.btn_en_contruccion.configure(fg_color=negro_text)
-        self.btn_en_contruccion.configure(hover_color=negro_text)        
+        self.btn_en_contruccion.configure(fg_color=negro_texto)
+        self.btn_en_contruccion.configure(hover_color=negro_texto)        
         self.limpiar_panel(self.cuerpo_principal)
         Configuracion(self.cuerpo_principal, gris)
 
     def abrir_salud(self):
         self.resetear_colores_botones()  
-        self.btn_salud.configure(fg_color=negro_text)
-        self.btn_salud.configure(hover_color=negro_text)
+        self.btn_salud.configure(fg_color=negro_texto)
+        self.btn_salud.configure(hover_color=negro_texto)
         self.limpiar_panel(self.cuerpo_principal)
         Salud(self.cuerpo_principal, gris)   
 
     def abrir_alimentos(self):
         self.resetear_colores_botones()  
-        self.btn_alimentos.configure(fg_color=negro_text)
-        self.btn_alimentos.configure(hover_color="negro_text")
+        self.btn_alimentos.configure(fg_color=negro_texto)
+        self.btn_alimentos.configure(hover_color="negro_texto")
         self.limpiar_panel(self.cuerpo_principal)
         Alimentos(self.cuerpo_principal, gris)
         

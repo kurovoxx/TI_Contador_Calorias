@@ -23,7 +23,8 @@ class Salud(New_ventana):
 
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
-        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color="#28242c", command=self.actualizar_peso)
+        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color=verde_boton, 
+                                                 hover_color=verde_oscuro, text_color='black', command=self.actualizar_peso)
         self.btn_actualizar_peso.place(x=50, y=50)
 
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
@@ -35,7 +36,8 @@ class Salud(New_ventana):
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         # Botón "Medir pulsaciones"
-        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color="#28242c", command=self.pulsaciones)
+        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color=verde_boton, 
+                                                   hover_color=verde_oscuro, text_color='black', command=self.pulsaciones)
         self.btn_medir_pulsaciones.place(x=50, y=150)
 
         self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)

@@ -33,7 +33,7 @@ class Registro_Alimento(New_ventana):
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=20, fg_color=gris_label,
                                          values=self.cargar_alimentos(),
                                          border_width=0, button_color="#26656D",
-                                         button_hover_color="white", text_color=negro_text,
+                                         button_hover_color="white", text_color=negro_texto,
                                          command=self.on_alimento_select)  # Añadimos el evento de selección
         self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
@@ -55,7 +55,7 @@ class Registro_Alimento(New_ventana):
         self.label_buscar.place(x=95, y=147)
 
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Buscar alimento", 
-                                         placeholder_text_color="black", border_width=0, fg_color="white", 
+                                         placeholder_text_color="black", border_width=0, fg_color=color_entry, 
                                          text_color="black") 
         self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3) 
         self.entry_buscar.bind('<KeyRelease>', self.obtener_busqueda)
@@ -70,41 +70,41 @@ class Registro_Alimento(New_ventana):
 
 
         self.bg_btn_ultimo = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
-                                           fg_color="#183549")
+                                           fg_color=primer_label)
         self.bg_btn_ultimo.place(x=410, y=38)
 
-        self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color="white", 
-                                           bg_color="#183549", font=("Arial", 20))
+        self.label_registro = ctk.CTkLabel(self.sub, text="Último alimento registrado: ", text_color=negro_texto, 
+                                           bg_color=primer_label, font=("Arial", 20))
         self.label_registro.place(x=420, y=40)
        
         self.bg_btn_snd_registro = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
-                                           fg_color="#1f2329")
+                                           fg_color=segundo_label)
         self.bg_btn_snd_registro.place(x=410, y=78)
         
-        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color='white', bg_color="#1f2329", font=("Arial", 20, 'bold'))
+        self.label_segundo_registro = ctk.CTkLabel(self.sub, text="", text_color=negro_texto, bg_color=segundo_label, font=("Arial", 20, 'bold'))
         self.label_segundo_registro.place(x=420, y=80)
 
         self.entry = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Ingrese cantidad consumida", 
-                                  placeholder_text_color="black", border_width=0, fg_color="white", 
+                                  placeholder_text_color="black", border_width=0, fg_color=color_entry, 
                                   text_color="black")
 
-        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color="white", fg_color=verde_claro, corner_radius=20,
-                                             hover_color=celeste_pero_oscuro, command=self.boton_mensanjes_insert, font=("Arial", 20))
+        self.boton_registrar = ctk.CTkButton(self.sub, text="Registrar", text_color='black', fg_color=verde_boton, corner_radius=20,
+                                             hover_color=verde_oscuro, command=self.boton_mensanjes_insert, font=("Arial", 20))
 
         self.bg_btn_total = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
-                                          fg_color="#183549")
+                                          fg_color=primer_label)
         self.bg_btn_total.place(x=410, y=145)
 
-        self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: ", text_color="white", 
-                                                 bg_color="#183549", font=("Arial", 20))
+        self.label_total_calorias = ctk.CTkLabel(self.sub, text="Total calorías del día: ", text_color=negro_texto, 
+                                                 bg_color=primer_label, font=("Arial", 20))
         self.label_total_calorias.place(x=420, y=147)
         
         self.bg_btn_total_cal = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=275, height=35, corner_radius=20, 
-                                           fg_color="#1f2329")
+                                           fg_color=segundo_label)
         self.bg_btn_total_cal.place(x=410, y=185)
                 
-        self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color='white',
-                                                  bg_color="#1f2329", font=("Arial", 20, 'bold'))
+        self.label_total_c_mostrar = ctk.CTkLabel(self.sub, text="", text_color=negro_texto,
+                                                  bg_color=segundo_label, font=("Arial", 20, 'bold'))
         self.label_total_c_mostrar.place(x=420, y=187)
 
     def on_alimento_select(self, selected_alimento):
@@ -141,18 +141,18 @@ class Registro_Alimento(New_ventana):
             self.minute_var = ctk.IntVar(value=now.minute)
 
             self.hour_slider = ctk.CTkSlider(self.sub, from_=0, to=23, variable=self.hour_var,
-                                            command=self.update_time_label)
+                                            command=self.update_time_label, button_color=verde_claro, button_hover_color=verde_oscuro)
             self.hour_slider.place(relx=0.5, rely=0.55, relwidth=0.18)
 
             self.minute_slider = ctk.CTkSlider(self.sub, from_=0, to=59, variable=self.minute_var,
-                                            command=self.update_time_label)
+                                            command=self.update_time_label, button_color=verde_claro, button_hover_color=verde_oscuro)
             self.minute_slider.place(relx=0.72, rely=0.55, relwidth=0.18)
 
             self.time_label = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 16))
             self.time_label.place(relx=0.5, rely=0.60, relwidth=0.4, relheight=0.05)
 
             self.boton_hora_actual = ctk.CTkButton(self.sub, text="Hora Actual", command=self.set_current_time,
-                                                corner_radius=20, fg_color=verde_claro)
+                                                corner_radius=20, fg_color=verde_boton, text_color='black', hover_color=verde_oscuro)
             self.boton_hora_actual.place(relx=0.5, rely=0.65, relwidth=0.4, relheight=0.05)
 
             # Actualizar la etiqueta con la hora actual
