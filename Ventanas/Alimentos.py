@@ -49,7 +49,8 @@ class Alimentos(New_ventana):
         self.tree.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color="#28242c", command=self.editar_alimentos, height=60)
+        self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color=verde_boton, 
+                                          hover_color=verde_oscuro, text_color='black', command=self.editar_alimentos, height=60)
         self.boton_change.pack(pady=80,anchor="center")
 
 

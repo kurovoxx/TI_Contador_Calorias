@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox 
+from util.colores import *
 import sqlite3
 import re
 
@@ -46,7 +47,8 @@ class Editar(ctk.CTkToplevel):
         self.calorias_entry = ctk.CTkEntry(calorias_frame)
         self.calorias_entry.pack(side="left", expand=True, fill="x")
 
-        self.button_save = ctk.CTkButton(self.main_frame,text="Guardar", command=self.guardar)
+        self.button_save = ctk.CTkButton(self.main_frame,text="Guardar", fg_color=verde_boton, 
+                                         hover_color=verde_oscuro, text_color='black', command=self.guardar)
         self.button_save.place(y=120, x=160)
     
     def conexion(self):
