@@ -264,15 +264,31 @@ class Salud(New_ventana):
         imc = self.calcular_imc()
         tmb = self.calcular_TMB()
 
+        # Cambiar color del IMC
         if imc is not None:
             self.result_imc.configure(text=f"{imc:.2f}")
+            if imc < 18.5:  # Bajo peso
+                self.result_imc.configure(fg_color="lightblue")
+            elif 18.5 <= imc < 24.9:  # Peso normal
+                self.result_imc.configure(fg_color="lightgreen") 
+            elif 25 <= imc < 29.9:  # Sobrepeso
+                self.result_imc.configure(fg_color="lightorange")  
+            else:  # Obesidad
+                self.result_imc.configure(fg_color="lightcoral")  
         else:
-            self.result_imc.configure(text="Error")
+            self.result_imc.configure(text="Error", fg_color="red")  
 
+        # Cambiar color del TMB
         if tmb is not None:
             self.result_tmb.configure(text=f"{tmb:.2f}")
+            if tmb < 1200:  # TMB bajo
+                self.result_tmb.configure(fg_color="lightblue")  
+            elif 1200 <= tmb < 1800:  # TMB normal
+                self.result_tmb.configure(fg_color="lightgreen") 
+            else:  # TMB alto
+                self.result_tmb.configure(fg_color="lightcoral")  
         else:
-            self.result_tmb.configure(text="Error")
+            self.result_tmb.configure(text="Error", fg_color="red") 
         
         self.sub.update()
     
