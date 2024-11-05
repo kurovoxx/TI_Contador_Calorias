@@ -2,6 +2,7 @@ import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3 
+import webbrowser
 from util.colores import *
 
 
@@ -15,7 +16,7 @@ class Agregar_Alimento(New_ventana):
         self.mensage("Esta es la pestaña de agregar alimento, para agregar un alimento debes insertar el nombre del alimento, las calorias por porcion o por 100 gramos", "Agregar Alimento")
 
     def mostrar_advertencia(self):
-        CTkMessagebox(title="Agregar Alimento", message="Esta es la pestaña de agregar alimento, para agregar un alimento debes insertar el nombre del alimento, las calorias por porcion o por 100 gramos.", icon='info', option_1="Ok"),
+        CTkMessagebox(title="Agregar Alimento", message="Esta es la pestaña de agregar alimento, para agregar un alimento debes insertar el nombre del alimento, las calorias por porcion o por 100 gramos.", icon='info', option_1="Ok")
 
     def conectar_base_datos(self):
         self.conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -48,6 +49,9 @@ class Agregar_Alimento(New_ventana):
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=0, values=["Por porción", "100gr"], border_width=0, button_hover_color="white",
                                          command=self.actualizar_label, text_color=negro_texto, fg_color=gris_label, button_color="#26656D")
         self.combo_box.place(relx=0.5, rely=0.2, relwidth=0.3, relheight=0.05)
+
+        self.api = ctk.CTkButton(self.sub, text='Buscar Calorías', command=self.redirigir_api)
+        self.api.place(x=500, y=500)
 
     def actualizar_label(self, e):
         # Label "calorías"
@@ -115,6 +119,9 @@ class Agregar_Alimento(New_ventana):
             self.conn.commit()
             CTkMessagebox(title="Exito", message=f"Se ha registrado '{nombre_alimento}' correctamente.",
                           icon='check', option_1="Ok")
+
+    def redirigir_api(self):
+        webbrowser.open("https://www.xvideos.com/video.ultiehbbf6b/hermanastros_cachondos_masturbandose_con_porno_gay_y_luego_follando")
 
     def __del__(self):
         """Cierra la conexión con la base de datos cuando se destruye la instancia."""

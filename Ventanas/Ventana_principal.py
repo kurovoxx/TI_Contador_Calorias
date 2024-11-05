@@ -53,6 +53,7 @@ class Main(ctk.CTk):
         self.controles_cuerpo()
         
         recordatorio = Recordatorio(self.usuario)
+        recordatorio.recordatorio_por_defecto()
         recordatorio.recordar_actualizar_peso()
 
     def paneles(self):

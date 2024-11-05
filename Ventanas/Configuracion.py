@@ -15,7 +15,6 @@ class Configuracion(New_ventana):
         self.recordatorio = Recordatorio(self.usuario) 
         self.ultimo_msj = None
         self.add_widget_config()
-        self.recordatorio.recordar_actualizar_peso()
         self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
         
     def mostrar_advertencia(self):
@@ -30,68 +29,71 @@ class Configuracion(New_ventana):
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
         
-        edad, genero = self.cargar_datos_usuario()
+        edad, genero, peso = self.cargar_datos_usuario()
         # Título para el módulo configuración
-        self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
-        self.title_label.place(x=20, y=5)
+        #self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
+        #self.title_label.place(x=20, y=5)
 
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=230, height=400)
-        self.perfil_frame.place(x=20, y=50)
+        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=400)
+        self.perfil_frame.place(x=265, y=50)
 
         self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
-        self.nombre_label.place(x=10, y=10)
+        self.nombre_label.place(x=90, y=10)
         self.cargar_nombre_usuario()
 
         self.edad_label = ctk.CTkLabel(self.perfil_frame, text=f"Edad: {edad}")
-        self.edad_label.place(x=10, y=50)
+        self.edad_label.place(x=100, y=50)
 
         self.genero_label = ctk.CTkLabel(self.perfil_frame, text=f"Género: {genero}")
-        self.genero_label.place(x=10, y=90)
+        self.genero_label.place(x=75, y=90)
+        
+        self.peso_label = ctk.CTkLabel(self.perfil_frame, text=f"Peso: {peso} kg")
+        self.peso_label.place(x=85, y=130)
 
         self.obj_calorias_label = ctk.CTkLabel(self.perfil_frame, text="Objetivo de Calorías:")
-        self.obj_calorias_label.place(x=10, y=140)
+        self.obj_calorias_label.place(x=70, y=170)
 
         self.obj_calorias_combobox = ctk.CTkComboBox(self.perfil_frame, values=["1000 kcal", "1500 kcal", "2000 kcal"], width=120)
 
         self.obj_check_var = ctk.StringVar(value="off")
         self.obj_checkbox = ctk.CTkCheckBox(self.perfil_frame,text="" , command=self.Cambiar_a_combobox,
                                             variable=self.obj_check_var, onvalue="on", offvalue="off")
-        self.obj_checkbox.place(x=150, y=140)
+        self.obj_checkbox.place(x=210, y=173)
 
         self.lvl_actividad_label = ctk.CTkLabel(self.perfil_frame, text="Nivel de Actividad:")
-        self.lvl_actividad_label.place(x=10, y=180)
+        self.lvl_actividad_label.place(x=75, y=210)
 
         self.lvl_actividad_combobox = ctk.CTkComboBox(self.perfil_frame, values=["Sedentario", "Ligero", "Moderado", "Intenso"], width=130)
 
         self.lvl_check_var = ctk.StringVar(value="off")
         self.lvl_checkbox = ctk.CTkCheckBox(self.perfil_frame, text="",command=self.Cambiar_a_combobox_actividad,
                                             variable=self.lvl_check_var, onvalue="on", offvalue="off")
-        self.lvl_checkbox.place(x=150, y=180)
+        self.lvl_checkbox.place(x=210, y=213)
 
         self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Actualizar información", command=self.guardar, width=200)
-        self.guardar_button.place(x=10, y=220)
+        self.guardar_button.place(x=25, y=260)
 
         self.mostrar_contra_button = ctk.CTkButton(self.perfil_frame, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena, width=200)
-        self.mostrar_contra_button.place(x=10, y=260)
+        self.mostrar_contra_button.place(x=25, y=300)
         
         self.config_peso_button = ctk.CTkButton(self.perfil_frame, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, width=200)
-        self.config_peso_button.place(x=10, y=300)
+        self.config_peso_button.place(x=25, y=340)
 
     def Cambiar_a_combobox(self):
         if self.obj_check_var.get() == "on":
             self.obj_calorias_label.place_forget()
-            self.obj_calorias_combobox.place(x=10, y=140)  
+            self.obj_calorias_combobox.place(x=70, y=170)  
         else:
             self.obj_calorias_combobox.place_forget()
-            self.obj_calorias_label.place(x=10, y=140) 
+            self.obj_calorias_label.place(x=70, y=170) 
 
     def Cambiar_a_combobox_actividad(self):
         if self.lvl_check_var.get() == "on":
             self.lvl_actividad_label.place_forget()
-            self.lvl_actividad_combobox.place(x=10, y=180)  
+            self.lvl_actividad_combobox.place(x=70, y=210)  
         else:
             self.lvl_actividad_combobox.place_forget()
-            self.lvl_actividad_label.place(x=10, y=180) 
+            self.lvl_actividad_label.place(x=70, y=210) 
             
     def cargar_nombre_usuario(self):
         nombre_usuario = self.usuario  
@@ -102,23 +104,27 @@ class Configuracion(New_ventana):
         try:
             conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
             cursor = conn.cursor()
-
+            
             cursor.execute("SELECT edad, genero, meta_cal, nivel_actividad FROM datos WHERE nombre = ?", (self.usuario,))
             user_data = cursor.fetchone()
 
+            
+            cursor.execute("SELECT peso, fecha FROM peso ORDER BY fecha DESC LIMIT 1")
+            peso_data = cursor.fetchone()
             conn.close()
 
-            if user_data:
+            if user_data and peso_data:
                 edad, genero, meta_cal, nivel_actividad = user_data
+                peso, fecha = peso_data  # Fecha y peso más recientes
                 self.obj_calorias_original = meta_cal
                 self.lvl_actividad_original = nivel_actividad
-                return edad, genero
+                return edad, genero, peso
             else:
-                return "N/A", "N/A"
+                return "N/A", "N/A", "N/A"
 
         except sqlite3.Error as e:
             messagebox.showerror("Error", f"Error al acceder a la base de datos: {e}")
-            return "N/A", "N/A"
+            return "N/A", "N/A", "N/A"
         
     def mostrar_formulario_recordatorio(self):
         self.ventana_recordatorio = ctk.CTkToplevel(self.panel_principal)
