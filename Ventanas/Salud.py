@@ -44,23 +44,23 @@ class Salud(New_ventana):
         self.label_imc.configure(corner_radius=5)
         self.label_imc.place(x=500, y=50)
 
-        self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_imc = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_imc.place(x=610, y=50)
 
         self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
         self.label_tmb.configure(corner_radius=5)
         self.label_tmb.place(x=500, y=150)
         
-        self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_tmb = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_tmb.place(x=610, y=150)
 
         self.mensaje = ctk.CTkLabel(self.sub, text="", 
-                                    text_color="white", font=("Arial", 14), wraplength=250)
-        self.mensaje.place(x=500, y=210)
+                                    text_color="white", font=("Arial", 14))
+        self.mensaje.place(x=500, y=100)
 
         self.mensaje_tbm =ctk.CTkLabel(self.sub, text="", 
-                                    text_color="white", font=("Arial", 15), wraplength=220)
-        self.mensaje_tbm.place(x=490, y=210)
+                                    text_color="white", font=("Arial", 14))
+        self.mensaje_tbm.place(x=500, y=200)
 
 
         # Crear los 8 botones redondeados debajo de la barra
@@ -245,7 +245,7 @@ class Salud(New_ventana):
             if result is None:
                 raise ValueError("No se encontraron datos del usuario")
             estatura, edad, genero = result
-            estatura = estatura / 100  # Convertir a metros
+            estatura = estatura  # Convertir a metros
 
             cursor.execute("SELECT peso FROM peso WHERE num = (SELECT MAX(num) FROM peso)")
             resultado_peso = cursor.fetchone()
@@ -254,9 +254,9 @@ class Salud(New_ventana):
             peso = resultado_peso[0]
 
             if genero.lower() in ["hombre", "masculino"]:
-                tmb = 66 + (13.75 * peso) + (5 * estatura * 100) - (6.75 * edad)
+                tmb = 66.47 + (13.75 * peso) + (5 * estatura) - (6.76 * edad)
             elif genero.lower() in ["mujer", "femenino"]:
-                tmb = 655 + (9.56 * peso) + (1.85 * estatura * 100) - (4.67 * edad)
+                tmb = 655.1 + (9.56 * peso) + (1.85 * estatura) - (4.68 * edad)
             else:
                 raise ValueError("Género no válido")
             
@@ -273,48 +273,45 @@ class Salud(New_ventana):
         imc = self.calcular_imc()
         tmb = self.calcular_TMB()
 
-        imc1 = "Su IMC indica bajo peso, lo que puede estar relacionado con un riesgo de deficiencia nutricional o de inmunidad baja. Consulte con un profesional de salud para evaluar su alimentación y bienestar general"
-        imc2 = "Su IMC está dentro del rango saludable. Mantener una alimentación equilibrada y una rutina de ejercicio puede ayudar a conservar este nivel"
-        imc3 = "Su IMC indica sobrepeso, lo cual puede aumentar el riesgo de desarrollar problemas de salud como hipertensión o diabetes. Se recomienda ajustar su alimentación y actividad física. Consulte a un profesional de salud para orientación"
-        #imc4 = "Su IMC se encuentra en el rango de obesidad. Esto puede incrementar significativamente el riesgo de enfermedades cardiovasculares, diabetes y otros problemas de salud. Se recomienda iniciar un plan de cambio en el estilo de vida bajo supervisión profesional."
+        imc1 = "Su IMC indica bajo peso"
+        imc2 = "Su IMC está dentro del rango saludable"
+        imc3 = "Su IMC indica sobrepeso"
+        imc4 = "Su IMC se encuentra en el rango de obesidad"
 
-        #tbm1 = "Su TMB está algo baja, lo que puede estar relacionado con factores como una menor masa muscular o poca actividad física. Para elevar su TMB, considere aumentar su actividad física, "
-        #tbm2 = "Su TMB se encuentra en un rango normal, lo cual es positivo. Mantener una dieta equilibrada y una rutina de ejercicio puede ayudar a preservar este nivel."
-        #tbm3 = "Su TMB es más alta de lo promedio, lo cual sugiere que su cuerpo quema más calorías en reposo, Mantener un estilo de vida saludable con una dieta rica en nutrientes y una rutina equilibrada de ejercicios puede ayudar a conservar este nivel."
+        tbm1 = "Su TMB está algo baja"
+        tbm2 = "Su TMB se encuentra en un rango normal"
+        tbm3 = "Su TMB es más alta de lo promedio"
 
         # Cambiar color del IMC
         if imc is not None:
             self.result_imc.configure(text=f"{imc:.2f}")
-            if imc < 18.5:  # Bajo peso
-                self.result_imc.configure(fg_color="lightblue")
+            if imc < 18.5: 
+                self.result_imc.configure(fg_color="lightgray")
                 self.mensaje.configure(text = imc1)
-            elif 18.5 <= imc < 24.9:  # Peso normal
+            elif 18.5 <= imc < 24.9:  
                 self.result_imc.configure(fg_color="lightgreen") 
                 self.mensaje.configure(text = imc2)
-            elif 25 <= imc < 29.9:  # Sobrepeso
+            elif 25 <= imc < 29.9: 
                 self.result_imc.configure(fg_color="lightorange")
                 self.mensaje.configure(text = imc3)
-            else:  # Obesidad
-                self.result_imc.configure(fg_color="lightcoral")
-                self.mensaje.configure(text = imc3)
+            else:  
+                self.result_imc.configure(fg_color="red")
+                self.mensaje.configure(text = imc4)
         else:
             self.result_imc.configure(text="Error", fg_color="red")  
 
         # Cambiar color del TMB
         if tmb is not None:
             self.result_tmb.configure(text=f"{tmb:.2f}")
-            if tmb < 1200:  # TMB bajo
-                self.result_tmb.configure(fg_color="lightblue")
-                self.mensaje.configure(text = imc1)
-                #self.mensaje_tbm.configure(text=tbm1)
-            elif 1200 <= tmb < 1800:  # TMB normal
+            if tmb < 1200:  
+                self.result_tmb.configure(fg_color="lightorange")
+                self.mensaje_tbm.configure(text=tbm1)
+            elif 1200 <= tmb < 1800:  
                 self.result_tmb.configure(fg_color="lightgreen")
-                self.mensaje.configure(text = imc3)
-                #self.mensaje_tbm.configure(text=tbm2) 
-            else:  # TMB alto
-                self.result_tmb.configure(fg_color="lightcoral")
-                self.mensaje.configure(text = imc3)
-                #self.mensaje_tbm.configure(text=tbm3)
+                self.mensaje_tbm.configure(text=tbm2) 
+            else:  
+                self.result_tmb.configure(fg_color="red")
+                self.mensaje_tbm.configure(text=tbm3)
         else:
             self.result_tmb.configure(text="Error", fg_color="red") 
         
