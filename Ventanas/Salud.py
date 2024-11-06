@@ -111,32 +111,17 @@ class Salud(New_ventana):
 
         self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
         self.label_vasos_agua.place(x=600, y=420)
-    
-        # Checkbox para eliminar vasitos
-        self.eliminar_checkbox = ctk.CTkCheckBox(self.sub, text="Modo Eliminar", command=self.toggle_modo_eliminar)
-        self.eliminar_checkbox.place(x=600, y=450)
 
-        # Label para mostrar estado del modo
-        self.label_estado = ctk.CTkLabel(self.sub, text="Modo Actual: Añadir", text_color="black", font=("Arial", 15))
-        self.label_estado.place(x=600, y=480)
 
     def toggle_color(self, indice):
-        if self.eliminar_checkbox.get(): 
-            if self.estado_botones[indice] and (indice == len(self.botones) - 1 or self.estado_botones[indice + 1] is False):
-                self.botones[indice].configure(fg_color="gray")
-                self.estado_botones[indice] = False
-                self.eliminar_vasitos()
-        else: 
-            if not self.estado_botones[indice] and (indice == 0 or self.estado_botones[indice - 1]):
-                self.botones[indice].configure(fg_color="green")
-                self.estado_botones[indice] = True
-                self.Insertar_vasitos()
-            
-    def toggle_modo_eliminar(self):
-        if self.eliminar_checkbox.get():
-            self.label_estado.configure(text="Modo Actual: Eliminar")
-        else:
-            self.label_estado.configure(text="Modo Actual: Añadir")
+        if self.estado_botones[indice]:
+            self.botones[indice].configure(fg_color="gray")
+            self.estado_botones[indice] = False
+            self.eliminar_vasitos()
+        elif not self.estado_botones[indice] and (indice == 0 or self.estado_botones[indice - 1]):
+            self.botones[indice].configure(fg_color="green")
+            self.estado_botones[indice] = True
+            self.Insertar_vasitos()
 
     def Insertar_vasitos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
