@@ -54,6 +54,15 @@ class Salud(New_ventana):
         self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_tmb.place(x=610, y=150)
 
+        self.mensaje = ctk.CTkLabel(self.sub, text="", 
+                                    text_color="white", font=("Arial", 14), wraplength=250)
+        self.mensaje.place(x=500, y=210)
+
+        self.mensaje_tbm =ctk.CTkLabel(self.sub, text="", 
+                                    text_color="white", font=("Arial", 15), wraplength=220)
+        self.mensaje_tbm.place(x=490, y=210)
+
+
         # Crear los 8 botones redondeados debajo de la barra
         self.botones = []
         self.estado_botones = [False] * 8  # Lista para almacenar el estado de cada botón (False = gris, True = verde)
@@ -264,15 +273,50 @@ class Salud(New_ventana):
         imc = self.calcular_imc()
         tmb = self.calcular_TMB()
 
+        imc1 = "Su IMC indica bajo peso, lo que puede estar relacionado con un riesgo de deficiencia nutricional o de inmunidad baja. Consulte con un profesional de salud para evaluar su alimentación y bienestar general"
+        imc2 = "Su IMC está dentro del rango saludable. Mantener una alimentación equilibrada y una rutina de ejercicio puede ayudar a conservar este nivel"
+        imc3 = "Su IMC indica sobrepeso, lo cual puede aumentar el riesgo de desarrollar problemas de salud como hipertensión o diabetes. Se recomienda ajustar su alimentación y actividad física. Consulte a un profesional de salud para orientación"
+        #imc4 = "Su IMC se encuentra en el rango de obesidad. Esto puede incrementar significativamente el riesgo de enfermedades cardiovasculares, diabetes y otros problemas de salud. Se recomienda iniciar un plan de cambio en el estilo de vida bajo supervisión profesional."
+
+        #tbm1 = "Su TMB está algo baja, lo que puede estar relacionado con factores como una menor masa muscular o poca actividad física. Para elevar su TMB, considere aumentar su actividad física, "
+        #tbm2 = "Su TMB se encuentra en un rango normal, lo cual es positivo. Mantener una dieta equilibrada y una rutina de ejercicio puede ayudar a preservar este nivel."
+        #tbm3 = "Su TMB es más alta de lo promedio, lo cual sugiere que su cuerpo quema más calorías en reposo, Mantener un estilo de vida saludable con una dieta rica en nutrientes y una rutina equilibrada de ejercicios puede ayudar a conservar este nivel."
+
+        # Cambiar color del IMC
         if imc is not None:
             self.result_imc.configure(text=f"{imc:.2f}")
+            if imc < 18.5:  # Bajo peso
+                self.result_imc.configure(fg_color="lightblue")
+                self.mensaje.configure(text = imc1)
+            elif 18.5 <= imc < 24.9:  # Peso normal
+                self.result_imc.configure(fg_color="lightgreen") 
+                self.mensaje.configure(text = imc2)
+            elif 25 <= imc < 29.9:  # Sobrepeso
+                self.result_imc.configure(fg_color="lightorange")
+                self.mensaje.configure(text = imc3)
+            else:  # Obesidad
+                self.result_imc.configure(fg_color="lightcoral")
+                self.mensaje.configure(text = imc3)
         else:
-            self.result_imc.configure(text="Error")
+            self.result_imc.configure(text="Error", fg_color="red")  
 
+        # Cambiar color del TMB
         if tmb is not None:
             self.result_tmb.configure(text=f"{tmb:.2f}")
+            if tmb < 1200:  # TMB bajo
+                self.result_tmb.configure(fg_color="lightblue")
+                self.mensaje.configure(text = imc1)
+                #self.mensaje_tbm.configure(text=tbm1)
+            elif 1200 <= tmb < 1800:  # TMB normal
+                self.result_tmb.configure(fg_color="lightgreen")
+                self.mensaje.configure(text = imc3)
+                #self.mensaje_tbm.configure(text=tbm2) 
+            else:  # TMB alto
+                self.result_tmb.configure(fg_color="lightcoral")
+                self.mensaje.configure(text = imc3)
+                #self.mensaje_tbm.configure(text=tbm3)
         else:
-            self.result_tmb.configure(text="Error")
+            self.result_tmb.configure(text="Error", fg_color="red") 
         
         self.sub.update()
     
