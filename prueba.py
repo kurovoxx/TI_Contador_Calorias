@@ -3,19 +3,6 @@ import customtkinter as ctk
 import requests
 import sqlite3
 
-def create_db():
-    conn = sqlite3.connect("./users/Pou/alimentos.db")
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS alimento (
-            nombre TEXT NOT NULL,
-            calorias_100gr INTEGER,
-            calorias_porcion INTEGER
-        );
-    ''')
-    conn.commit()
-    conn.close()
-
 def search_food():
     query = entry.get().strip()
 
@@ -58,8 +45,6 @@ def insert_selected_food():
 root = ctk.CTk()
 root.title("Búsqueda de Alimentos")
 root.geometry("400x400")
-
-create_db()
 
 entry = ctk.CTkEntry(root, placeholder_text="Escribe el nombre del alimento")
 entry.pack(pady=20)
