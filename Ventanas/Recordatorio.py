@@ -68,27 +68,32 @@ class Recordatorio:
                 
     #Funcion para que el recordatorio este por defecto en 1dia            
     def recordatorio_por_defecto(usuario):
+<<<<<<< Updated upstream
         try:
             conn = sqlite3.connect(f"./users/{usuario}/alimentos.db")
             cursor = conn.cursor()
+=======
+        conn = sqlite3.connect(f"./users/{usuario}/alimentos.db")
+        cursor = conn.cursor()
+>>>>>>> Stashed changes
 
-            cursor.execute("SELECT cantidad_dias FROM datos WHERE nombre = ?", (usuario,))
-            resultado = cursor.fetchone()
+        cursor.execute("SELECT cantidad_dias FROM datos WHERE nombre = ?", (usuario,))
+        resultado = cursor.fetchone()
 
-            if resultado:
-                cursor.execute("""
-                    UPDATE datos
-                    SET cantidad_dias = '1 día'
-                    WHERE nombre = ? AND (cantidad_dias IS NULL OR cantidad_dias = '')
-                """, (usuario,))
-            else:
-                cursor.execute("""
-                    INSERT INTO datos (nombre, recordatorio, cantidad_dias)
-                    VALUES (?, 'off', '1 día')
-                """, (usuario,))
+        if resultado:
+            cursor.execute("""
+                UPDATE datos
+                SET cantidad_dias = '1 día'
+                WHERE nombre = ? AND (cantidad_dias IS NULL OR cantidad_dias = '')
+            """, (usuario,))
+        else:
+            cursor.execute("""
+                INSERT INTO datos (nombre, recordatorio, cantidad_dias)
+                VALUES (?, 'off', '1 día')
+            """, (usuario,))
 
-            conn.commit()
-            conn.close()
+        conn.commit()
+        conn.close()
 
         except sqlite3.Error as e:
             CTkMessagebox(title="Error", message=f"Error al acceder a la base de datos: {e}", icon="error", option_1="OK")
