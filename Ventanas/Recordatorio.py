@@ -68,8 +68,11 @@ class Recordatorio:
                 
     #Funcion para que el recordatorio este por defecto en 1dia            
     def recordatorio_por_defecto(usuario):
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         try:
+=======
+>>>>>>> ebdb8c442b5cf530a02a2eeaf613f48951de12c7
             conn = sqlite3.connect(f"./users/{usuario}/alimentos.db")
             cursor = conn.cursor()
 =======
@@ -95,5 +98,3 @@ class Recordatorio:
         conn.commit()
         conn.close()
 
-        except sqlite3.Error as e:
-            CTkMessagebox(title="Error", message=f"Error al acceder a la base de datos: {e}", icon="error", option_1="OK")

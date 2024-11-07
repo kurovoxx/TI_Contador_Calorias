@@ -44,15 +44,24 @@ class Salud(New_ventana):
         self.label_imc.configure(corner_radius=5)
         self.label_imc.place(x=500, y=50)
 
-        self.result_imc = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_imc = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_imc.place(x=610, y=50)
 
         self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
         self.label_tmb.configure(corner_radius=5)
         self.label_tmb.place(x=500, y=150)
         
-        self.result_tmb = ctk.CTkLabel(self.sub, text="", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_tmb = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
         self.result_tmb.place(x=610, y=150)
+
+        self.mensaje = ctk.CTkLabel(self.sub, text="", 
+                                    text_color="white", font=("Arial", 14))
+        self.mensaje.place(x=500, y=100)
+
+        self.mensaje_tbm =ctk.CTkLabel(self.sub, text="", 
+                                    text_color="white", font=("Arial", 14))
+        self.mensaje_tbm.place(x=500, y=200)
+
 
         # Crear los 8 botones redondeados debajo de la barra
         self.botones = []
@@ -102,32 +111,17 @@ class Salud(New_ventana):
 
         self.label_vasos_agua = ctk.CTkLabel(self.sub, text="Vasos de Agua: x", fg_color=None, text_color="black", font=("Arial", 15))
         self.label_vasos_agua.place(x=600, y=420)
-    
-        # Checkbox para eliminar vasitos
-        self.eliminar_checkbox = ctk.CTkCheckBox(self.sub, text="Modo Eliminar", command=self.toggle_modo_eliminar)
-        self.eliminar_checkbox.place(x=600, y=450)
 
-        # Label para mostrar estado del modo
-        self.label_estado = ctk.CTkLabel(self.sub, text="Modo Actual: Añadir", text_color="black", font=("Arial", 15))
-        self.label_estado.place(x=600, y=480)
 
     def toggle_color(self, indice):
-        if self.eliminar_checkbox.get(): 
-            if self.estado_botones[indice] and (indice == len(self.botones) - 1 or self.estado_botones[indice + 1] is False):
-                self.botones[indice].configure(fg_color="gray")
-                self.estado_botones[indice] = False
-                self.eliminar_vasitos()
-        else: 
-            if not self.estado_botones[indice] and (indice == 0 or self.estado_botones[indice - 1]):
-                self.botones[indice].configure(fg_color="green")
-                self.estado_botones[indice] = True
-                self.Insertar_vasitos()
-            
-    def toggle_modo_eliminar(self):
-        if self.eliminar_checkbox.get():
-            self.label_estado.configure(text="Modo Actual: Eliminar")
-        else:
-            self.label_estado.configure(text="Modo Actual: Añadir")
+        if self.estado_botones[indice]:
+            self.botones[indice].configure(fg_color="gray")
+            self.estado_botones[indice] = False
+            self.eliminar_vasitos()
+        elif not self.estado_botones[indice] and (indice == 0 or self.estado_botones[indice - 1]):
+            self.botones[indice].configure(fg_color="green")
+            self.estado_botones[indice] = True
+            self.Insertar_vasitos()
 
     def Insertar_vasitos(self):
         conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
@@ -236,7 +230,7 @@ class Salud(New_ventana):
             if result is None:
                 raise ValueError("No se encontraron datos del usuario")
             estatura, edad, genero = result
-            estatura = estatura / 100  # Convertir a metros
+            estatura = estatura  # Convertir a metros
 
             cursor.execute("SELECT peso FROM peso WHERE num = (SELECT MAX(num) FROM peso)")
             resultado_peso = cursor.fetchone()
@@ -245,9 +239,9 @@ class Salud(New_ventana):
             peso = resultado_peso[0]
 
             if genero.lower() in ["hombre", "masculino"]:
-                tmb = 66 + (13.75 * peso) + (5 * estatura * 100) - (6.75 * edad)
+                tmb = 66.47 + (13.75 * peso) + (5 * estatura) - (6.76 * edad)
             elif genero.lower() in ["mujer", "femenino"]:
-                tmb = 655 + (9.56 * peso) + (1.85 * estatura * 100) - (4.67 * edad)
+                tmb = 655.1 + (9.56 * peso) + (1.85 * estatura) - (4.68 * edad)
             else:
                 raise ValueError("Género no válido")
             
@@ -264,15 +258,47 @@ class Salud(New_ventana):
         imc = self.calcular_imc()
         tmb = self.calcular_TMB()
 
+        imc1 = "Su IMC indica bajo peso"
+        imc2 = "Su IMC está dentro del rango saludable"
+        imc3 = "Su IMC indica sobrepeso"
+        imc4 = "Su IMC se encuentra en el rango de obesidad"
+
+        tbm1 = "Su TMB está algo baja"
+        tbm2 = "Su TMB se encuentra en un rango normal"
+        tbm3 = "Su TMB es más alta de lo promedio"
+
+        # Cambiar color del IMC
         if imc is not None:
             self.result_imc.configure(text=f"{imc:.2f}")
+            if imc < 18.5: 
+                self.result_imc.configure(fg_color="lightgray")
+                self.mensaje.configure(text = imc1)
+            elif 18.5 <= imc < 24.9:  
+                self.result_imc.configure(fg_color="lightgreen") 
+                self.mensaje.configure(text = imc2)
+            elif 25 <= imc < 29.9: 
+                self.result_imc.configure(fg_color="lightorange")
+                self.mensaje.configure(text = imc3)
+            else:  
+                self.result_imc.configure(fg_color="red")
+                self.mensaje.configure(text = imc4)
         else:
-            self.result_imc.configure(text="Error")
+            self.result_imc.configure(text="Error", fg_color="red")  
 
+        # Cambiar color del TMB
         if tmb is not None:
             self.result_tmb.configure(text=f"{tmb:.2f}")
+            if tmb < 1200:  
+                self.result_tmb.configure(fg_color="lightorange")
+                self.mensaje_tbm.configure(text=tbm1)
+            elif 1200 <= tmb < 1800:  
+                self.result_tmb.configure(fg_color="lightgreen")
+                self.mensaje_tbm.configure(text=tbm2) 
+            else:  
+                self.result_tmb.configure(fg_color="red")
+                self.mensaje_tbm.configure(text=tbm3)
         else:
-            self.result_tmb.configure(text="Error")
+            self.result_tmb.configure(text="Error", fg_color="red") 
         
         self.sub.update()
     
