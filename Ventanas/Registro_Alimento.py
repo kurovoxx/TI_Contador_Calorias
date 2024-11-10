@@ -8,10 +8,7 @@ from datetime import datetime
 
 class Registro_Alimento(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = 'registrar_alimento'
-
-
+        super().__init__(panel_principal, color, 'registrar_alimento')
         self.add_widget_registro()
         self.cargar_alimentos()
         self.update_coincidencias()
@@ -28,7 +25,7 @@ class Registro_Alimento(New_ventana):
 
         self.label_agregar = ctk.CTkLabel(self.sub, text="Seleccionar Alimento", text_color="white", font=("Arial", 20), 
                                           bg_color=azul_medio_oscuro, width=200)
-        self.label_agregar.place(x=95, y=40) # 85x
+        self.label_agregar.place(x=95, y=40)
 
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=20, fg_color=gris_label,
                                          values=self.cargar_alimentos(),

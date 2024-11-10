@@ -8,8 +8,7 @@ from CTkMessagebox import CTkMessagebox
 
 class Grafico(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = 'graficos'
+        super().__init__(panel_principal, color, 'graficos')
         self.panel_principal = panel_principal
         self.add_widget_graficos()
         self.mensage("Esta es la pestaña de Graficos, aqui podras ver graficamente el progreso que has tenido en los dias, podras ver graficos como Calorias vs Tiempo, Peso vs Tiempo, Aguas vs Tiempo", "Grafico")

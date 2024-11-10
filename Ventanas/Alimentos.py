@@ -10,8 +10,7 @@ from CTkMessagebox import CTkMessagebox
 
 class Alimentos(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = "admin_alimentos"
+        super().__init__(panel_principal, color, "admin_alimentos")
         self.widget_alimentos()
         self.conexion()
         self.datos()

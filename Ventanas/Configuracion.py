@@ -9,8 +9,7 @@ from Ventanas.Recordatorio import Recordatorio
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = 'configuracion'
+        super().__init__(panel_principal, color, 'configuracion')
         self.panel_principal = panel_principal 
         self.recordatorio = Recordatorio(self.usuario) 
         self.ultimo_msj = None
@@ -18,7 +17,7 @@ class Configuracion(New_ventana):
         self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
         
     def mostrar_advertencia(self):
-        CTkMessagebox(title="Configuracion", message="Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad.", icon='info', option_1="Ok"),
+        CTkMessagebox(title="Configuracion", message="Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad.", icon='info', option_1="Ok")
 
     def add_widget_config(self):
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
