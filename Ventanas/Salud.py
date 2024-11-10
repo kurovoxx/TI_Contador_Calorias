@@ -10,48 +10,48 @@ from datetime import datetime
 
 class Salud(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = 'salud'
+        super().__init__(panel_principal, color, 'salud')
         self.add_widget_salud()
         self.vasitos_mostrados()
         self.update_health_metrics()
         self.mensage("Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", "Salud")
 
     def mostrar_advertencia(self):
-        CTkMessagebox(title="Salud", message="Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", icon='info', option_1="Ok"),
-
+        CTkMessagebox(title="Salud", message="Esta es la pestaña de Salud, aqui podras gestionar tu peso actual, medir tus pulsaciones, ver tu IMC (indice de masa corporal) al igual que tu TMC (tasa metabolica basal)", icon='info', option_1="Ok")
 
     def add_widget_salud(self):
         # Botón "Actualizar Peso"
-        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=150, height=50, fg_color=verde_boton, 
-                                                 hover_color=verde_oscuro, text_color='black', command=self.actualizar_peso)
+        self.btn_actualizar_peso = ctk.CTkButton(self.sub, text="Actualizar Peso", width=250, height=50, fg_color=verde_boton, font=("Arial", 18, 'bold'),
+                                                 hover_color=verde_oscuro, text_color=azul_medio_oscuro, command=self.actualizar_peso, corner_radius=20)
         self.btn_actualizar_peso.place(x=50, y=50)
 
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
                                          command=self.mostrar_advertencia,
-                                         corner_radius=15,
+                                         corner_radius=20,
                                          width=30, height=30,
                                          font=("Times New Roman", 25, "italic"),
                                          text_color="white")
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
 
         # Botón "Medir pulsaciones"
-        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=150, height=50, fg_color=verde_boton, 
-                                                   hover_color=verde_oscuro, text_color='black', command=self.pulsaciones)
+        self.btn_medir_pulsaciones = ctk.CTkButton(self.sub, text="Medir pulsaciones", width=250, height=50, fg_color=verde_boton, corner_radius=20,
+                                                   hover_color=verde_oscuro, text_color=azul_medio_oscuro, command=self.pulsaciones, font=("Arial", 18, 'bold'))
         self.btn_medir_pulsaciones.place(x=50, y=150)
 
-        self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
-        self.label_imc.configure(corner_radius=5)
+        self.label_imc = ctk.CTkLabel(self.sub, text="IMC:", fg_color=azul_medio_oscuro, text_color=segundo_label, font=("Arial", 18, 'bold'), width=100, height=50)
+        self.label_imc.configure(corner_radius=20)
         self.label_imc.place(x=500, y=50)
 
-        self.result_imc = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_imc = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 18, 'bold'), width=100, height=50)
+        self.result_imc.configure(corner_radius=20)
         self.result_imc.place(x=610, y=50)
 
-        self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color="#28242c", text_color="white", font=("Arial", 15), width=100, height=50)
-        self.label_tmb.configure(corner_radius=5)
+        self.label_tmb = ctk.CTkLabel(self.sub, text="TMB:", fg_color=azul_medio_oscuro, text_color=segundo_label, font=("Arial", 18, 'bold'), width=100, height=50)
+        self.label_tmb.configure(corner_radius=20)
         self.label_tmb.place(x=500, y=150)
         
-        self.result_tmb = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 15), width=100, height=50)
+        self.result_tmb = ctk.CTkLabel(self.sub, text="", text_color="white", font=("Arial", 18, 'bold'), width=100, height=50)
+        self.result_tmb.configure(corner_radius=20)
         self.result_tmb.place(x=610, y=150)
 
         self.mensaje = ctk.CTkLabel(self.sub, text="", 
@@ -67,35 +67,35 @@ class Salud(New_ventana):
         self.botones = []
         self.estado_botones = [False] * 8  # Lista para almacenar el estado de cada botón (False = gris, True = verde)
         # botones vaso de agua
-        boton_v_1 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_1 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(0))
         boton_v_1.place(x=50, y=400)
         self.botones.append(boton_v_1)
-        boton_v_2 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_2 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda:  self.toggle_color(1) if self.estado_botones[0] else None)
         boton_v_2.place(x=110, y=400)
         self.botones.append(boton_v_2)
-        boton_v_3 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_3 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(2) if self.estado_botones[1] else None)
         boton_v_3.place(x=170, y=400)
         self.botones.append(boton_v_3)
-        boton_v_4 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_4 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(3) if self.estado_botones[2] else None)
         boton_v_4.place(x=230, y=400)
         self.botones.append(boton_v_4)
-        boton_v_5 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_5 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(4) if self.estado_botones[3] else None)
         boton_v_5.place(x=290, y=400)
         self.botones.append(boton_v_5)
-        boton_v_6 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_6 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(5) if self.estado_botones[4] else None)
         boton_v_6.place(x=350, y=400)
         self.botones.append(boton_v_6)
-        boton_v_7 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_7 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(6) if self.estado_botones[5] else None)
         boton_v_7.place(x=410, y=400)
         self.botones.append(boton_v_7)
-        boton_v_8 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", 
+        boton_v_8 = ctk.CTkButton(self.sub, text="", width=50, height=50, corner_radius=20, fg_color="gray", hover_color=verde_claro,
                                   command=lambda: self.toggle_color(7) if self.estado_botones[6] else None)
         boton_v_8.place(x=470, y=400)
         self.botones.append(boton_v_8)
@@ -119,7 +119,7 @@ class Salud(New_ventana):
             self.estado_botones[indice] = False
             self.eliminar_vasitos()
         elif not self.estado_botones[indice] and (indice == 0 or self.estado_botones[indice - 1]):
-            self.botones[indice].configure(fg_color="green")
+            self.botones[indice].configure(fg_color=verde_boton)
             self.estado_botones[indice] = True
             self.Insertar_vasitos()
 

@@ -13,3 +13,9 @@ negro_texto = "#1A1A1A" # Se usa para el texto de los label gris y también para
 primer_label = '#A8D5BA' # label cambiables
 segundo_label = '#F5F5DC' # label cambiables
 color_entry = '#E6E6FA'
+
+#niveles de riesgo
+
+riesgo_alto = '#cf2323'
+riesgo_medio = '#f28c38'
+riesgo_bajo = '#4ad138'

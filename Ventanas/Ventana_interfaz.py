@@ -6,8 +6,9 @@ from util.colores import *
 
 
 class New_ventana(ABC):
-    def __init__(self, parent, color):
+    def __init__(self, parent, color, nombre):
         self.parent = parent
+        self.nombre = nombre
         self.sub = ctk.CTkFrame(parent, fg_color=color, corner_radius=20, bg_color=azul_medio_oscuro)
         self.sub.pack(fill='both', expand=True)
         self.usuario = self.obtener_usuario()

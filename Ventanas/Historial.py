@@ -10,8 +10,7 @@ from util.colores import *
 
 class Historial(New_ventana):
     def __init__(self, panel_principal, color):
-        super().__init__(panel_principal, color)
-        self.nombre = 'historial'
+        super().__init__(panel_principal, color, 'historial')
         self.conectar_base_datos()
         self.add_widget_historial()
         self.agregar_treeview()
@@ -23,7 +22,7 @@ class Historial(New_ventana):
         self.cursor = self.conn.cursor()
 
     def mostrar_advertencia(self):
-        CTkMessagebox(title="Historial", message="Esta es la pestaña de Historial, aqui podras ver que has comido en una fecha determinada.", icon='info', option_1="Ok"),
+        CTkMessagebox(title="Historial", message="Esta es la pestaña de Historial, aqui podras ver que has comido en una fecha determinada.", icon='info', option_1="Ok")
 
 
     def add_widget_historial(self):
