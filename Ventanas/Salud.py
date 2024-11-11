@@ -271,16 +271,16 @@ class Salud(New_ventana):
         if imc is not None:
             self.result_imc.configure(text=f"{imc:.2f}")
             if imc < 18.5: 
-                self.result_imc.configure(fg_color="lightgray")
+                self.result_imc.configure(fg_color=riesgo_alto)
                 self.mensaje.configure(text = imc1)
             elif 18.5 <= imc < 24.9:  
-                self.result_imc.configure(fg_color="lightgreen") 
+                self.result_imc.configure(fg_color=riesgo_bajo) 
                 self.mensaje.configure(text = imc2)
             elif 25 <= imc < 29.9: 
-                self.result_imc.configure(fg_color="lightorange")
+                self.result_imc.configure(fg_color=riesgo_medio)
                 self.mensaje.configure(text = imc3)
             else:  
-                self.result_imc.configure(fg_color="red")
+                self.result_imc.configure(fg_color=riesgo_alto)
                 self.mensaje.configure(text = imc4)
         else:
             self.result_imc.configure(text="Error", fg_color="red")  
@@ -289,16 +289,16 @@ class Salud(New_ventana):
         if tmb is not None:
             self.result_tmb.configure(text=f"{tmb:.2f}")
             if tmb < 1200:  
-                self.result_tmb.configure(fg_color="lightorange")
+                self.result_tmb.configure(fg_color=riesgo_alto)
                 self.mensaje_tbm.configure(text=tbm1)
             elif 1200 <= tmb < 1800:  
-                self.result_tmb.configure(fg_color="lightgreen")
+                self.result_tmb.configure(fg_color=riesgo_bajo)
                 self.mensaje_tbm.configure(text=tbm2) 
             else:  
-                self.result_tmb.configure(fg_color="red")
+                self.result_tmb.configure(fg_color=riesgo_alto)
                 self.mensaje_tbm.configure(text=tbm3)
         else:
-            self.result_tmb.configure(text="Error", fg_color="red") 
+            self.result_tmb.configure(text="Error", fg_color=riesgo_alto) 
         
         self.sub.update()
     
