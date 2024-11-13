@@ -29,8 +29,8 @@ class Registro_Alimento(New_ventana):
 
         self.combo_box = ctk.CTkComboBox(self.sub, corner_radius=20, fg_color=gris_label,
                                          values=self.cargar_alimentos(),
-                                         border_width=0, button_color="#26656D",
-                                         button_hover_color="white", text_color=negro_texto,
+                                         border_width=0, button_color=verde_boton,
+                                         button_hover_color=verde_oscuro, text_color=negro_texto,
                                          command=self.on_alimento_select)  # Añadimos el evento de selección
         self.combo_box.place(relx=0.1, rely=0.15, relwidth=0.3, relheight=0.05)
 
@@ -54,7 +54,7 @@ class Registro_Alimento(New_ventana):
         self.entry_buscar = ctk.CTkEntry(self.sub, corner_radius=20, placeholder_text="Buscar alimento", 
                                          placeholder_text_color="black", border_width=0, fg_color=color_entry, 
                                          text_color="black") 
-        self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3) 
+        self.entry_buscar.place(relx=0.1, rely=0.35, relwidth=0.3)
         self.entry_buscar.bind('<KeyRelease>', self.obtener_busqueda)
 
         self.coincidencias = Listbox(self.sub)

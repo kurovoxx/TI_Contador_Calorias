@@ -33,18 +33,18 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
+        self.frame = ctk.CTkFrame(self.main_frame, fg_color=gris, corner_radius=0)
         self.frame.pack(fill='both', expand=True)
 
         self.btn_iniciar = ctk.CTkButton(
-            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=0, 
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame, text='Iniciar Sesión', width=170, height=50, command=self.win_iniciar, corner_radius=20, font=("Arial", 18, 'bold'),
+            fg_color=verde_boton, hover_color=verde_oscuro, text_color=azul_medio_oscuro
         )
         self.btn_iniciar.place(x=170, y=100)
 
         self.btn_registrarse = ctk.CTkButton(
-            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=0, 
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame, text='Registrarse', width=170, height=50, command=self.win_registrar, corner_radius=20, font=("Arial", 18, 'bold'),
+            fg_color=verde_boton, hover_color=verde_oscuro, text_color=azul_medio_oscuro
         )
         self.btn_registrarse.place(x=170, y=180)
 
@@ -53,19 +53,21 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x350')
 
-        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
+        self.frame_iniciar = ctk.CTkFrame(self.main_frame, fg_color=gris, corner_radius=0)
         self.frame_iniciar.pack(fill='both', expand=True)
 
-        self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario:")
-        self.users_label.pack(anchor="w", padx=3, pady=(25, 0))
+        self.users_label = ctk.CTkLabel(self.frame_iniciar, text="Usuario", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.users_label.configure(corner_radius=20)
+        self.users_label.pack(padx=3, pady=(25, 10))
 
         self.users_combobox = ctk.CTkComboBox(
-            self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer, corner_radius=0)
+            self.frame_iniciar, values=self.obtener_usuarios(), width=250, command=self.contra_aparecer, corner_radius=20, fg_color=gris_label,
+            button_color=verde_boton, button_hover_color=verde_oscuro, text_color=negro_texto)
         self.users_combobox.pack(padx=3, pady=(0, 2))
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame_iniciar, text='Volver Atrás', command=self.add_widget_login, corner_radius=20,
+            fg_color=riesgo_medio, hover_color=riesgo_alto, font=("Arial", 18, 'bold'), text_color=azul_medio_oscuro
         )
         self.btn_volver.place(x=180, y=300)
 
@@ -74,7 +76,7 @@ class Log_in(ctk.CTkToplevel):
 
         self.geometry('500x600')
 
-        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color='#2a3138', corner_radius=0)
+        self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color=gris, corner_radius=0)
         self.frame_registrar.pack(fill='both', expand=True)
 
         self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre:")
@@ -271,7 +273,6 @@ class Log_in(ctk.CTkToplevel):
         finally:
             conn.close()
 
-
     def limpiar_panel(self):
             for widget in self.main_frame.winfo_children():
                 widget.destroy()
@@ -369,16 +370,17 @@ class Log_in(ctk.CTkToplevel):
         except:
             pass
         self.contra_label = ctk.CTkLabel(
-            self.frame_iniciar, text="Contraseña:")
-        self.contra_label.pack(anchor="w", padx=3, pady=3)
+            self.frame_iniciar, text="Contraseña", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.contra_label.configure(corner_radius=20)
+        self.contra_label.pack(padx=3, pady=(20, 10))
 
         self.contra_ingreso_entry = ctk.CTkEntry(
-            self.frame_iniciar, width=250, show="*", corner_radius=0)
-        self.contra_ingreso_entry.pack(padx=3, pady=(0, 2))
+            self.frame_iniciar, width=250, show="*", corner_radius=20, fg_color=color_entry, text_color="black")
+        self.contra_ingreso_entry.pack(padx=3, pady=(0, 10))
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=0,
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame_iniciar, text="Iniciar Sesión", command=self.verificar_contra, width=250, corner_radius=20,
+            fg_color=verde_boton, hover_color=verde_oscuro, font=("Arial", 18, 'bold'), text_color=azul_medio_oscuro
         )
         self.guardar_button.pack(pady=30)
 
