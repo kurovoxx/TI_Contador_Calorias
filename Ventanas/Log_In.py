@@ -74,84 +74,92 @@ class Log_in(ctk.CTkToplevel):
     def win_registrar(self):
         self.limpiar_panel()
 
-        self.geometry('500x600')
+        self.geometry('500x700')
 
         self.frame_registrar = ctk.CTkFrame(self.main_frame, fg_color=gris, corner_radius=0)
         self.frame_registrar.pack(fill='both', expand=True)
 
-        self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre:")
-        self.nombre_label.pack(anchor="w", padx=3, pady=3)
+        self.nombre_label = ctk.CTkLabel(self.frame_registrar, text="Nombre", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.nombre_label.configure(corner_radius=20)
+        self.nombre_label.pack(padx=3, pady=(20,2))
 
         self.nombre_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu nombre", width=250, corner_radius=0)
-        self.nombre_entry.pack(padx=3, pady=(0, 2))
+            self.frame_registrar, placeholder_text="Introduce tu nombre", width=250, corner_radius=20, fg_color=color_entry, text_color="black")
+        self.nombre_entry.pack(padx=3, pady=(0, 10))
 
         self.contra_label = ctk.CTkLabel(
-            self.frame_registrar, text="Contraseña:")
-        self.contra_label.pack(anchor="w", padx=3, pady=3)
+            self.frame_registrar, text="Contraseña", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.contra_label.configure(corner_radius=20)
+        self.contra_label.pack(padx=3, pady=(0, 2))
 
         self.contra_entry = ctk.CTkEntry(
-            self.frame_registrar, width=250, show="*", corner_radius=0)
-        self.contra_entry.pack(padx=3, pady=(0, 2))
-
+            self.frame_registrar, width=250, show="*", corner_radius=20, fg_color=color_entry, text_color="black")
+        self.contra_entry.pack(padx=3, pady=(0, 10))
         
-
-        
-        self.gen_label = ctk.CTkLabel(self.frame_registrar, text="Sexo:")
-        self.gen_label.pack(anchor="w", padx=3, pady=(2, 0))
+        self.gen_label = ctk.CTkLabel(self.frame_registrar, text="Sexo", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.gen_label.configure(corner_radius=20)
+        self.gen_label.pack(padx=3, pady=(0, 4))
 
         self.gen_combobox = ctk.CTkComboBox(self.frame_registrar, values=[
-                                            "Masculino", "Femenino", "Otro"], width=250, corner_radius=0)
-        self.gen_combobox.pack(padx=3, pady=(0, 2))
+                                            "Masculino", "Femenino"], width=250, corner_radius=20, fg_color=gris_label, button_color=verde_boton,
+                                         button_hover_color=verde_oscuro, text_color=negro_texto)
+        self.gen_combobox.pack(padx=3, pady=(0, 12))
 
-        self.peso_label = ctk.CTkLabel(self.frame_registrar, text="Peso (kg):")
-        self.peso_label.pack(anchor="w", padx=3, pady=(2, 0))
+        self.peso_label = ctk.CTkLabel(self.frame_registrar, text="Peso (kg)", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.peso_label.configure(corner_radius=20)
+        self.peso_label.pack(padx=3, pady=(0, 2))
 
         self.peso_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu peso", width=250, corner_radius=0)
-        self.peso_entry.pack(padx=3, pady=(0, 2))
+            self.frame_registrar, placeholder_text="Introduce tu peso", width=250, corner_radius=20, fg_color=color_entry, text_color="black")
+        self.peso_entry.pack(padx=3, pady=(0, 10))
 
         self.altura_label = ctk.CTkLabel(
-            self.frame_registrar, text="Altura (cm):")
-        self.altura_label.pack(anchor="w", padx=3, pady=(2, 0))
+            self.frame_registrar, text="Altura (cm)", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.altura_label.configure(corner_radius=20)
+        self.altura_label.pack(padx=3, pady=(0, 2))
 
         self.altura_entry = ctk.CTkEntry(
-            self.frame_registrar, placeholder_text="Introduce tu altura", width=250, corner_radius=0)
-        self.altura_entry.pack(padx=3, pady=(0, 2))
+            self.frame_registrar, placeholder_text="Introduce tu altura", width=250, corner_radius=20, fg_color=color_entry, text_color="black")
+        self.altura_entry.pack(padx=3, pady=(0, 10))
 
         self.meta_label = ctk.CTkLabel(
-            self.frame_registrar, text="Meta de calorías diaria:")
-        self.meta_label.pack(anchor="w", padx=3, pady=(2, 0))
+            self.frame_registrar, text="Meta de calorías diaria", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.meta_label.configure(corner_radius=20)
+        self.meta_label.pack(padx=3, pady=(0, 2))
 
         self.meta_entry = ctk.CTkEntry(
-            self.frame_registrar, width=250, corner_radius=0, placeholder_text="Introduce tu meta de calorías")
-        self.meta_entry.pack(padx=3, pady=(0, 2))
+            self.frame_registrar, width=250, corner_radius=20, placeholder_text="Introduce tu meta de calorías", fg_color=color_entry, text_color="black")
+        self.meta_entry.pack(padx=3, pady=(0, 10))
 
         self.lvl_actividad_label = ctk.CTkLabel(
-            self.frame_registrar, text="Nivel de Actividad:")
-        self.lvl_actividad_label.pack(anchor="w", padx=3, pady=(2, 0))
+            self.frame_registrar, text="Nivel de Actividad", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.lvl_actividad_label.configure(corner_radius=20)
+        self.lvl_actividad_label.pack(padx=3, pady=(2, 4))
 
         self.lvl_actividad_combobox = ctk.CTkComboBox(self.frame_registrar, values=[
-                                                      "Sedentario", "Ligero", "Moderado", "Intenso"], width=250, corner_radius=0)
-        self.lvl_actividad_combobox.pack(padx=3, pady=(0, 2))
-        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Fecha de Nacimiento:")
-        self.edad_label.pack(anchor="w", padx=3, pady=(2, 0))
+                                                      "Sedentario", "Ligero", "Moderado", "Intenso"], width=250, corner_radius=20, fg_color=gris_label, button_color=verde_boton,
+                                         button_hover_color=verde_oscuro, text_color=negro_texto)
+        self.lvl_actividad_combobox.pack(padx=3, pady=(0, 12))
+
+        self.edad_label = ctk.CTkLabel(self.frame_registrar, text="Fecha de Nacimiento", width=250, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.edad_label.configure(corner_radius=20)
+        self.edad_label.pack(padx=3, pady=(0, 2))
 
         self.fecha_nacimiento_entry = DateEntry(
-            self.frame_registrar, date_pattern="dd-mm-yyyy", width=18, background="darkblue",
-            foreground="white", borderwidth=2)
-        self.fecha_nacimiento_entry.pack(padx=3, pady=(0, 2))
+            self.frame_registrar, date_pattern="dd-mm-yyyy", width=25, font=("Arial", 14),
+            foreground='white', borderwidth=0, background=azul_medio_oscuro)
+        self.fecha_nacimiento_entry.pack(padx=3, pady=(0, 10))
 
 
         self.guardar_button = ctk.CTkButton(
-            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=0,
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame_registrar, text="Guardar", command=self.guardar, width=250, corner_radius=20,
+            fg_color=verde_boton, hover_color=verde_oscuro, text_color=azul_medio_oscuro, font=("Arial", 18, 'bold')
         )
         self.guardar_button.pack(pady=10)
 
         self.btn_volver = ctk.CTkButton(
-            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=0,
-            fg_color="#28242c", hover_color="#2f88c5"  # Verde y verde oscuro al pasar el mouse
+            self.frame_registrar, text='Volver Atrás', command=self.add_widget_login, corner_radius=20,
+            fg_color=riesgo_medio, hover_color=riesgo_alto, font=("Arial", 18, 'bold'), text_color=azul_medio_oscuro
         )
         self.btn_volver.pack(pady=10)
 
