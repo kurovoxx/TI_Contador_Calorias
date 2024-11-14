@@ -8,7 +8,9 @@ from Ventanas.Recordatorio import Recordatorio
 import os
 import sys
 import time
-
+from util.colores import *
+from Ventanas.Log_In import *
+import shutil
 
 class Configuracion(New_ventana):
     def __init__(self, panel_principal, color):
@@ -36,7 +38,7 @@ class Configuracion(New_ventana):
         #self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
         #self.title_label.place(x=20, y=5)
 
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=430)
+        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=460)
         self.perfil_frame.place(x=265, y=50)
 
         self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
@@ -83,6 +85,9 @@ class Configuracion(New_ventana):
         
         self.cerrar_sesion_button = ctk.CTkButton(self.perfil_frame, text="Cerrar Sesión", command=self.cerrar_sesion, width=200)
         self.cerrar_sesion_button.place(x=25, y=380)
+
+        self.borrar_cuenta_button = ctk.CTkButton(self.perfil_frame, text="Borrar Cuenta", command=self.ventana_borrar_cuenta, width=200)
+        self.borrar_cuenta_button.place(x=25, y=420)
         
     def cerrar_sesion(self):
         respuesta = CTkMessagebox(
@@ -96,6 +101,23 @@ class Configuracion(New_ventana):
             CTkMessagebox(title="Cerrar sesión", message="Sesión cerrada.") 
             self.panel_principal.after(2000, self.reiniciar_aplicacion)
 
+    def ventana_borrar_cuenta(self):
+        self.ventana_borrar = ctk.CTkToplevel(self.panel_principal)
+        self.ventana_borrar.title("Confirmar Eliminación de Cuenta")
+        self.ventana_borrar.geometry("400x250")
+        self.ventana_borrar.attributes('-topmost', True)
+
+        ctk.CTkLabel(self.ventana_borrar, text="Ingresa tu contraseña", font=("Arial", 20)).pack(padx=20, pady=(20, 10))
+
+        self.contra_borrar_entry = ctk.CTkEntry(self.ventana_borrar, show="*", width=250, corner_radius=20, text_color="black")
+        self.contra_borrar_entry.pack(padx=20, pady=(10, 20))
+
+        self.btn_confirmar_borrar = ctk.CTkButton(self.ventana_borrar, text="Confirmar Eliminación", command=self.eliminar_cuenta, width=200, corner_radius=20, fg_color=riesgo_alto, hover_color=riesgo_alto, font=("Arial", 14, 'bold'))
+        self.btn_confirmar_borrar.pack(pady=10)
+
+        self.btn_cancelar_borrar = ctk.CTkButton(self.ventana_borrar, text="Cancelar", command=self.ventana_borrar.destroy, width=200, corner_radius=20, fg_color=riesgo_medio, hover_color=riesgo_alto, font=("Arial", 14, 'bold'))
+        self.btn_cancelar_borrar.pack(pady=10)
+        
     def reiniciar_aplicacion(self):
         python = sys.executable
         script_path = os.path.abspath("hola")
@@ -322,12 +344,10 @@ class Configuracion(New_ventana):
             conn = sqlite3.connect("./usuarios.db")
             cursor = conn.cursor()
 
-            # consulta verificar contra
             cursor.execute("SELECT contra FROM users WHERE nombre = ?", (nombre_usuario,))
             user = cursor.fetchone()
 
             if user and user[0] == contra_anterior:
-                # actualiza la contra si son iguales
                 cursor.execute("UPDATE users SET contra = ? WHERE nombre = ?", (nueva_contra, nombre_usuario))
                 conn.commit()
                 CTkMessagebox(title="Confirmación", message="La contraseña ha sido actualizada correctamente.", icon="info", option_1="Ok")
@@ -337,3 +357,68 @@ class Configuracion(New_ventana):
             conn.close()
         except sqlite3.Error as e:
             CTkMessagebox(title="Error", message=f"Error en la base de datos: {e}", icon="warning", option_1="Ok")
+
+    def eliminar_cuenta(self):
+        contra_ingresada = self.contra_borrar_entry.get()
+
+        try:
+            conn = sqlite3.connect('usuarios.db')
+            cursor = conn.cursor()
+
+            query = "SELECT contra FROM users WHERE nombre = ?"
+            cursor.execute(query, (self.usuario,))
+            resultado = cursor.fetchone()
+
+            if resultado and resultado[0] == contra_ingresada:
+                # Agregar una última confirmación antes de eliminar
+                respuesta_final = CTkMessagebox(
+                    title="Última Confirmación", 
+                    message="¿REALMENTE estás seguro de eliminar tu cuenta? Todos tus datos se perderán permanentemente.", 
+                    icon="warning", 
+                    option_1="Sí, eliminar", 
+                    option_2="Cancelar"
+                ).get()
+
+                if respuesta_final != "Sí, eliminar":
+                    conn.close()
+                    return
+
+                usuario_path = f'./users/{self.usuario}'
+                if os.path.exists(usuario_path):
+                    shutil.rmtree(usuario_path)
+
+                query_eliminar = "DELETE FROM users WHERE nombre = ?"
+                cursor.execute(query_eliminar, (self.usuario,))
+                conn.commit()
+
+                with open('usuario_actual.txt', 'w') as f:
+                    f.write('')
+
+                CTkMessagebox(title="Éxito", 
+                            message="La cuenta se ha eliminado correctamente. La aplicación se cerrará.", 
+                            icon="check", 
+                            option_1="OK")
+                
+                self.ventana_borrar.destroy()
+                
+                self.panel_principal.after(1000, self.cerrar_aplicacion)
+
+            else:
+                CTkMessagebox(title="Error", 
+                            message="La contraseña ingresada es incorrecta.", 
+                            icon="warning", 
+                            option_1="OK")
+
+        except Exception as e:
+            CTkMessagebox(title="Error", 
+                        message=f"Error al eliminar la cuenta: {str(e)}", 
+                        icon="warning", 
+                        option_1="OK")
+
+        finally:
+            conn.close()
+
+    def cerrar_aplicacion(self):
+        self.panel_principal.quit()
+        sys.exit()
+    
