@@ -5,6 +5,9 @@ from Ventanas.Ventana_interfaz import New_ventana
 import sqlite3
 from datetime import datetime
 from Ventanas.Recordatorio import Recordatorio
+import os
+import sys
+import time
 
 
 class Configuracion(New_ventana):
@@ -33,7 +36,7 @@ class Configuracion(New_ventana):
         #self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
         #self.title_label.place(x=20, y=5)
 
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=400)
+        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=430)
         self.perfil_frame.place(x=265, y=50)
 
         self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
@@ -77,6 +80,26 @@ class Configuracion(New_ventana):
         
         self.config_peso_button = ctk.CTkButton(self.perfil_frame, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, width=200)
         self.config_peso_button.place(x=25, y=340)
+        
+        self.cerrar_sesion_button = ctk.CTkButton(self.perfil_frame, text="Cerrar Sesión", command=self.cerrar_sesion, width=200)
+        self.cerrar_sesion_button.place(x=25, y=380)
+        
+    def cerrar_sesion(self):
+        respuesta = CTkMessagebox(
+            title="Cerrar Sesión", 
+            message="¿Estás seguro de que deseas cerrar sesión?", 
+            icon="warning", 
+            option_1="Si", option_2="No"
+        ).get()
+        
+        if respuesta == "Si":
+            CTkMessagebox(title="Cerrar sesión", message="Sesión cerrada.") 
+            self.panel_principal.after(2000, self.reiniciar_aplicacion)
+
+    def reiniciar_aplicacion(self):
+        python = sys.executable
+        script_path = os.path.abspath("hola")
+        os.execl(python, python, script_path)
 
     def Cambiar_a_combobox(self):
         if self.obj_check_var.get() == "on":
