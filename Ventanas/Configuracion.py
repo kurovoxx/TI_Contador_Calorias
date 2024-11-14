@@ -6,7 +6,11 @@ import sqlite3
 from datetime import datetime
 from Ventanas.Recordatorio import Recordatorio
 import os
+import subprocess
+import threading
 import sys
+import shutil
+import tempfile
 import time
 from util.colores import *
 from Ventanas.Log_In import *
@@ -20,7 +24,8 @@ class Configuracion(New_ventana):
         self.ultimo_msj = None
         self.add_widget_config()
         self.mensage("Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad", "Configuracion")
-        
+        self.temp_dir = tempfile.mkdtemp()
+
     def mostrar_advertencia(self):
         CTkMessagebox(title="Configuracion", message="Esta es la pestaña de configuracion, dentro podras configurar todo lo que es tu perfil como el objetivo de calorias y el nivel de actividad.", icon='info', option_1="Ok")
 
@@ -96,7 +101,7 @@ class Configuracion(New_ventana):
                                                 , corner_radius=30, fg_color=primer_label, width=310, height=55, font=("Arial",19, "bold"))
         self.config_peso_button.place(x=75, y=300)
 
-        self.config_nivel_act = ctk.CTkButton(self.sub, text="Actualizar nivel de actividad", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=verde_boton
+        self.config_nivel_act = ctk.CTkButton(self.sub, text="Actualizar nivel de actividad", command=self.cambiar_nivel_act, text_color=negro_texto, bg_color=verde_boton
                                                 , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
         self.config_nivel_act.place(x=75, y=380)
         
@@ -221,6 +226,31 @@ class Configuracion(New_ventana):
 
         self.cargar_configuracion_recordatorio()
             
+    def cambiar_nivel_act(self):
+        video_path = "./img/img_act.mp4"
+        
+        # Abre el primer video desde una copia temporal
+        self.abrir_copia_video(video_path)
+        
+        # Inicia el temporizador para abrir dos videos adicionales cada 3 segundos
+        self.repetir_abrir_video(video_path)
+
+    def abrir_copia_video(self, video_path):
+        # Crear una copia temporal única del video
+        temp_video_path = os.path.join(self.temp_dir, f"temp_video_{len(os.listdir(self.temp_dir))}.mp4")
+        shutil.copy(video_path, temp_video_path)
+        
+        # Abre la copia en el reproductor de video
+        subprocess.Popen(["start", temp_video_path], shell=True)
+
+    def repetir_abrir_video(self, video_path):
+        # Abre dos copias temporales adicionales del video
+        self.abrir_copia_video(video_path)
+        self.abrir_copia_video(video_path)
+
+        # Configura el temporizador para que vuelva a ejecutar esta función después de 3 segundos
+        threading.Timer(3, self.repetir_abrir_video, args=[video_path]).start()      
+          
     def cargar_configuracion_recordatorio(self):
         try:
             conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
