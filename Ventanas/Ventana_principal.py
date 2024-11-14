@@ -305,6 +305,6 @@ class Main(ctk.CTk):
         image_tapar = ctk.CTkImage(Image.open(image_path), size=(1024, 600))
         image_label = ctk.CTkLabel(self.frame_tapar, image=image_tapar, text='')
         image_label.place(x=0, y=0, relwidth=1, relheight=1)
-        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in, width=150, height=75, corner_radius=0,
-                                          fg_color='white', text_color='black')
+        btn_reabrir_login = ctk.CTkButton(self.frame_tapar, text='Iniciar Sesión', command=self.log_in, width=150, height=75, corner_radius=20,
+                                          fg_color=verde_boton, text_color=azul_medio_oscuro, hover_color=verde_oscuro)
         btn_reabrir_login.place(x=430, y=450)
