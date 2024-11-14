@@ -331,7 +331,7 @@ class Configuracion(New_ventana):
         contra_anterior = self.contra_anterior_entry.get()
         nueva_contra = self.nueva_contra_entry.get()
         confirmar_contra = self.confirmar_contra_entry.get()
-        # valida la contra
+
         if not contra_anterior or not nueva_contra or not confirmar_contra:
             CTkMessagebox(title="Advertencia", message="Por favor, completa todos los campos.", icon="warning", option_1="Ok")
             return
@@ -370,7 +370,6 @@ class Configuracion(New_ventana):
             resultado = cursor.fetchone()
 
             if resultado and resultado[0] == contra_ingresada:
-                # Agregar una última confirmación antes de eliminar
                 respuesta_final = CTkMessagebox(
                     title="Última Confirmación", 
                     message="¿REALMENTE estás seguro de eliminar tu cuenta? Todos tus datos se perderán permanentemente.", 
