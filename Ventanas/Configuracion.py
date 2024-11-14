@@ -34,60 +34,79 @@ class Configuracion(New_ventana):
         self.boton_ayuda.place(relx=0.97, rely=0.04, anchor="ne")
         
         edad, genero, peso = self.cargar_datos_usuario()
-        # Título para el módulo configuración
-        #self.title_label = ctk.CTkLabel(self.sub, text="Actualizar información Usuario", text_color="white", font=("Arial", 27))
-        #self.title_label.place(x=20, y=5)
 
-        self.perfil_frame = ctk.CTkFrame(self.sub, width=250, height=460)
-        self.perfil_frame.place(x=265, y=50)
+        # Fondo general de la configuración
+        self.bg_fondo_config = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=750, 
+                                             height=500, corner_radius=40, fg_color=azul_medio_oscuro)
+        self.bg_fondo_config.place(x=10, y=10)
 
-        self.nombre_label = ctk.CTkLabel(self.perfil_frame, text="Nombre:")
-        self.nombre_label.place(x=90, y=10)
-        self.cargar_nombre_usuario()
-
-        self.edad_label = ctk.CTkLabel(self.perfil_frame, text=f"Edad: {edad}")
-        self.edad_label.place(x=100, y=50)
-
-        self.genero_label = ctk.CTkLabel(self.perfil_frame, text=f"Género: {genero}")
-        self.genero_label.place(x=75, y=90)
+        self.bg_fondo_verde= ctk.CTkButton(self.sub, text='', bg_color=azul_medio_oscuro, state='disable', width=390, 
+                                             height=385, corner_radius=35, fg_color=verde_boton)
+        self.bg_fondo_verde.place(x=45, y=100)
         
-        self.peso_label = ctk.CTkLabel(self.perfil_frame, text=f"Peso: {peso} kg")
-        self.peso_label.place(x=85, y=130)
+        self.bg_titulo_verde= ctk.CTkButton(self.sub, text='', bg_color=azul_medio_oscuro, state='disable', width=680, 
+                                             height=55, corner_radius=35, fg_color=primer_label)
+        self.bg_titulo_verde.place(x=45, y=25)
+        
+        self.titulo_label= ctk.CTkLabel(self.sub, text="Configuración", text_color=negro_texto, bg_color= primer_label,font=("Arial", 27, "bold"))
+        self.titulo_label.place(x=295, y=35)
+        
+        self.nombre_label = ctk.CTkLabel(self.sub, text="Nombre:",text_color=negro_texto )
+        self.nombre_label.place(x=490, y=110)
+        self.cargar_nombre_usuario()
+        
+        self.edad_label = ctk.CTkLabel(self.sub, text=f"Edad: {edad}")
+        self.edad_label.place(x=490, y=140)
 
-        self.obj_calorias_label = ctk.CTkLabel(self.perfil_frame, text="Objetivo de Calorías:")
-        self.obj_calorias_label.place(x=70, y=170)
+        self.genero_label = ctk.CTkLabel(self.sub, text=f"Género: {genero}")
+        self.genero_label.place(x=490, y=170)
+        
+        self.peso_label = ctk.CTkLabel(self.sub, text=f"Peso: {peso} kg")
+        self.peso_label.place(x=490, y=210)
 
-        self.obj_calorias_combobox = ctk.CTkComboBox(self.perfil_frame, values=["1000 kcal", "1500 kcal", "2000 kcal"], width=120)
+        self.obj_calorias_label = ctk.CTkLabel(self.sub, text="Objetivo de Calorías:")
+        self.obj_calorias_label.place(x=490, y=250)
+
+        self.obj_calorias_combobox = ctk.CTkComboBox(self.sub, values=["1000 kcal", "1500 kcal", "2000 kcal"], width=120)
 
         self.obj_check_var = ctk.StringVar(value="off")
-        self.obj_checkbox = ctk.CTkCheckBox(self.perfil_frame,text="" , command=self.Cambiar_a_combobox,
+        self.obj_checkbox = ctk.CTkCheckBox(self.sub,text="" , command=self.Cambiar_a_combobox,
                                             variable=self.obj_check_var, onvalue="on", offvalue="off")
-        self.obj_checkbox.place(x=210, y=173)
+        self.obj_checkbox.place(x=610, y=247)
 
-        self.lvl_actividad_label = ctk.CTkLabel(self.perfil_frame, text="Nivel de Actividad:")
-        self.lvl_actividad_label.place(x=75, y=210)
+        self.lvl_actividad_label = ctk.CTkLabel(self.sub, text="Nivel de Actividad:")
+        self.lvl_actividad_label.place(x=490, y=290)
 
-        self.lvl_actividad_combobox = ctk.CTkComboBox(self.perfil_frame, values=["Sedentario", "Ligero", "Moderado", "Intenso"], width=130)
+        self.lvl_actividad_combobox = ctk.CTkComboBox(self.sub, values=["Sedentario", "Ligero", "Moderado", "Intenso"], width=130)
 
         self.lvl_check_var = ctk.StringVar(value="off")
-        self.lvl_checkbox = ctk.CTkCheckBox(self.perfil_frame, text="",command=self.Cambiar_a_combobox_actividad,
+        self.lvl_checkbox = ctk.CTkCheckBox(self.sub, text="",command=self.Cambiar_a_combobox_actividad,
                                             variable=self.lvl_check_var, onvalue="on", offvalue="off")
-        self.lvl_checkbox.place(x=210, y=213)
+        self.lvl_checkbox.place(x=600, y=290)
 
-        self.guardar_button = ctk.CTkButton(self.perfil_frame, text="Actualizar información", command=self.guardar, width=200)
-        self.guardar_button.place(x=25, y=260)
+        self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.guardar, text_color=negro_texto, bg_color=verde_boton
+                                            , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
+        self.guardar_button.place(x=75, y=140)
 
-        self.mostrar_contra_button = ctk.CTkButton(self.perfil_frame, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena, width=200)
-        self.mostrar_contra_button.place(x=25, y=300)
+        self.mostrar_contra_button = ctk.CTkButton(self.sub, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena,text_color=negro_texto, bg_color=verde_boton
+                                                   , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
+        self.mostrar_contra_button.place(x=75, y=220)
         
-        self.config_peso_button = ctk.CTkButton(self.perfil_frame, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, width=200)
-        self.config_peso_button.place(x=25, y=340)
-        
-        self.cerrar_sesion_button = ctk.CTkButton(self.perfil_frame, text="Cerrar Sesión", command=self.cerrar_sesion, width=200)
-        self.cerrar_sesion_button.place(x=25, y=380)
+        self.config_peso_button = ctk.CTkButton(self.sub, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=verde_boton
+                                                , corner_radius=30, fg_color=primer_label, width=310, height=55, font=("Arial",19, "bold"))
+        self.config_peso_button.place(x=75, y=300)
 
-        self.borrar_cuenta_button = ctk.CTkButton(self.perfil_frame, text="Borrar Cuenta", command=self.ventana_borrar_cuenta, width=200)
-        self.borrar_cuenta_button.place(x=25, y=420)
+        self.config_nivel_act = ctk.CTkButton(self.sub, text="Actualizar nivel de actividad", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=verde_boton
+                                                , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
+        self.config_nivel_act.place(x=75, y=380)
+        
+        self.cerrar_sesion_button = ctk.CTkButton(self.sub, text="Cerrar Sesión", text_color=negro_texto, bg_color=azul_medio_oscuro
+                                                  , command=self.cerrar_sesion, corner_radius=20, fg_color=segundo_label, width=200, height=40, font=("Arial",16,"bold"))
+        self.cerrar_sesion_button.place(x=490, y=360)
+
+        self.borrar_cuenta_button = ctk.CTkButton(self.sub, text="Borrar Cuenta", command=self.ventana_borrar_cuenta, text_color=negro_texto,bg_color= azul_medio_oscuro
+                                                  , corner_radius=20,fg_color=riesgo_alto, width=200, height=40, font=("Arial", 16, "bold"))
+        self.borrar_cuenta_button.place(x=490, y=410)
         
     def cerrar_sesion(self):
         respuesta = CTkMessagebox(
