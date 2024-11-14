@@ -49,8 +49,8 @@ class Alimentos(New_ventana):
         scrollbar.pack(side="right", fill="y")
 
         self.boton_change = ctk.CTkButton(self.sub, text="Editar Alimento", fg_color=verde_boton, 
-                                          hover_color=verde_oscuro, text_color='black', command=self.editar_alimentos, height=60)
-        self.boton_change.pack(pady=80,anchor="center")
+                                          hover_color=verde_oscuro, text_color=azul_medio_oscuro, command=self.editar_alimentos, height=60, font=("Arial", 18, 'bold'))
+        self.boton_change.pack(pady=80, anchor="center")
 
 
     def datos(self):
