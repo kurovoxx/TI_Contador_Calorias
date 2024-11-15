@@ -13,7 +13,6 @@ import shutil
 import tempfile
 import time
 from util.colores import *
-from Ventanas.Log_In import *
 import shutil
 
 class Configuracion(New_ventana):
@@ -143,9 +142,17 @@ class Configuracion(New_ventana):
         self.btn_cancelar_borrar.pack(pady=10)
         
     def reiniciar_aplicacion(self):
+        # Close the current application
+        self.panel_principal.quit()
+        time.sleep(1)  # Give the application time to properly close
+
+        # Reopen the application
         python = sys.executable
         script_path = os.path.abspath("main.py")
-        os.execl(python, python, script_path)
+        subprocess.Popen([python, script_path])
+
+        # Exit the current process
+        sys.exit()
 
     def Cambiar_a_combobox(self):
         if self.obj_check_var.get() == "on":
