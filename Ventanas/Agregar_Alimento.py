@@ -27,7 +27,7 @@ class Agregar_Alimento(New_ventana):
         self.bg_btn_agregar.place(x=85, y=78)
         
         # Label "agregar" de alimentos
-        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", bg_color=azul_medio_oscuro)
+        self.label_agregar = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Agregar Alimentos", text_color="white", fg_color=azul_medio_oscuro, bg_color=azul_medio_oscuro)
         self.label_agregar.place(x=95, y=80)
 
         self.boton_ayuda = ctk.CTkButton(self.sub, text="i",
@@ -49,7 +49,7 @@ class Agregar_Alimento(New_ventana):
         self.bg_btn_calorias.place(x=410, y=78)
 
         # Label "Seleccione Cantidad Calorías"
-        self.label_calorias = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Porcion / 100gr", text_color="white", fg_color=azul_medio_oscuro)
+        self.label_calorias = ctk.CTkLabel(self.sub, font=("Arial", 20), text="Porcion / 100gr", text_color="white", fg_color=azul_medio_oscuro, bg_color=azul_medio_oscuro)
         self.label_calorias.place(x=420, y=80)
 
         # Combobox

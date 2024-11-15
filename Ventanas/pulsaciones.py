@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
+from util.colores import *
 import time
 
 
@@ -16,25 +17,28 @@ class Pulsaciones(ctk.CTkToplevel):
         self.click_times = []
         self.timeout = 2.0  # 2 segundos de timeout para resetear las pulsaciones
 
-        self.main_frame = ctk.CTkFrame(self)
+        self.main_frame = ctk.CTkFrame(self, fg_color=gris)
         self.main_frame.pack(fill='both', expand=True)
 
         self.add_widget()
 
     def add_widget(self):
-        self.instruction_label = ctk.CTkLabel(self.main_frame, text="Haga click para medir su pulso", font=("Arial", 12))
-        self.instruction_label.pack(pady=10)
+        self.instruction_label = ctk.CTkLabel(self.main_frame, text="Haga click para medir su pulso", text_color="white", font=("Arial", 20), 
+                                          width=200)
+        self.instruction_label.pack(pady=(20, 10))
 
         # Contador de clicks que comenzará en 10
-        self.counter_label = ctk.CTkLabel(self.main_frame, text=f"Contador: {self.counter}", font=("Arial", 16))
+        self.counter_label = ctk.CTkLabel(self.main_frame, text=f"Contador: {self.counter}", font=("Arial", 20, 'bold'), bg_color=azul_medio_oscuro)
+        self.counter_label.configure(corner_radius=20)
         self.counter_label.pack(pady=10)
 
         # Etiqueta para mostrar los BPM
-        self.bpm_label = ctk.CTkLabel(self.main_frame, text="BPM: N/A", font=("Arial", 16))
+        self.bpm_label = ctk.CTkLabel(self.main_frame, text="BPM: N/A", font=("Arial", 20, 'bold'), bg_color=azul_medio_oscuro)
+        self.bpm_label.configure(corner_radius=20)
         self.bpm_label.pack(pady=10)
 
         # Botón circular
-        self.circle_button = ctk.CTkButton(self.main_frame, text="", width=100, height=100, corner_radius=50, fg_color="blue", command=self.on_button_click)
+        self.circle_button = ctk.CTkButton(self.main_frame, text="", width=100, height=100, corner_radius=50, fg_color=verde_boton, command=self.on_button_click, hover_color=verde_oscuro)
         self.circle_button.pack(pady=50)
 
     def on_button_click(self):
