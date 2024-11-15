@@ -144,7 +144,7 @@ class Configuracion(New_ventana):
         
     def reiniciar_aplicacion(self):
         python = sys.executable
-        script_path = os.path.abspath("hola")
+        script_path = os.path.abspath("main.py")
         os.execl(python, python, script_path)
 
     def Cambiar_a_combobox(self):
@@ -449,7 +449,8 @@ class Configuracion(New_ventana):
                 
                 self.ventana_borrar.destroy()
                 
-                self.panel_principal.after(1000, self.cerrar_aplicacion)
+                # Llama a la función para reiniciar la aplicación
+                self.reiniciar_aplicacion()
 
             else:
                 CTkMessagebox(title="Error", 
@@ -466,7 +467,4 @@ class Configuracion(New_ventana):
         finally:
             conn.close()
 
-    def cerrar_aplicacion(self):
-        self.panel_principal.quit()
-        sys.exit()
     
