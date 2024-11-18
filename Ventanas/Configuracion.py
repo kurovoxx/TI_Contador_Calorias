@@ -97,7 +97,7 @@ class Configuracion(New_ventana):
        #                                    variable=self.lvl_check_var, onvalue="on", offvalue="off")
        #self.lvl_checkbox.place(x=600, y=290)
 
-        self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.guardar, text_color=negro_texto, bg_color=verde_boton
+        self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.mostrar_interfaz_guardar, text_color=negro_texto, bg_color=verde_boton
                                             , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
         self.guardar_button.place(x=75, y=140)
 
@@ -121,6 +121,92 @@ class Configuracion(New_ventana):
                                                   , corner_radius=20,fg_color=riesgo_alto, width=215, height=46, font=("Arial", 16, "bold"))
         self.borrar_cuenta_button.place(x=475, y=437)
         
+        
+    def mostrar_interfaz_guardar(self):
+        # Desactivar botones
+        self.guardar_button.configure(state="disabled")
+        self.mostrar_contra_button.configure(state="disabled")
+        self.config_peso_button.configure(state="disabled")
+        self.config_nivel_act.configure(state="disabled")
+        
+
+        
+        self.bg_boton_guardar = ctk.CTkButton(self.sub, text='', state="disabled", 
+                                              bg_color=azul_medio_oscuro, fg_color=verde_boton,
+                                              corner_radius=35, width=390, height=385)
+        self.bg_boton_guardar.place(x=45, y=100)
+        
+        self.bg_btn_nombre = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+                                            height=40, corner_radius=20, fg_color=segundo_label)
+        self.bg_btn_nombre.place(x=65, y=135)
+        
+        self.label_nombre = ctk.CTkLabel(self.sub, text="Nombre:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_nombre.place(x=90, y=140)
+        
+        self.bg_btn_edad = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+                                            height=40, corner_radius=20, fg_color=segundo_label)
+        self.bg_btn_edad.place(x=65, y=185)
+        
+        self.label_edad = ctk.CTkLabel(self.sub, text="Edad:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_edad.place(x=95, y=190)
+        
+        self.bg_btn_genero = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+                                            height=40, corner_radius=20, fg_color=segundo_label)
+        self.bg_btn_genero.place(x=65, y=235)
+        
+        self.label_genero = ctk.CTkLabel(self.sub, text="Genero:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_genero.place(x=90, y=240)
+    
+        self.bg_btn_peso = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+                                            height=40, corner_radius=20, fg_color=segundo_label)
+        self.bg_btn_peso.place(x=65, y=285)
+        
+        self.label_peso = ctk.CTkLabel(self.sub, text="Peso:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_peso.place(x=95, y=290)
+        
+        self.boton_guardar = ctk.CTkButton(self.sub, text="Actualizar datos", 
+                                           command=self.guardar,
+                                           text_color=negro_texto, bg_color=verde_boton,
+                                           corner_radius=20, fg_color=primer_label, 
+                                           width=250, height=40, font=("Arial", 16, "bold"))
+        self.boton_guardar.place(x=120, y=350)
+
+        self.boton_regresar = ctk.CTkButton(self.sub, text="Regresar", 
+                                            command=self.restaurar_interfaz_actualizar_info,
+                                            text_color=negro_texto, bg_color=verde_boton,
+                                            corner_radius=20, fg_color=primer_label, 
+                                            width=250, height=40, font=("Arial", 16, "bold"))
+        self.boton_regresar.place(x=120, y=410)
+
+    def restaurar_interfaz_actualizar_info(self):
+        if hasattr(self, 'bg_boton_guardar'):
+            self.bg_boton_guardar.destroy()
+        if hasattr(self, 'bg_btn_nombre'):
+            self.bg_btn_nombre.destroy()
+        if hasattr(self, 'label_nombre'):
+            self.label_nombre.destroy()
+        if hasattr(self, 'bg_btn_edad'):
+            self.bg_btn_edad.destroy()
+        if hasattr(self, 'label_edad'):
+            self.label_edad.destroy()
+        if hasattr(self, 'bg_btn_genero'):
+            self.bg_btn_genero.destroy()
+        if hasattr(self, 'label_genero'):
+            self.label_genero.destroy()
+        if hasattr(self, 'bg_btn_peso'):
+            self.bg_btn_peso.destroy()
+        if hasattr(self, 'label_peso'):
+            self.label_peso.destroy()
+        if hasattr(self, 'boton_guardar'):
+            self.boton_guardar.destroy()
+        if hasattr(self, 'boton_regresar'):
+            self.boton_regresar.destroy()
+        # Reactivar los botones 
+        self.guardar_button.configure(state="normal")
+        self.mostrar_contra_button.configure(state="normal")
+        self.config_peso_button.configure(state="normal")
+        self.config_nivel_act.configure(state="normal")
+        
     def cerrar_sesion(self):
         respuesta = CTkMessagebox(
             title="Cerrar Sesión", 
@@ -133,6 +219,7 @@ class Configuracion(New_ventana):
             CTkMessagebox(title="Cerrar sesión", message="Sesión cerrada.") 
             self.panel_principal.after(2000, self.reiniciar_aplicacion)
 
+        
     def ventana_borrar_cuenta(self):
         self.ventana_borrar = ctk.CTkToplevel(self.panel_principal)
         self.ventana_borrar.title("Confirmar Eliminación de Cuenta")
