@@ -80,24 +80,10 @@ class Configuracion(New_ventana):
 
         self.obj_calorias_label = ctk.CTkLabel(self.sub, text=f"Objetivo de Calorías: {meta_cal}", text_color="white")
         self.obj_calorias_label.place(x=505, y=275)
-
-       #self.obj_calorias_combobox = ctk.CTkComboBox(self.sub, values=["1000 kcal", "1500 kcal", "2000 kcal"], width=120)
-
-       #self.obj_check_var = ctk.StringVar(value="off")
-       #self.obj_checkbox = ctk.CTkCheckBox(self.sub,text="" , command=self.Cambiar_a_combobox,
-       #                                    variable=self.obj_check_var, onvalue="on", offvalue="off")
-       #self.obj_checkbox.place(x=610, y=247)
-
+        
         self.lvl_actividad_label = ctk.CTkLabel(self.sub, text=f"Nivel de Actividad: {nivel_actividad}", text_color="white")
         self.lvl_actividad_label.place(x=505, y=305)
-
-       #self.lvl_actividad_combobox = ctk.CTkComboBox(self.sub, values=["Sedentario", "Ligero", "Moderado", "Intenso"], width=130)
-
-       #self.lvl_check_var = ctk.StringVar(value="off")
-       #self.lvl_checkbox = ctk.CTkCheckBox(self.sub, text="",command=self.Cambiar_a_combobox_actividad,
-       #                                    variable=self.lvl_check_var, onvalue="on", offvalue="off")
-       #self.lvl_checkbox.place(x=600, y=290)
-
+        
         self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.mostrar_interfaz_guardar, text_color=negro_texto, bg_color=verde_boton
                                             , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
         self.guardar_button.place(x=75, y=140)
@@ -136,71 +122,49 @@ class Configuracion(New_ventana):
                                               corner_radius=35, width=390, height=385)
         self.bg_boton_guardar.place(x=45, y=100)
         
-        # boton verde para el nombre
-        self.bg_btn_nombre = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        # boton verde para la estatura
+        self.bg_btn_estatura = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
-        self.bg_btn_nombre.place(x=65, y=135)
+        self.bg_btn_estatura.place(x=65, y=135)
         
-        self.label_nombre = ctk.CTkLabel(self.sub, text="Nombre:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
-        self.label_nombre.place(x=100, y=140)
+        self.label_estatura = ctk.CTkLabel(self.sub, text="Estatura:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_estatura.place(x=82, y=140)
         
-        # boton celeste para el nombre
-        self.btn_nombre = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=210, 
-                                            height=40, corner_radius=20, fg_color=color_entry)
-        self.btn_nombre.place(x=200, y=135)
+        # boton celeste para la estatura
+        self.entry_estatura = ctk.CTkEntry(self.sub, fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
+                                           width=210, height=40, corner_radius=20, font=("Arial", 14, "bold"))
+        self.entry_estatura.insert(0, f"{estatura} cm") 
+        self.entry_estatura.place(x=200, y=135)
         
-        # label que muestra el nombre
-        self.label_nombre_m = ctk.CTkLabel(self.sub, text=f"{self.usuario}", text_color=negro_texto, bg_color=color_entry,font=("Arial", 14, "bold"))
-        self.label_nombre_m.place(x=260, y=140)
-        
-        # boton verde para la edad
-        self.bg_btn_edad = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        # boton verde para obj calorias
+        self.bg_btn_obj = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
-        self.bg_btn_edad.place(x=65, y=185)
+        self.bg_btn_obj.place(x=65, y=185)
         
-        self.label_edad = ctk.CTkLabel(self.sub, text="Edad:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
-        self.label_edad.place(x=105, y=190)
+        self.label_obj = ctk.CTkLabel(self.sub, text="Objetivo kcal:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_obj.place(x=82, y=190)
         
-        # boton celeste para la edad
-        self.btn_edad = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=210, 
-                                            height=40, corner_radius=20, fg_color=color_entry)
-        self.btn_edad.place(x=200, y=185)
+        # Entry para meta de calorías
+        self.entry_obj = ctk.CTkEntry(self.sub, fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
+                                      width=210, height=40, corner_radius=20, font=("Arial", 14, "bold"))
+        self.entry_obj.insert(0, f"{meta_cal}")  # Mostrar valor actual
+        self.entry_obj.place(x=200, y=185)
         
-        # label que muestra la edad
-        self.label_edad_m = ctk.CTkLabel(self.sub, text=f"{edad}", text_color=negro_texto, bg_color=color_entry,font=("Arial", 14, "bold"))
-        self.label_edad_m.place(x=260, y=190)
-        
-        self.bg_btn_genero = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        # boton verde para el nivel de actividad
+        self.bg_btn_nvl = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
-        self.bg_btn_genero.place(x=65, y=235)
+        self.bg_btn_nvl.place(x=65, y=235)
         
-        self.label_genero = ctk.CTkLabel(self.sub, text="Genero:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
-        self.label_genero.place(x=100, y=240)
-    
-        # boton celeste para el genero
-        self.btn_genero = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=210, 
-                                            height=40, corner_radius=20, fg_color=color_entry)
-        self.btn_genero.place(x=200, y=235)
+        # label que muestra obj calorias
+        self.label_nvl = ctk.CTkLabel(self.sub, text="Nivel act:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_nvl.place(x=82, y=240)
         
-        # label que muestra el genero
-        self.label_genero_m = ctk.CTkLabel(self.sub, text=f"{genero}", text_color=negro_texto, bg_color=color_entry,font=("Arial", 14, "bold"))
-        self.label_genero_m.place(x=260, y=240)
-        
-        self.bg_btn_peso = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
-                                            height=40, corner_radius=20, fg_color=segundo_label)
-        self.bg_btn_peso.place(x=65, y=285)
-        
-        self.label_peso = ctk.CTkLabel(self.sub, text="Peso:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
-        self.label_peso.place(x=105, y=290)
-        
-        # boton celeste para el peso
-        self.btn_peso = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=210, 
-                                            height=40, corner_radius=20, fg_color=color_entry)
-        self.btn_peso.place(x=200, y=285)    
-        
-        # label que muestra el peso
-        self.label_peso_m = ctk.CTkLabel(self.sub, text=f"{peso} kg", text_color=negro_texto, bg_color=color_entry,font=("Arial", 14, "bold"))
-        self.label_peso_m.place(x=260, y=290)
+        # Combobox para nivel de actividad
+        self.combobox_nvl = ctk.CTkComboBox(self.sub, values=["Sendatario", "Ligero", "Moredaro","Intenso"], 
+                                            fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
+                                            font=("Arial", 14, "bold"), corner_radius=20, width=210, height=40)
+        self.combobox_nvl.set(nivel_actividad)  # Mostrar valor actual
+        self.combobox_nvl.place(x=200, y=235)
     
         self.boton_guardar = ctk.CTkButton(self.sub, text="Actualizar datos", 
                                            command=self.guardar,
@@ -219,43 +183,29 @@ class Configuracion(New_ventana):
     def restaurar_interfaz_actualizar_info(self):
         if hasattr(self, 'bg_boton_guardar'):
             self.bg_boton_guardar.destroy()
-        if hasattr(self, 'bg_btn_nombre'):
-            self.bg_btn_nombre.destroy()
-        if hasattr(self, 'label_nombre'):
-            self.label_nombre.destroy()
-        if hasattr(self, 'btn_nombre'):
-            self.btn_nombre.destroy()
-        if hasattr(self, 'label_nombre_m'):
-            self.label_nombre_m.destroy()
-        if hasattr(self, 'bg_btn_edad'):
-            self.bg_btn_edad.destroy()
-        if hasattr(self, 'label_edad'):
-            self.label_edad.destroy()
-        if hasattr(self, 'btn_edad'):
-            self.btn_edad.destroy()
-        if hasattr(self, 'label_edad_m'):
-            self.label_edad_m.destroy()
-        if hasattr(self, 'bg_btn_genero'):
-            self.bg_btn_genero.destroy()
-        if hasattr(self, 'label_genero'):
-            self.label_genero.destroy()
-        if hasattr(self, 'btn_genero'):
-            self.btn_genero.destroy()
-        if hasattr(self, 'label_genero_m'):
-            self.label_genero_m.destroy()
-        if hasattr(self, 'bg_btn_peso'):
-            self.bg_btn_peso.destroy()
-        if hasattr(self, 'label_peso'):
-            self.label_peso.destroy()
-        if hasattr(self, 'btn_peso'):
-            self.btn_peso.destroy()
-        if hasattr(self, 'label_peso_m'):
-            self.label_peso_m.destroy()
+        if hasattr(self, 'bg_btn_estatura'):
+            self.bg_btn_estatura.destroy()
+        if hasattr(self, 'label_estatura'):
+            self.label_estatura.destroy()
+        if hasattr(self, 'entry_estatura'):  
+            self.entry_estatura.destroy()
+        if hasattr(self, 'bg_btn_obj'):
+            self.bg_btn_obj.destroy()
+        if hasattr(self, 'label_obj'):
+            self.label_obj.destroy()
+        if hasattr(self, 'entry_obj'):  
+            self.entry_obj.destroy()
+        if hasattr(self, 'bg_btn_nvl'):
+            self.bg_btn_nvl.destroy()
+        if hasattr(self, 'label_nvl'):
+            self.label_nvl.destroy()
+        if hasattr(self, 'combobox_nvl'): 
+            self.combobox_nvl.destroy()
         if hasattr(self, 'boton_guardar'):
             self.boton_guardar.destroy()
         if hasattr(self, 'boton_regresar'):
-            self.boton_regresar.destroy()
-            
+            self.boton_regresar.destroy()         
+               
         # Reactivar los botones 
         self.guardar_button.configure(state="normal")
         self.mostrar_contra_button.configure(state="normal")
@@ -304,22 +254,6 @@ class Configuracion(New_ventana):
 
         # Exit the current process
         sys.exit()
-
-    def Cambiar_a_combobox(self):
-        if self.obj_check_var.get() == "on":
-            self.obj_calorias_label.place_forget()
-            self.obj_calorias_combobox.place(x=70, y=170)  
-        else:
-            self.obj_calorias_combobox.place_forget()
-            self.obj_calorias_label.place(x=70, y=170) 
-
-    def Cambiar_a_combobox_actividad(self):
-        if self.lvl_check_var.get() == "on":
-            self.lvl_actividad_label.place_forget()
-            self.lvl_actividad_combobox.place(x=70, y=210)  
-        else:
-            self.lvl_actividad_combobox.place_forget()
-            self.lvl_actividad_label.place(x=70, y=210) 
         
     def cargar_datos_usuario(self):
         """Obtiene la edad, el género, la meta de calorías, el nivel de actividad, la altura y el peso más reciente del usuario desde la base de datos."""
@@ -477,51 +411,44 @@ class Configuracion(New_ventana):
         self.actualizar_contra_button.pack(pady=5)
 
     def guardar(self):
-        """Actualiza los datos de la base de datos con la nueva meta de calorías y nivel de actividad."""
-        try:
-            # Obtener los valores seleccionados
-            if self.obj_check_var.get() == "on":
-                objetivo_calorias = self.obj_calorias_combobox.get()
-            else:
-                objetivo_calorias = self.obj_calorias_original
         
-            if self.lvl_check_var.get() == "on":
-                nivel_actividad = self.lvl_actividad_combobox.get()
-            else:
-                nivel_actividad = self.lvl_actividad_original
+        edad, genero, peso, nivel_actividad,meta_cal, estatura  = self.cargar_datos_usuario()
 
-            # Comparar con los valores originales
-            if objetivo_calorias == self.obj_calorias_original and nivel_actividad == self.lvl_actividad_original:
+        """Actualiza los datos de la base de datos con la nueva meta de calorías, estatura y nivel de actividad."""
+        try:
+            # Obtener valores de los campos
+            nueva_estatura = self.entry_estatura.get().replace(" cm", "").strip()
+            nueva_meta_calorias = self.entry_obj.get().strip()
+            nuevo_nivel_actividad = self.combobox_nvl.get()
+
+            # Validar cambios
+            if nueva_estatura == str(estatura) and nueva_meta_calorias == str(meta_cal) and nuevo_nivel_actividad == nivel_actividad:
                 CTkMessagebox(
                     title="Sin Cambios",
                     message="No se han realizado cambios en la información.",
                     icon="info",
                     option_1="OK"
                 )
-            else:
-                # Conexión a la base de datos
-                conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
-                cursor = conn.cursor()
+                return
 
-                # Actualizar solo si hay cambios
-                cursor.execute("""
-                    UPDATE datos
-                    SET meta_cal = ?, nivel_actividad = ?
-                    WHERE nombre = ?
-                """, (objetivo_calorias, nivel_actividad, self.usuario))
+            # Actualizar la base de datos
+            conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE datos
+                SET estatura = ?, meta_cal = ?, nivel_actividad = ?
+                WHERE nombre = ?
+            """, (nueva_estatura, nueva_meta_calorias, nuevo_nivel_actividad, self.usuario))
+            conn.commit()
+            conn.close()
 
-                # Confirmar los cambios
-                conn.commit()
-
-                # Mostrar mensaje de confirmación
-                CTkMessagebox(
-                    title="Confirmación",
-                    message="Los datos se actualizaron correctamente.",
-                    icon="info",
-                    option_1="OK"
-                )
-                conn.close()
-
+            # Mensaje de confirmación
+            CTkMessagebox(
+                title="Confirmación",
+                message="Los datos se actualizaron correctamente.",
+                icon="info",
+                option_1="OK"
+            )
         except sqlite3.Error as e:
             CTkMessagebox(
                 title="Error",
