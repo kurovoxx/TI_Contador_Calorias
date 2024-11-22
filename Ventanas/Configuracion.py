@@ -7,7 +7,6 @@ from datetime import datetime
 from Ventanas.Recordatorio import Recordatorio
 import os
 import subprocess
-import threading
 import sys
 import shutil
 import tempfile
@@ -86,19 +85,15 @@ class Configuracion(New_ventana):
         
         self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.mostrar_interfaz_guardar, text_color=negro_texto, bg_color=verde_boton
                                             , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
-        self.guardar_button.place(x=75, y=140)
+        self.guardar_button.place(x=75, y=165)
 
         self.mostrar_contra_button = ctk.CTkButton(self.sub, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena,text_color=negro_texto, bg_color=verde_boton
                                                    , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
-        self.mostrar_contra_button.place(x=75, y=220)
+        self.mostrar_contra_button.place(x=75, y=265)
         
         self.config_peso_button = ctk.CTkButton(self.sub, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=verde_boton
                                                 , corner_radius=30, fg_color=primer_label, width=310, height=55, font=("Arial",19, "bold"))
-        self.config_peso_button.place(x=75, y=300)
-
-        self.config_nivel_act = ctk.CTkButton(self.sub, text="Actualizar nivel de actividad", command=self.cambiar_nivel_act, text_color=negro_texto, bg_color=verde_boton
-                                                , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
-        self.config_nivel_act.place(x=75, y=380)
+        self.config_peso_button.place(x=75, y=365)
         
         self.cerrar_sesion_button = ctk.CTkButton(self.sub, text="Cerrar Sesión", text_color=negro_texto, bg_color=azul_medio_oscuro
                                                   , command=self.cerrar_sesion, corner_radius=20, fg_color=segundo_label, width=215, height=46, font=("Arial",16,"bold"))
@@ -115,7 +110,6 @@ class Configuracion(New_ventana):
         self.guardar_button.configure(state="disabled")
         self.mostrar_contra_button.configure(state="disabled")
         self.config_peso_button.configure(state="disabled")
-        self.config_nivel_act.configure(state="disabled")
 
         self.bg_boton_guardar = ctk.CTkButton(self.sub, text='', state="disabled", 
                                               bg_color=azul_medio_oscuro, fg_color=verde_boton,
@@ -210,7 +204,6 @@ class Configuracion(New_ventana):
         self.guardar_button.configure(state="normal")
         self.mostrar_contra_button.configure(state="normal")
         self.config_peso_button.configure(state="normal")
-        self.config_nivel_act.configure(state="normal")
         
     def cerrar_sesion(self):
         respuesta = CTkMessagebox(
@@ -314,32 +307,7 @@ class Configuracion(New_ventana):
         ).pack(pady=10)
 
         self.cargar_configuracion_recordatorio()
-            
-    def cambiar_nivel_act(self):
-        video_path = "./img/img_act.mp4"
-        
-        # Abre el primer video desde una copia temporal
-        self.abrir_copia_video(video_path)
-        
-        # Inicia el temporizador para abrir dos videos adicionales cada 3 segundos
-        self.repetir_abrir_video(video_path)
-
-    def abrir_copia_video(self, video_path):
-        # Crear una copia temporal única del video
-        temp_video_path = os.path.join(self.temp_dir, f"temp_video_{len(os.listdir(self.temp_dir))}.mp4")
-        shutil.copy(video_path, temp_video_path)
-        
-        # Abre la copia en el reproductor de video
-        subprocess.Popen(["start", temp_video_path], shell=True)
-
-    def repetir_abrir_video(self, video_path):
-        # Abre dos copias temporales adicionales del video
-        self.abrir_copia_video(video_path)
-        self.abrir_copia_video(video_path)
-
-        # Configura el temporizador para que vuelva a ejecutar esta función después de 3 segundos
-        threading.Timer(3, self.repetir_abrir_video, args=[video_path]).start()      
-          
+                      
     def cargar_configuracion_recordatorio(self):
         try:
             conn = sqlite3.connect(f"./users/{self.usuario}/alimentos.db")
