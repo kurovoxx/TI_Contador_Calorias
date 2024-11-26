@@ -40,14 +40,14 @@ class Configuracion(New_ventana):
 
         # Fondo general de la configuración
         self.bg_fondo_config = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=750, 
-                                             height=500, corner_radius=40, fg_color=azul_medio_oscuro)
+                                             height=500, corner_radius=40, fg_color=gris)
         self.bg_fondo_config.place(x=10, y=10)
 
-        self.bg_fondo_verde= ctk.CTkButton(self.sub, text='', bg_color=azul_medio_oscuro, state='disable', width=390, 
-                                             height=385, corner_radius=35, fg_color=verde_boton)
+        self.bg_fondo_verde= ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=390, 
+                                             height=385, corner_radius=35, fg_color=gris)
         self.bg_fondo_verde.place(x=45, y=100)
         
-        self.bg_fondo_claro= ctk.CTkButton(self.sub, text='', bg_color=azul_medio_oscuro, state='disable', width=215, 
+        self.bg_fondo_claro= ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=215, 
                                              height=260, corner_radius=35, fg_color=segundo_label)
         self.bg_fondo_claro.place(x=475, y=100)
         
@@ -55,12 +55,12 @@ class Configuracion(New_ventana):
                                              height=240, corner_radius=35, fg_color=gris)
         self.bg_fondo_oscuro.place(x=485, y=110)
         
-        self.bg_titulo_verde= ctk.CTkButton(self.sub, text='', bg_color=azul_medio_oscuro, state='disable', width=680, 
-                                             height=55, corner_radius=35, fg_color=primer_label)
-        self.bg_titulo_verde.place(x=45, y=25)
+        #self.bg_titulo_verde= ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=680, 
+                                             #height=55, corner_radius=35, fg_color=primer_label)
+        #self.bg_titulo_verde.place(x=45, y=25)
         
-        self.titulo_label= ctk.CTkLabel(self.sub, text="Configuración", text_color=negro_texto, bg_color= primer_label,font=("Arial", 27, "bold"))
-        self.titulo_label.place(x=295, y=35)
+        #self.titulo_label= ctk.CTkLabel(self.sub, text="Configuración", text_color=negro_texto, bg_color= primer_label, font=("Arial", 27, "bold"))
+        #self.titulo_label.place(x=295, y=35)
         
         self.nombre_label = ctk.CTkLabel(self.sub, text=f"Nombre: {self.usuario}", text_color="white")
         self.nombre_label.place(x=505, y=125)
@@ -83,26 +83,25 @@ class Configuracion(New_ventana):
         self.lvl_actividad_label = ctk.CTkLabel(self.sub, text=f"Nivel de Actividad: {nivel_actividad}", text_color="white")
         self.lvl_actividad_label.place(x=505, y=305)
         
-        self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.mostrar_interfaz_guardar, text_color=negro_texto, bg_color=verde_boton
-                                            , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
+        self.guardar_button = ctk.CTkButton(self.sub, text="Actualizar información", command=self.mostrar_interfaz_guardar, text_color=negro_texto, bg_color=gris
+                                            , corner_radius=30, fg_color=verde_boton, width=335, height=55, font=("Arial",19, "bold"), hover_color=verde_oscuro)
         self.guardar_button.place(x=75, y=165)
 
-        self.mostrar_contra_button = ctk.CTkButton(self.sub, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena,text_color=negro_texto, bg_color=verde_boton
-                                                   , corner_radius=30, fg_color=primer_label, width=335, height=55, font=("Arial",19, "bold"))
+        self.mostrar_contra_button = ctk.CTkButton(self.sub, text="Actualizar Contraseña", command=self.mostrar_formulario_contrasena,text_color=negro_texto, bg_color=gris
+                                                   , corner_radius=30, fg_color=verde_boton, width=335, height=55, font=("Arial",19, "bold"), hover_color=verde_oscuro)
         self.mostrar_contra_button.place(x=75, y=265)
         
-        self.config_peso_button = ctk.CTkButton(self.sub, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=verde_boton
-                                                , corner_radius=30, fg_color=primer_label, width=310, height=55, font=("Arial",19, "bold"))
+        self.config_peso_button = ctk.CTkButton(self.sub, text="Configurar Recordatorio Peso", command=self.mostrar_formulario_recordatorio, text_color=negro_texto, bg_color=gris
+                                                , corner_radius=30, fg_color=verde_boton, width=310, height=55, font=("Arial",19, "bold"), hover_color=verde_oscuro)
         self.config_peso_button.place(x=75, y=365)
         
-        self.cerrar_sesion_button = ctk.CTkButton(self.sub, text="Cerrar Sesión", text_color=negro_texto, bg_color=azul_medio_oscuro
-                                                  , command=self.cerrar_sesion, corner_radius=20, fg_color=segundo_label, width=215, height=46, font=("Arial",16,"bold"))
+        self.cerrar_sesion_button = ctk.CTkButton(self.sub, text="Cerrar Sesión", text_color=negro_texto, bg_color=gris
+                                                  , command=self.cerrar_sesion, corner_radius=20, fg_color=riesgo_medio, width=215, height=46, font=("Arial",16,"bold"), hover_color=riesgo_alto)
         self.cerrar_sesion_button.place(x=475, y=377)
 
-        self.borrar_cuenta_button = ctk.CTkButton(self.sub, text="Borrar Cuenta", command=self.ventana_borrar_cuenta, text_color=negro_texto,bg_color= azul_medio_oscuro
-                                                  , corner_radius=20,fg_color=riesgo_alto, width=215, height=46, font=("Arial", 16, "bold"))
+        self.borrar_cuenta_button = ctk.CTkButton(self.sub, text="Borrar Cuenta", command=self.ventana_borrar_cuenta, text_color=negro_texto,bg_color=gris
+                                                  , corner_radius=20, fg_color=riesgo_medio, width=215, height=46, font=("Arial", 16, "bold"), hover_color=riesgo_alto)
         self.borrar_cuenta_button.place(x=475, y=437)
-        
         
     def mostrar_interfaz_guardar(self):
         edad, genero, peso, nivel_actividad,meta_cal, estatura  = self.cargar_datos_usuario()
@@ -112,66 +111,67 @@ class Configuracion(New_ventana):
         self.config_peso_button.configure(state="disabled")
 
         self.bg_boton_guardar = ctk.CTkButton(self.sub, text='', state="disabled", 
-                                              bg_color=azul_medio_oscuro, fg_color=verde_boton,
+                                              bg_color=gris, fg_color=gris,
                                               corner_radius=35, width=390, height=385)
         self.bg_boton_guardar.place(x=45, y=100)
         
         # boton verde para la estatura
-        self.bg_btn_estatura = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        self.bg_btn_estatura = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
         self.bg_btn_estatura.place(x=65, y=135)
         
-        self.label_estatura = ctk.CTkLabel(self.sub, text="Estatura:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_estatura = ctk.CTkLabel(self.sub, text="Estatura", text_color=negro_texto, bg_color=segundo_label, font=("Arial", 14, "bold"))
         self.label_estatura.place(x=82, y=140)
         
         # boton celeste para la estatura
-        self.entry_estatura = ctk.CTkEntry(self.sub, fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
+        self.entry_estatura = ctk.CTkEntry(self.sub, fg_color=color_entry, bg_color=gris ,text_color=negro_texto, 
                                            width=210, height=40, corner_radius=20, font=("Arial", 14, "bold"))
         self.entry_estatura.insert(0, f"{estatura} cm") 
         self.entry_estatura.place(x=200, y=135)
         
         # boton verde para obj calorias
-        self.bg_btn_obj = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        self.bg_btn_obj = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
         self.bg_btn_obj.place(x=65, y=185)
         
-        self.label_obj = ctk.CTkLabel(self.sub, text="Objetivo kcal:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_obj = ctk.CTkLabel(self.sub, text="Objetivo kcal", text_color=negro_texto, bg_color=segundo_label, font=("Arial", 14, "bold"))
         self.label_obj.place(x=82, y=190)
         
         # Entry para meta de calorías
-        self.entry_obj = ctk.CTkEntry(self.sub, fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
+        self.entry_obj = ctk.CTkEntry(self.sub, fg_color=color_entry, bg_color=gris ,text_color=negro_texto, 
                                       width=210, height=40, corner_radius=20, font=("Arial", 14, "bold"))
         self.entry_obj.insert(0, f"{meta_cal}")  # Mostrar valor actual
         self.entry_obj.place(x=200, y=185)
         
         # boton verde para el nivel de actividad
-        self.bg_btn_nvl = ctk.CTkButton(self.sub, text='', bg_color=verde_boton, state='disable', width=125, 
+        self.bg_btn_nvl = ctk.CTkButton(self.sub, text='', bg_color=gris, state='disable', width=125, 
                                             height=40, corner_radius=20, fg_color=segundo_label)
         self.bg_btn_nvl.place(x=65, y=235)
         
         # label que muestra obj calorias
-        self.label_nvl = ctk.CTkLabel(self.sub, text="Nivel act:", text_color=negro_texto, bg_color=segundo_label,font=("Arial", 14, "bold"))
+        self.label_nvl = ctk.CTkLabel(self.sub, text="Nivel act", text_color=negro_texto, bg_color=segundo_label, font=("Arial", 14, "bold"))
         self.label_nvl.place(x=82, y=240)
         
         # Combobox para nivel de actividad
-        self.combobox_nvl = ctk.CTkComboBox(self.sub, values=["Sendatario", "Ligero", "Moredaro","Intenso"], 
-                                            fg_color=color_entry,bg_color=verde_boton ,text_color=negro_texto, 
-                                            font=("Arial", 14, "bold"), corner_radius=20, width=210, height=40)
+        self.combobox_nvl = ctk.CTkComboBox(self.sub, values=["Sendatario", "Ligero", "Moderado","Intenso"], 
+                                            fg_color=gris_label, bg_color=gris, text_color=negro_texto, 
+                                            font=("Arial", 14, "bold"), corner_radius=20, width=210, height=40, button_color=verde_boton,
+                                            button_hover_color=verde_oscuro)
         self.combobox_nvl.set(nivel_actividad)  # Mostrar valor actual
         self.combobox_nvl.place(x=200, y=235)
     
         self.boton_guardar = ctk.CTkButton(self.sub, text="Actualizar datos", 
                                            command=self.guardar,
-                                           text_color=negro_texto, bg_color=verde_boton,
-                                           corner_radius=20, fg_color=primer_label, 
-                                           width=250, height=40, font=("Arial", 16, "bold"))
+                                           text_color=negro_texto, bg_color=gris,
+                                           corner_radius=20, fg_color=verde_boton, 
+                                           width=250, height=40, font=("Arial", 16, "bold"), hover_color=verde_oscuro)
         self.boton_guardar.place(x=120, y=350)
 
         self.boton_regresar = ctk.CTkButton(self.sub, text="Regresar", 
                                             command=self.restaurar_interfaz_actualizar_info,
-                                            text_color=negro_texto, bg_color=verde_boton,
-                                            corner_radius=20, fg_color=primer_label, 
-                                            width=250, height=40, font=("Arial", 16, "bold"))
+                                            text_color=negro_texto, bg_color=gris,
+                                            corner_radius=20, fg_color=riesgo_medio, 
+                                            width=250, height=40, font=("Arial", 16, "bold"), hover_color=riesgo_alto)
         self.boton_regresar.place(x=120, y=410)
 
     def restaurar_interfaz_actualizar_info(self):
@@ -216,8 +216,7 @@ class Configuracion(New_ventana):
         if respuesta == "Si":
             CTkMessagebox(title="Cerrar sesión", message="Sesión cerrada.") 
             self.panel_principal.after(2000, self.reiniciar_aplicacion)
-
-        
+    
     def ventana_borrar_cuenta(self):
         self.ventana_borrar = ctk.CTkToplevel(self.panel_principal)
         self.ventana_borrar.title("Confirmar Eliminación de Cuenta")
@@ -277,20 +276,23 @@ class Configuracion(New_ventana):
             return "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"
         
     def mostrar_formulario_recordatorio(self):
-        self.ventana_recordatorio = ctk.CTkToplevel(self.panel_principal)
+        self.ventana_recordatorio = ctk.CTkToplevel(self.panel_principal, fg_color=gris)
         self.ventana_recordatorio.title("Configurar Recordatorio de Peso")
-        self.ventana_recordatorio.geometry("400x350")
+        self.ventana_recordatorio.geometry("400x230")
         self.ventana_recordatorio.attributes('-topmost', True)
 
-        ctk.CTkLabel(self.ventana_recordatorio, text="Frecuencia de Recordatorio:").pack(anchor="w", padx=3, pady=10)
+        self.label_recordatorio = ctk.CTkLabel(self.ventana_recordatorio, text="Frecuencia de Recordatorio", fg_color=azul_medio_oscuro, font=("Arial", 20), width=250)
+        self.label_recordatorio.configure(corner_radius=20)
+        self.label_recordatorio.pack(pady=(20, 10))
 
         # ComboBox para seleccionar la frecuencia
         self.tiempo_recordatorio_combobox = ctk.CTkComboBox(
             self.ventana_recordatorio,
             values=["1 día", "3 días", "5 días", "1 semana", "1 mes"],
-            width=200
+            width=250, border_width=0, corner_radius=20,
+            fg_color=gris_label, button_color=verde_boton, button_hover_color=verde_oscuro, text_color=negro_texto
         )
-        self.tiempo_recordatorio_combobox.pack(padx=3, pady=5)
+        self.tiempo_recordatorio_combobox.pack(pady=5)
 
         # CheckBox para activar o desactivar el recordatorio
         self.activar_recordatorio_var = ctk.StringVar(value="on")
@@ -303,7 +305,8 @@ class Configuracion(New_ventana):
         # Botón para guardar la configuración
         ctk.CTkButton(
             self.ventana_recordatorio, text="Guardar Configuración", 
-            command=self.guardar_configuracion_recordatorio
+            command=self.guardar_configuracion_recordatorio, width=280,
+            fg_color=verde_boton, hover_color=verde_oscuro, corner_radius=20, bg_color=gris, font=("Arial", 18, 'bold'), text_color=azul_medio_oscuro
         ).pack(pady=10)
 
         self.cargar_configuracion_recordatorio()
@@ -351,31 +354,39 @@ class Configuracion(New_ventana):
 
     def mostrar_formulario_contrasena(self):
         # Crea ventana contra
-        self.nueva_ventana = ctk.CTkToplevel(self.panel_principal)
+        self.nueva_ventana = ctk.CTkToplevel(self.panel_principal, fg_color=gris)
         self.nueva_ventana.title("Actualizar Contraseña")
         self.nueva_ventana.attributes('-topmost', True)
-        self.nueva_ventana.geometry("400x300")  
+        self.nueva_ventana.geometry("400x400")  
 
         # muestra el nombre de usuario ingresado
-        self.nombre_label = ctk.CTkLabel(self.nueva_ventana, text=f"Nombre de Usuario: {self.usuario}")
-        self.nombre_label.pack(anchor="w", padx=3, pady=(5, 0))
+        self.nombre_label = ctk.CTkLabel(self.nueva_ventana, text=f"Nombre de Usuario: {self.usuario}", width=280, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.nombre_label.configure(corner_radius=20)
+        self.nombre_label.pack(pady=(20, 20))
 
-        self.contra_anterior_label = ctk.CTkLabel(self.nueva_ventana, text="Contraseña Anterior:")
-        self.contra_anterior_label.pack(anchor="w", padx=3, pady=(5, 0))
-        self.contra_anterior_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce tu contraseña anterior", width=250, show='*')
-        self.contra_anterior_entry.pack(padx=3, pady=(0, 5))
+        self.contra_anterior_label = ctk.CTkLabel(self.nueva_ventana, text="Contraseña Anterior", width=280, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.contra_anterior_label.configure(corner_radius=20)
+        self.contra_anterior_label.pack(pady=(0, 4))
 
-        self.nueva_contra_label = ctk.CTkLabel(self.nueva_ventana, text="Nueva Contraseña:")
-        self.nueva_contra_label.pack(anchor="w", padx=3, pady=(5, 0))
-        self.nueva_contra_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce la nueva contraseña", width=250, show='*')
-        self.nueva_contra_entry.pack(padx=3, pady=(0, 5))
+        self.contra_anterior_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce tu contraseña anterior", width=280, show='*', corner_radius=20, border_width=0, fg_color=color_entry, text_color="black")
+        self.contra_anterior_entry.pack(pady=(0, 20))
 
-        self.confirmar_contra_label = ctk.CTkLabel(self.nueva_ventana, text="Confirmar Nueva Contraseña:")
-        self.confirmar_contra_label.pack(anchor="w", padx=3, pady=(5, 0))
-        self.confirmar_contra_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Confirma la nueva contraseña", width=250, show='*')
-        self.confirmar_contra_entry.pack(padx=3, pady=(0, 5))
+        self.nueva_contra_label = ctk.CTkLabel(self.nueva_ventana, text="Nueva Contraseña", width=280, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.nueva_contra_label.configure(corner_radius=20)
+        self.nueva_contra_label.pack(pady=(0, 4))
 
-        self.actualizar_contra_button = ctk.CTkButton(self.nueva_ventana, text="Actualizar Contraseña", command=self.actualizar_contrasena, width=250)
+        self.nueva_contra_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Introduce la nueva contraseña", width=280, show='*', corner_radius=20, border_width=0, fg_color=color_entry, text_color="black")
+        self.nueva_contra_entry.pack(pady=(0, 20))
+
+        self.confirmar_contra_label = ctk.CTkLabel(self.nueva_ventana, text="Confirmar Nueva Contraseña", width=280, fg_color=azul_medio_oscuro, font=("Arial", 20))
+        self.confirmar_contra_label.configure(corner_radius=20)
+        self.confirmar_contra_label.pack(pady=(0, 4))
+
+        self.confirmar_contra_entry = ctk.CTkEntry(self.nueva_ventana, placeholder_text="Confirma la nueva contraseña", width=280, show='*', corner_radius=20, border_width=0, fg_color=color_entry, text_color="black")
+        self.confirmar_contra_entry.pack(pady=(0, 20))
+
+        self.actualizar_contra_button = ctk.CTkButton(self.nueva_ventana, text="Actualizar Contraseña", command=self.actualizar_contrasena, width=280,
+                                                      fg_color=verde_boton, hover_color=verde_oscuro, corner_radius=20, bg_color=gris, font=("Arial", 18, 'bold'), text_color=azul_medio_oscuro)
         self.actualizar_contra_button.pack(pady=5)
 
     def guardar(self):
@@ -516,5 +527,3 @@ class Configuracion(New_ventana):
 
         finally:
             conn.close()
-
-    
